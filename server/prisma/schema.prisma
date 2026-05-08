@@ -1,0 +1,28 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum ServiceStatus {
+  UP
+  DOWN
+  PENDING
+  UNKNOWN
+}
+
+model Service {
+  id          String        @id @default(uuid())
+  name        String
+  url         String
+  category    String
+  status      ServiceStatus @default(UNKNOWN)
+  latency     Int?          @default(0)
+  lastChecked DateTime?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  @@map("services")
+}
