@@ -20,6 +20,8 @@ model Service {
   category    String
   status      ServiceStatus @default(UNKNOWN)
   latency     Int?          @default(0)
+  rawStatus   Int? // Internal: HTTP Status Code (e.g., 200, 404, 500)
+  lastError   String? // Internal: Error message or type
   lastChecked DateTime?
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
