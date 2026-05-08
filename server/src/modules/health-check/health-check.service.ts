@@ -5,6 +5,7 @@ import { PrismaService } from '../../prisma/prisma.service';
 import { ServiceStatus } from '@prisma/client';
 import { ServiceEvents } from '../events/service.events';
 import { firstValueFrom } from 'rxjs';
+import { WsGateway } from '../ws/ws.gateway';
 
 @Injectable()
 export class HealthCheckService {
@@ -14,6 +15,7 @@ export class HealthCheckService {
     private prisma: PrismaService,
     private httpService: HttpService,
     private eventEmitter: EventEmitter2,
+    private wsGateway: WsGateway,
   ) {}
 
   async checkAllServices() {
@@ -28,8 +30,10 @@ export class HealthCheckService {
 
   private async checkService(service: any) {
     const startTime = Date.now();
-    let status: ServiceStatus = ServiceStatus.PENDING;
+    let status: ServiceStatus = ServiceStatus.DOWN;
     let latency = 0;
+    let rawStatus: number | null = null;
+    let lastError: string | null = null;
 
     try {
       const response = await firstValueFrom(
@@ -37,38 +41,44 @@ export class HealthCheckService {
       );
 
       latency = Date.now() - startTime;
-      status =
-        response.status >= 200 && response.status < 300
-          ? ServiceStatus.UP
-          : ServiceStatus.DOWN;
+      rawStatus = response.status;
+      
+      // Strict binary contract: 200-399 is UP
+      status = rawStatus >= 200 && rawStatus < 400 
+        ? ServiceStatus.UP 
+        : ServiceStatus.DOWN;
+        
+      if (status === ServiceStatus.DOWN) {
+        lastError = `Unhealthy status code: ${rawStatus}`;
+      }
     } catch (error) {
       latency = Date.now() - startTime;
       status = ServiceStatus.DOWN;
-      this.logger.warn(`Service ${service.name} (${service.url}) is DOWN: ${error.message}`);
+      rawStatus = error.response?.status || null;
+      lastError = error.message;
+      this.logger.warn(`Service ${service.name} (${service.url}) is DOWN: ${lastError}`);
     }
 
-    // Only update if status or latency changed significantly (or always update lastChecked)
-    // The requirement says: "Only update DB if there is a state change, to avoid unnecessary writes."
-    // However, we usually want to update lastChecked and latency. 
-    // But I will strictly follow "Only update if status change" for status writes, 
-    // but maybe update others too. Wait, "skip update" if same state.
-    
-    if (service.status !== status) {
+    // Update DB if state changed (or always for observability updates like latency/rawStatus)
+    // To strictly follow "only on change", I will check if status OR rawStatus changed.
+    if (service.status !== status || service.rawStatus !== rawStatus) {
       const updatedService = await this.prisma.service.update({
         where: { id: service.id },
         data: {
           status,
           latency,
+          rawStatus,
+          lastError,
           lastChecked: new Date(),
         },
       });
 
+      console.log(`[HealthCheck] Service ${service.name} => ${status} (${rawStatus})`);
+      this.wsGateway.emitServiceUpdate(updatedService);
       this.eventEmitter.emit(ServiceEvents.STATUS_CHANGED, updatedService);
-      this.logger.log(`Service ${service.name} status changed to ${status}`);
+      this.logger.log(`Service ${service.name} status updated to ${status}`);
     } else {
-      // Even if status is same, we might want to update latency and lastChecked periodically?
-      // Requirement says "UP -> UP -> skip update". I will follow that.
-      this.logger.debug(`Service ${service.name} still ${status}, skipping update.`);
+      this.logger.debug(`Service ${service.name} state unchanged, skipping update.`);
     }
   }
 }
