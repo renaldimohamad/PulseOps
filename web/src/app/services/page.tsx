@@ -22,6 +22,10 @@ export default function ServicesPage() {
   });
 
   useEffect(() => {
+    socket.on('connect', () => {
+      console.log('Connected to WebSocket');
+    });
+
     socket.on('service.updated', (updatedService: Service) => {
       queryClient.setQueryData(['services'], (old: Service[] | undefined) => {
         if (!old) return [updatedService];
@@ -29,8 +33,14 @@ export default function ServicesPage() {
       });
     });
 
+    socket.on('disconnect', () => {
+      console.warn('WebSocket disconnected, fallback to manual refresh mode');
+    });
+
     return () => {
+      socket.off('connect');
       socket.off('service.updated');
+      socket.off('disconnect');
     };
   }, [queryClient]);
 
@@ -104,10 +114,10 @@ export default function ServicesPage() {
             Loading services...
           </div>
         ) : (
-          <ServiceTable 
-            services={services} 
-            onEdit={handleEdit} 
-            onDelete={handleDelete} 
+          <ServiceTable
+            services={services}
+            onEdit={handleEdit}
+            onDelete={handleDelete}
           />
         )}
       </div>
@@ -120,8 +130,8 @@ export default function ServicesPage() {
         }}
         title={editingService ? 'Edit Service' : 'Add New Service'}
       >
-        <ServiceForm 
-          initialData={editingService} 
+        <ServiceForm
+          initialData={editingService}
           onSubmit={handleSubmit}
           isLoading={createMutation.isPending || updateMutation.isPending}
         />

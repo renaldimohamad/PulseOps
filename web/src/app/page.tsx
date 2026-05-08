@@ -16,6 +16,10 @@ export default function Dashboard() {
   });
 
   useEffect(() => {
+    socket.on('connect', () => {
+      console.log('Connected to WebSocket');
+    });
+
     socket.on('service.updated', (updatedService: Service) => {
       queryClient.setQueryData(['services'], (old: Service[] | undefined) => {
         if (!old) return [updatedService];
@@ -23,8 +27,14 @@ export default function Dashboard() {
       });
     });
 
+    socket.on('disconnect', () => {
+      console.warn('WebSocket disconnected, fallback to manual refresh mode');
+    });
+
     return () => {
+      socket.off('connect');
       socket.off('service.updated');
+      socket.off('disconnect');
     };
   }, [queryClient]);
 
