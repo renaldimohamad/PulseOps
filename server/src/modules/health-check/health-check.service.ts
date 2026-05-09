@@ -5,7 +5,6 @@ import { PrismaService } from '../../prisma/prisma.service';
 import { ServiceStatus } from '@prisma/client';
 import { ServiceEvents } from '../events/service.events';
 import { firstValueFrom } from 'rxjs';
-import { WsGateway } from '../ws/ws.gateway';
 
 @Injectable()
 export class HealthCheckService {
@@ -15,7 +14,6 @@ export class HealthCheckService {
     private prisma: PrismaService,
     private httpService: HttpService,
     private eventEmitter: EventEmitter2,
-    private wsGateway: WsGateway,
   ) {}
 
   async checkAllServices() {
@@ -74,7 +72,6 @@ export class HealthCheckService {
       });
 
       console.log(`[HealthCheck] Service ${service.name} => ${status} (${rawStatus})`);
-      this.wsGateway.emitServiceUpdate(updatedService);
       this.eventEmitter.emit(ServiceEvents.STATUS_CHANGED, updatedService);
       this.logger.log(`Service ${service.name} status updated to ${status}`);
     } else {

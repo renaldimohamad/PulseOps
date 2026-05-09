@@ -1,4 +1,4 @@
-export type ServiceStatus = 'UP' | 'DOWN' | 'PENDING' | 'UNKNOWN';
+export type ServiceStatus = 'UP' | 'DOWN' | 'PENDING' | 'UNKNOWN' | 'PROTECTED';
 
 export interface Service {
   id: string;

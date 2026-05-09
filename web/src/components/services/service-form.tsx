@@ -1,8 +1,9 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Service } from '@/types/service';
 import { Button } from '@/components/ui/button';
+import { Globe, Tag, Info } from 'lucide-react';
 
 interface ServiceFormProps {
   initialData?: Service | null;
@@ -10,12 +11,17 @@ interface ServiceFormProps {
   isLoading?: boolean;
 }
 
+import { useI18n } from '@/lib/i18n';
+
 export const ServiceForm = ({ initialData, onSubmit, isLoading }: ServiceFormProps) => {
+  const { t } = useI18n();
   const [formData, setFormData] = useState({
     name: '',
     url: '',
     category: '',
   });
+
+  const firstInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (initialData) {
@@ -26,6 +32,7 @@ export const ServiceForm = ({ initialData, onSubmit, isLoading }: ServiceFormPro
       });
     } else {
       setFormData({ name: '', url: '', category: '' });
+      setTimeout(() => firstInputRef.current?.focus(), 100);
     }
   }, [initialData]);
 
@@ -34,44 +41,60 @@ export const ServiceForm = ({ initialData, onSubmit, isLoading }: ServiceFormPro
     onSubmit(formData);
   };
 
+  const inputStyles = "w-full rounded-2xl border border-border bg-secondary/30 px-5 py-4 md:py-3 text-base md:text-sm font-medium transition-all focus:bg-card focus:border-brand-500 focus:outline-none focus:ring-4 focus:ring-brand-500/10 placeholder:text-muted-foreground/50 placeholder:font-normal text-foreground min-h-[48px]";
+
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={handleSubmit} className="space-y-5 md:space-y-6">
       <div className="space-y-2">
-        <label className="text-sm font-medium text-gray-700">Service Name</label>
+        <label className="flex items-center gap-2 text-[10px] md:text-xs font-black uppercase tracking-widest text-muted-foreground ml-1">
+          <Info size={12} className="text-brand-600" /> {t('services.form.name')}
+        </label>
         <input
+          ref={firstInputRef}
           type="text"
           required
-          className="w-full rounded-lg border border-gray-200 px-4 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-          placeholder="e.g. API Gateway"
+          className={inputStyles}
+          placeholder={t('services.form.placeholder_name')}
           value={formData.name}
           onChange={(e) => setFormData({ ...formData, name: e.target.value })}
         />
       </div>
+
       <div className="space-y-2">
-        <label className="text-sm font-medium text-gray-700">Service URL</label>
+        <label className="flex items-center gap-2 text-[10px] md:text-xs font-black uppercase tracking-widest text-muted-foreground ml-1">
+          <Globe size={12} className="text-brand-600" /> {t('services.form.url')}
+        </label>
         <input
           type="url"
           required
-          className="w-full rounded-lg border border-gray-200 px-4 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-          placeholder="https://api.example.com/health"
+          className={inputStyles}
+          placeholder={t('services.form.placeholder_url')}
           value={formData.url}
           onChange={(e) => setFormData({ ...formData, url: e.target.value })}
         />
       </div>
+
       <div className="space-y-2">
-        <label className="text-sm font-medium text-gray-700">Category</label>
+        <label className="flex items-center gap-2 text-[10px] md:text-xs font-black uppercase tracking-widest text-muted-foreground ml-1">
+          <Tag size={12} className="text-brand-600" /> {t('services.form.category')}
+        </label>
         <input
           type="text"
           required
-          className="w-full rounded-lg border border-gray-200 px-4 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+          className={inputStyles}
           placeholder="e.g. Infrastructure, Database"
           value={formData.category}
           onChange={(e) => setFormData({ ...formData, category: e.target.value })}
         />
       </div>
-      <div className="pt-4">
-        <Button type="submit" className="w-full" disabled={isLoading}>
-          {isLoading ? 'Saving...' : initialData ? 'Update Service' : 'Add Service'}
+
+      <div className="pt-4 md:pt-2">
+        <Button
+          type="submit"
+          className="w-full h-14 md:h-12 text-sm font-black uppercase tracking-[0.2em] shadow-lg shadow-brand-500/20 bg-brand-600 text-white hover:bg-brand-700 rounded-2xl active:scale-[0.98] transition-all"
+          isLoading={isLoading}
+        >
+          {initialData ? t('common.save') : t('services.add_service')}
         </Button>
       </div>
     </form>
