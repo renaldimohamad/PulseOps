@@ -1,0 +1,148 @@
+{
+  "common": {
+    "dashboard": "Dashboard",
+    "services": "Services",
+    "refresh": "Refresh",
+    "notifications": "Notifications",
+    "loading": "Loading...",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "add": "Add",
+    "status": "Status",
+    "actions": "Actions",
+    "search": "Search",
+    "docs": "Documentation"
+  },
+  "docs": {
+    "title": "Documentation",
+    "hero": {
+      "title": "Engineering PulseOps",
+      "subtitle": "Realtime infrastructure observability powered by event-driven architecture and WebSocket synchronization.",
+      "badge": "Architecture Guide"
+    },
+    "intro": {
+      "title": "What is PulseOps?",
+      "description": "PulseOps is a production-grade observability platform designed to provide instant visibility into distributed infrastructure. By leveraging a high-performance event-driven architecture, it ensures that operational changes are reflected across all clients in milliseconds.",
+      "goal_title": "The Problem we Solve",
+      "goal_desc": "Traditional monitoring often relies on manual refreshes or long-polling, leading to 'stale' insights. PulseOps solves this by establishing a persistent bidirectional communication layer between the engine and the dashboard."
+    },
+    "architecture": {
+      "title": "System Architecture",
+      "description": "A modern full-stack implementation focused on scalability and realtime data integrity.",
+      "frontend": "Next.js Frontend",
+      "backend": "NestJS Backend",
+      "database": "PostgreSQL + Prisma",
+      "sync": "WebSocket Sync",
+      "flow_desc": "PulseOps uses a 'Scheduler-to-Client' flow where the monitoring engine orchestrates checks and immediately broadcasts results via Socket.io."
+    },
+    "flow": {
+      "title": "Monitoring Lifecycle",
+      "step1": "Scheduler Trigger",
+      "step1_desc": "Node.js cron-tasks initiate monitoring cycles.",
+      "step2": "Health Check",
+      "step2_desc": "Axios-driven HTTP telemetry collection.",
+      "step3": "Status Evaluation",
+      "step4": "Database Update",
+      "step5": "WS Broadcast",
+      "step5_desc": "Events emitted via NestJS Event Emitter to Gateway.",
+      "step6": "UI Sync",
+      "step6_desc": "React Query cache invalidation across all tabs."
+    },
+    "logic": {
+      "title": "Classification Logic",
+      "description": "Monitoring intelligence that understands context beyond simple up/down states.",
+      "op": "Operational",
+      "op_desc": "200 OK - Standard successful response.",
+      "prot": "Protected",
+      "prot_desc": "401/403 - Auth required but service is reachable.",
+      "conf": "Misconfigured",
+      "conf_desc": "404 - Endpoint missing or misconfigured.",
+      "off": "Offline",
+      "off_desc": "Timeout or 500+ - Serious infrastructure failure."
+    },
+    "stack": {
+      "title": "Technology Stack",
+      "description": "Thoughtful engineering decisions for a scalable observability platform.",
+      "nextjs": "Frontend framework with React Query for robust state management.",
+      "nestjs": "Enterprise Node.js framework for scalable monitoring services.",
+      "prisma": "Type-safe ORM for reliable database interactions.",
+      "websocket": "Socket.io for low-latency bidirectional communication."
+    },
+    "principles": {
+      "title": "Engineering Principles",
+      "p1": "Realtime First",
+      "p1_desc": "Every state change must be broadcasted instantly.",
+      "p2": "Event-Driven",
+      "p2_desc": "Decoupled architecture using internal event emitters.",
+      "p3": "Resilient UI",
+      "p3_desc": "Optimistic updates and robust error handling."
+    }
+  },
+  "dashboard": {
+    "title": "Infrastructure Overview",
+    "subtitle": "Real-time health telemetry across all connected clusters and edge endpoints.",
+    "tracking": "Currently tracking {count} global services.",
+    "system_health": "System Health",
+    "active_clusters": "Active Clusters",
+    "metrics": {
+      "total_endpoints": "Total Endpoints",
+      "operational": "Operational",
+      "critical_alerts": "Critical Alerts",
+      "avg_latency": "Avg. Latency"
+    },
+    "security": {
+      "title": "Security Overview",
+      "subtitle": "Advanced security scanning and vulnerability detection metrics are being processed.",
+      "telemetry_hint": "Real-time firewall telemetry will appear here shortly."
+    },
+    "activity": {
+      "title": "Recent Activity",
+      "live": "Live",
+      "empty": "Waiting for system events..."
+    }
+  },
+  "services": {
+    "title": "Services Management",
+    "subtitle": "Real-time status overview of your global infrastructure and microservices.",
+    "add_service": "Add Service",
+    "new_service": "Monitor New Service",
+    "edit_service": "Edit Service",
+    "delete_service": "Delete Service",
+    "delete_confirm": "Are you sure you want to delete this service? This action cannot be undone and monitoring will stop immediately.",
+    "table": {
+      "service": "Service",
+      "category": "Category",
+      "status": "Status",
+      "latency": "Latency",
+      "last_checked": "Last Checked"
+    },
+    "form": {
+      "name": "Service Name",
+      "url": "Service URL",
+      "category": "Category",
+      "interval": "Check Interval (s)",
+      "placeholder_name": "e.g. API Gateway",
+      "placeholder_url": "https://api.example.com/health"
+    },
+    "messages": {
+      "created": "Service created successfully",
+      "create_failed": "Failed to create service",
+      "updated": "Service updated successfully",
+      "update_failed": "Failed to update service",
+      "deleted": "Service deleted successfully",
+      "delete_failed": "Failed to delete service",
+      "refreshing": "Refreshing services...",
+      "refreshed": "Data updated successfully",
+      "system_status_title": "System Status",
+      "system_status_ok": "All monitored services are functioning within normal parameters."
+    }
+  },
+  "footer": {
+    "tagline": "Realtime infrastructure observability platform.",
+    "version": "v1.0.0 • Realtime Monitoring Enabled",
+    "credit": "Designed & engineered by Renaldi Mohamad",
+    "follow_me": "Follow Me"
+  }
+}
