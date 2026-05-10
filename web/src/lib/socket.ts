@@ -1,9 +1,10 @@
 import { io } from 'socket.io-client';
+import { CONFIG } from './config';
 
-const SOCKET_URL = process.env.NEXT_PUBLIC_SOCKET_URL || '';
-
-
-export const socket = io(SOCKET_URL, {
+/**
+ * Standardized Socket.io client using centralized CONFIG.
+ */
+export const socket = io(CONFIG.SOCKET_URL, {
   transports: ['websocket'],
   autoConnect: true,
   reconnection: true,
@@ -14,8 +15,15 @@ export const socket = io(SOCKET_URL, {
 
 // Production logging for connection status
 if (typeof window !== 'undefined') {
-  socket.on('connect', () => console.log('🟢 WebSocket Connected'));
-  socket.on('disconnect', () => console.log('🔴 WebSocket Disconnected'));
-  socket.on('connect_error', (error) => console.error('🟠 WebSocket Error:', error));
+  socket.on('connect', () => {
+    console.log('🟢 WebSocket Connected to:', CONFIG.SOCKET_URL);
+  });
+  
+  socket.on('disconnect', (reason) => {
+    console.log('🔴 WebSocket Disconnected:', reason);
+  });
+  
+  socket.on('connect_error', (error) => {
+    console.error('🟠 WebSocket Connection Error:', error.message);
+  });
 }
-
