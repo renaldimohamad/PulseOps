@@ -113,9 +113,6 @@ export const ServiceTable = ({ services, onEdit, onDelete, isLoading, onAdd }: S
                     <span className="text-[11px] font-bold text-foreground/60">
                       {service.lastChecked ? formatDistanceToNow(new Date(service.lastChecked), { addSuffix: true }) : t('common.never')}
                     </span>
-                    <span className="text-[9px] font-bold text-muted-foreground/40 uppercase tracking-tighter">
-                      {t('services.table.sync_every', { interval: service.checkInterval || 60 })}
-                    </span>
                   </div>
                 </div>
               </div>
@@ -274,9 +271,6 @@ export const ServiceTable = ({ services, onEdit, onDelete, isLoading, onAdd }: S
                         {service.lastChecked
                           ? formatDistanceToNow(new Date(service.lastChecked), { addSuffix: true })
                           : t('common.never')}
-                      </span>
-                      <span className="text-[9px] font-bold text-muted-foreground/40 uppercase tracking-tighter">
-                        {t('services.table.next_sync', { interval: service.checkInterval || 60 })}
                       </span>
                     </div>
                   </td>

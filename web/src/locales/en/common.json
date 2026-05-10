@@ -179,16 +179,13 @@
       "response_health": "Response / Health",
       "network_latency": "Network Latency",
       "last_sync": "Last Synchronization",
-      "sync_every": "Sync Every {interval}s",
       "issue_detected": "Issue Detected",
-      "next_sync": "Next sync in {interval}s",
       "never": "Never"
     },
     "form": {
       "name": "Service Name",
       "url": "Service URL",
       "category": "Category",
-      "interval": "Check Interval (s)",
       "placeholder_name": "e.g. API Gateway",
       "placeholder_url": "https://api.example.com/health",
       "placeholder_category": "e.g. Infrastructure, Database"

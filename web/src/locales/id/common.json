@@ -179,16 +179,13 @@
       "response_health": "Respons / Kesehatan",
       "network_latency": "Latensi Jaringan",
       "last_sync": "Sinkronisasi Terakhir",
-      "sync_every": "Sinkronkan Setiap {interval} dtk",
       "issue_detected": "Masalah Terdeteksi",
-      "next_sync": "Sinkronisasi berikutnya dalam {interval} dtk",
       "never": "Belum Pernah"
     },
     "form": {
       "name": "Nama Layanan",
       "url": "URL Layanan",
       "category": "Kategori",
-      "interval": "Interval Pemeriksaan (dtk)",
       "placeholder_name": "misal: API Gateway",
       "placeholder_url": "https://api.example.com/health",
       "placeholder_category": "misal: Infrastruktur, Database"

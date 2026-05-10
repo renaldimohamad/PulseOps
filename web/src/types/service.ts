@@ -10,8 +10,8 @@ export interface Service {
   rawStatus: number | null;
   lastError: string | null;
   lastChecked: string | null;
-  checkInterval: number;
   createdAt: string;
+
   updatedAt: string;
 }
 
