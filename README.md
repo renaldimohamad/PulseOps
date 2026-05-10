@@ -17,15 +17,15 @@
 
 | Dashboard Overview | Documentation Page |
 | :--- | :--- |
-| ![Dashboard Overview](web/public/docs/dashboard-page.png) | ![Documentation Page](web/public/docs/docs-page.png) |
+| ![Dashboard Overview](./web/public/docs/dashboard-page.png) | ![Documentation Page](./web/public/docs/docs-page.png) |
 
 | Services Management | Dark & Light Mode |
 | :--- | :--- |
-| ![Services Management](web/public/docs/services-page.png) | ![Dark Mode](web/public/docs/dashboard-dark-page.png) |
+| ![Services Management](./web/public/docs/services-page.png) | ![Dark Mode](./web/public/docs/dashboard-dark-page.png) |
 
 | Mobile Responsive | Realtime Engine Sync |
 | :--- | :--- |
-| ![Mobile Responsive](web/public/docs/mobile-page-dashboard.png) | ![Services Dark](web/public/docs/services-dark-page.png) |
+| ![Mobile Responsive](./web/public/docs/mobile-page-dashboard.png) | ![Services Dark](./web/public/docs/services-dark-page.png) |
 
 ---
 
