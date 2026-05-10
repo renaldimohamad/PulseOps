@@ -31,11 +31,14 @@ async function fetchWithRetry(path: string, options: RequestInit = {}, retries =
     try {
       const response = await fetch(url, {
         ...options,
+        // credentials: 'include', // Only if backend handles cross-origin cookies
         headers: {
-          'Accept': 'application/json',
+          // 'Accept': 'application/json', // Removed to minimize preflight complexity
           ...options.headers,
         },
       });
+
+      console.log(`[PulseOps API] [${requestId}] Status: ${response.status} ${response.statusText}`);
 
       if (!response.ok) {
         // LOG: Log error details
@@ -57,8 +60,8 @@ async function fetchWithRetry(path: string, options: RequestInit = {}, retries =
       
       // Retry logic only for network errors
       if (retries > 0 && (error.name === 'TypeError' || error.message.includes('fetch'))) {
-        console.warn(`🔄 [PulseOps API] [${requestId}] Retrying in 1s... (${retries} left)`);
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        console.warn(`🔄 [PulseOps API] [${requestId}] Retrying in 1.5s... (${retries} left)`);
+        await new Promise(resolve => setTimeout(resolve, 1500));
         return fetchWithRetry(path, options, retries - 1);
       }
       throw error;
