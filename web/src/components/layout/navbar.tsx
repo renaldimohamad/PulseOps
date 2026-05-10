@@ -16,10 +16,16 @@ export const Navbar = () => {
   const { t, locale, setLocale } = useI18n();
   const { theme, toggleTheme } = useTheme();
   const pathname = usePathname();
+  const [mounted, setMounted] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isConnected, setIsConnected] = useState(socket.connected);
+  const [isConnected, setIsConnected] = useState(false);
   const [currentTime, setCurrentTime] = useState(new Date());
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    setIsConnected(socket.connected);
+  }, []);
 
   const navItems = [
     { label: t('common.dashboard'), href: '/' },
@@ -95,7 +101,7 @@ export const Navbar = () => {
                 <span className="pulse-dot-main bg-success/80"></span>
               </span>
               <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/80 whitespace-nowrap">
-                Live Status
+                {t('dashboard.activity.live')} {t('common.status')}
               </span>
             </div>
           </div>
@@ -131,15 +137,18 @@ export const Navbar = () => {
             <div className="hidden xl:flex flex-col items-end gap-1">
               <div className="flex items-center gap-1.5 font-mono text-[11px] text-foreground/50 tracking-tight">
                 <Clock size={11} className="opacity-60" />
-                {currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false })}
+                {mounted
+                  ? currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false })
+                  : '--:--:--'
+                }
               </div>
               <div className="flex items-center gap-1.5">
                 <div className={cn(
                   "h-1 w-1 rounded-full",
-                  isConnected ? "bg-brand-500/60 animate-pulse" : "bg-danger/60"
+                  mounted && isConnected ? "bg-brand-500/60 animate-pulse" : "bg-danger/60"
                 )} />
                 <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/60">
-                  {isConnected ? 'Connected' : 'Offline'}
+                  {!mounted ? 'Syncing' : isConnected ? 'Connected' : 'Offline'}
                 </span>
               </div>
             </div>
@@ -190,9 +199,9 @@ export const Navbar = () => {
                         <div className="flex flex-col">
                           <span className="text-[13px] font-semibold text-foreground/90">Renaldi Mohamad</span>
                           <div className="flex items-center gap-1.5 mt-0.5">
-                            <div className={cn("h-1 w-1 rounded-full", isConnected ? "bg-success/80" : "bg-danger/80")} />
+                            <div className={cn("h-1 w-1 rounded-full", mounted && isConnected ? "bg-success/80" : "bg-danger/80")} />
                             <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/60">
-                              {isConnected ? 'System Connected' : 'System Offline'}
+                              {!mounted ? t('common.syncing') : isConnected ? t('common.system_connected') : t('common.system_offline')}
                             </span>
                           </div>
                         </div>
@@ -208,7 +217,7 @@ export const Navbar = () => {
                       >
                         <div className="flex items-center gap-3">
                           <GithubIcon size={14} className="opacity-70" />
-                          <span>View Repository</span>
+                          <span>{t('common.view_repository')}</span>
                         </div>
                         <ExternalLink size={10} className="opacity-0 group-hover/item:opacity-100 transition-opacity" />
                       </a>
@@ -218,7 +227,7 @@ export const Navbar = () => {
                       >
                         <div className="flex items-center gap-3">
                           <FileText size={14} className="opacity-70" />
-                          <span>Documentation</span>
+                          <span>{t('common.docs')}</span>
                         </div>
                         <ExternalLink size={10} className="opacity-0 group-hover/item:opacity-100 transition-opacity" />
                       </a>
@@ -230,7 +239,7 @@ export const Navbar = () => {
                         onClick={() => setIsUserMenuOpen(false)}
                       >
                         <div className="h-1.5 w-1.5 rounded-full bg-danger/60 animate-pulse" />
-                        Terminate Session
+                        {t('common.terminate_session')}
                       </button>
                     </div>
                   </motion.div>
@@ -319,14 +328,14 @@ export const Navbar = () => {
                     className="flex h-11 px-5 items-center gap-3 rounded-2xl text-[10px] font-bold uppercase tracking-widest text-muted-foreground/60 bg-muted/20 hover:bg-muted/40 active:scale-95 transition-all border border-transparent"
                   >
                     <GithubIcon size={14} />
-                    Repository
+                    {t('common.view_repository')}
                   </a>
                   <a
                     href="#"
                     className="flex h-11 px-5 items-center gap-3 rounded-2xl text-[10px] font-bold uppercase tracking-widest text-muted-foreground/60 bg-muted/20 hover:bg-muted/40 active:scale-95 transition-all border border-transparent"
                   >
                     <FileText size={14} />
-                    Documentation
+                    {t('common.docs')}
                   </a>
                 </div>
               </div>
@@ -335,6 +344,5 @@ export const Navbar = () => {
         )}
       </AnimatePresence>
     </nav>
-
   );
 };

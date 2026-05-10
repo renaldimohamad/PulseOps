@@ -37,7 +37,7 @@ export const Footer = () => {
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-success opacity-40"></span>
                   <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-success/80"></span>
                 </span>
-                Active Engine
+                {t('footer.active_engine')}
               </div>
               <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-muted/40 border border-border/40 text-[9px] font-bold uppercase tracking-widest text-muted-foreground/80">
                 <Shield size={10} className="text-success/70" />
@@ -53,7 +53,7 @@ export const Footer = () => {
           <div className="flex flex-col md:items-end space-y-6">
             <div className="flex flex-col md:items-end">
               <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground/40 mb-1">
-                Engineering
+                {t('footer.engineering')}
               </span>
               <span className="text-[13px] font-semibold text-foreground/70">
                 {t('footer.credit')}

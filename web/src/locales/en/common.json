@@ -13,89 +13,147 @@
     "status": "Status",
     "actions": "Actions",
     "search": "Search",
-    "docs": "Documentation"
+    "docs": "Documentation",
+    "system_status": "System Status",
+    "active": "Active",
+    "stable": "Stable",
+    "none": "None",
+    "excellent": "Excellent",
+    "healthy": "Healthy",
+    "degraded": "Degraded",
+    "critical": "Critical",
+    "no_data": "No Data",
+    "protected": "Protected",
+    "operational": "Operational",
+    "syncing": "Syncing",
+    "connected": "Connected",
+    "offline": "Offline",
+    "system_connected": "System Connected",
+    "system_offline": "System Offline",
+    "view_repository": "View Repository",
+    "terminate_session": "Terminate Session",
+    "ago": "ago",
+    "never": "Never",
+    "added_to_monitoring": "{name} has been added to monitoring.",
+    "is_down": "{name} is DOWN!",
+    "is_back_online": "{name} is back online.",
+    "service_recovered": "Service recovered and is now online.",
+    "service_unresponsive": "Service is unresponsive and reporting errors.",
+    "status_changed": "Service status changed."
   },
   "docs": {
     "title": "Documentation",
     "hero": {
-      "title": "Engineering PulseOps",
-      "subtitle": "Realtime infrastructure observability powered by event-driven architecture and WebSocket synchronization.",
+      "title": "PulseOps Engineering",
+      "subtitle": "Real-time infrastructure observability powered by event-driven architecture and WebSocket synchronization.",
       "badge": "Architecture Guide"
     },
     "intro": {
-      "title": "What is PulseOps?",
-      "description": "PulseOps is a production-grade observability platform designed to provide instant visibility into distributed infrastructure. By leveraging a high-performance event-driven architecture, it ensures that operational changes are reflected across all clients in milliseconds.",
-      "goal_title": "The Problem we Solve",
-      "goal_desc": "Traditional monitoring often relies on manual refreshes or long-polling, leading to 'stale' insights. PulseOps solves this by establishing a persistent bidirectional communication layer between the engine and the dashboard."
+      "title": "Enterprise Observability",
+      "description": "PulseOps is designed for high-availability monitoring. Our system architecture ensures that every health check is processed with millisecond precision and broadcasted to all connected clients instantly.",
+      "goal_title": "Design Objective",
+      "goal_desc": "Provide a production-grade monitoring experience that eliminates the blind spots in modern distributed systems."
     },
     "architecture": {
-      "title": "System Architecture",
-      "description": "A modern full-stack implementation focused on scalability and realtime data integrity.",
-      "frontend": "Next.js Frontend",
-      "backend": "NestJS Backend",
-      "database": "PostgreSQL + Prisma",
-      "sync": "WebSocket Sync",
-      "flow_desc": "PulseOps uses a 'Scheduler-to-Client' flow where the monitoring engine orchestrates checks and immediately broadcasts results via Socket.io."
+      "title": "Architecture Overview",
+      "description": "A high-fidelity monitoring ecosystem built on modern asynchronous primitives and real-time state synchronization.",
+      "frontend": "Pulse Client",
+      "backend": "Observability Core",
+      "sync": "State Sync",
+      "flow_desc": "Real-time bi-directional telemetry broadcast via WebSocket v2 layer."
     },
     "flow": {
       "title": "Monitoring Lifecycle",
-      "step1": "Scheduler Trigger",
-      "step1_desc": "Node.js cron-tasks initiate monitoring cycles.",
-      "step2": "Health Check",
-      "step2_desc": "Axios-driven HTTP telemetry collection.",
-      "step3": "Status Evaluation",
-      "step4": "Database Update",
-      "step5": "WS Broadcast",
-      "step5_desc": "Events emitted via NestJS Event Emitter to Gateway.",
-      "step6": "UI Sync",
-      "step6_desc": "React Query cache invalidation across all tabs."
+      "step1": "Endpoint Init",
+      "step1_desc": "System registers new monitoring target",
+      "step2": "Async Probe",
+      "step2_desc": "Non-blocking high precision probe",
+      "step3": "Ingestion",
+      "step3_desc": "Core processes telemetry data",
+      "step4": "Validation",
+      "step4_desc": "Status classification logic",
+      "step5": "Persistence",
+      "step5_desc": "Data archived for audit logs",
+      "step6": "Broadcast",
+      "step6_desc": "WebSocket event broadcast"
     },
     "logic": {
-      "title": "Classification Logic",
-      "description": "Monitoring intelligence that understands context beyond simple up/down states.",
-      "op": "Operational",
-      "op_desc": "200 OK - Standard successful response.",
+      "title": "Intelligent Logic",
+      "description": "The system applies sophisticated heuristics to classify endpoint health based on response characteristics.",
+      "op": "Healthy",
+      "op_desc": "Standard 2xx response within threshold",
       "prot": "Protected",
-      "prot_desc": "401/403 - Auth required but service is reachable.",
-      "conf": "Misconfigured",
-      "conf_desc": "404 - Endpoint missing or misconfigured.",
-      "off": "Offline",
-      "off_desc": "Timeout or 500+ - Serious infrastructure failure."
+      "prot_desc": "Unauthorized (401/403) but reachable",
+      "conf": "Conflict",
+      "conf_desc": "Resource errors (404/409/429)",
+      "off": "Critical",
+      "off_desc": "Connection timeout or socket failure"
     },
     "stack": {
       "title": "Technology Stack",
-      "description": "Thoughtful engineering decisions for a scalable observability platform.",
-      "nextjs": "Frontend framework with React Query for robust state management.",
-      "nestjs": "Enterprise Node.js framework for scalable monitoring services.",
-      "prisma": "Type-safe ORM for reliable database interactions.",
-      "websocket": "Socket.io for low-latency bidirectional communication."
+      "nextjs": "Frontend Framework",
+      "nestjs": "Backend Engine",
+      "prisma": "ORM Layer",
+      "websocket": "Sync Protocol",
+      "core_stack": "Core Stack",
+      "engine": "Engine"
     },
     "principles": {
       "title": "Engineering Principles",
       "p1": "Realtime First",
-      "p1_desc": "Every state change must be broadcasted instantly.",
-      "p2": "Event-Driven",
-      "p2_desc": "Decoupled architecture using internal event emitters.",
-      "p3": "Resilient UI",
-      "p3_desc": "Optimistic updates and robust error handling."
-    }
+      "p1_desc": "Monitoring is only as good as its freshness. Polling is avoided for instant telemetry.",
+      "p2": "High Precision",
+      "p2_desc": "Measurements are taken at the hardware timer level for maximum accuracy.",
+      "p3": "Resilient Design",
+      "p3_desc": "The monitoring fleet is self-healing and tolerates transient network issues."
+    },
+    "badges": {
+      "introduction": "Introduction",
+      "engineering": "Engineering",
+      "realtime_engine": "Realtime Engine",
+      "intelligent_agent": "Intelligent Agent",
+      "infrastructure": "Infrastructure"
+    },
+    "manifesto": "Manifesto"
   },
   "dashboard": {
-    "title": "Infrastructure Overview",
-    "subtitle": "Real-time health telemetry across all connected clusters and edge endpoints.",
-    "tracking": "Currently tracking {count} global services.",
+    "title": "Operations Command",
+    "subtitle": "Real-time infrastructure monitoring and system health intelligence.",
+    "tracking": "Tracking {count} endpoints across all clusters",
     "system_health": "System Health",
     "active_clusters": "Active Clusters",
+    "operational_context": {
+      "monitoring_active": "Realtime monitoring active",
+      "socket_connected": "WebSocket connected",
+      "sync_now": "Sync: Just now",
+      "version": "Observability Core v1.0.4"
+    },
     "metrics": {
       "total_endpoints": "Total Endpoints",
       "operational": "Operational",
       "critical_alerts": "Critical Alerts",
-      "avg_latency": "Avg. Latency"
+      "avg_latency": "Avg. Latency",
+      "total_endpoints_desc": "Fleet capacity at 100%",
+      "no_endpoints": "No endpoints configured",
+      "operational_desc": "{count} services reporting healthy status",
+      "critical_desc": "{count} endpoints currently unreachable",
+      "no_disruption": "No service disruptions detected",
+      "latency_desc": "Calculated from active healthy services only"
     },
     "security": {
-      "title": "Security Overview",
-      "subtitle": "Advanced security scanning and vulnerability detection metrics are being processed.",
-      "telemetry_hint": "Real-time firewall telemetry will appear here shortly."
+      "title": "Security Intelligence",
+      "subtitle": "Active firewall monitoring and real-time threat detection telemetry.",
+      "telemetry_hint": "Real-time firewall logs are currently being processed.",
+      "threat_intel": "Realtime Threat Intelligence",
+      "scanning": "Scanning",
+      "threats": "Threats",
+      "status_protected": "Status: Protected",
+      "live_logs": "Live Firewall Logs",
+      "log_established": "Connection established from",
+      "log_rule_applied": "Rule ID: 403-BLOCK applied to suspicious payload",
+      "log_mitigated": "Threat mitigated: CVE-2024-XXXX detection",
+      "alerts_24h": "{count} High Severity Alerts in last 24h",
+      "security_dashboard": "Security Dashboard"
     },
     "activity": {
       "title": "Recent Activity",
@@ -115,8 +173,16 @@
       "service": "Service",
       "category": "Category",
       "status": "Status",
-      "latency": "Latency",
-      "last_checked": "Last Checked"
+      "last_response": "Last Response",
+      "last_latency": "Last Latency",
+      "last_checked": "Last Checked",
+      "response_health": "Response / Health",
+      "network_latency": "Network Latency",
+      "last_sync": "Last Synchronization",
+      "sync_every": "Sync Every {interval}s",
+      "issue_detected": "Issue Detected",
+      "next_sync": "Next sync in {interval}s",
+      "never": "Never"
     },
     "form": {
       "name": "Service Name",
@@ -124,7 +190,8 @@
       "category": "Category",
       "interval": "Check Interval (s)",
       "placeholder_name": "e.g. API Gateway",
-      "placeholder_url": "https://api.example.com/health"
+      "placeholder_url": "https://api.example.com/health",
+      "placeholder_category": "e.g. Infrastructure, Database"
     },
     "messages": {
       "created": "Service created successfully",
@@ -147,6 +214,8 @@
     "tagline": "Realtime infrastructure observability platform.",
     "version": "v1.0.0 • Realtime Monitoring Enabled",
     "credit": "Designed & engineered by Renaldi Mohamad",
-    "follow_me": "Follow Me"
+    "follow_me": "Follow Me",
+    "active_engine": "Active Engine",
+    "engineering": "Engineering"
   }
 }

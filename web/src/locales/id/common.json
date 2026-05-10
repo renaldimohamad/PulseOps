@@ -2,13 +2,44 @@
   "common": {
     "dashboard": "Dashboard",
     "services": "Layanan",
-    "actions": "Aksi",
-    "edit": "Ubah",
-    "delete": "Hapus",
+    "refresh": "Segarkan",
+    "notifications": "Notifikasi",
+    "loading": "Memuat...",
     "save": "Simpan",
     "cancel": "Batal",
+    "delete": "Hapus",
+    "edit": "Ubah",
     "add": "Tambah",
-    "docs": "Dokumentasi"
+    "status": "Status",
+    "actions": "Aksi",
+    "search": "Cari",
+    "docs": "Dokumentasi",
+    "system_status": "Status Sistem",
+    "active": "Aktif",
+    "stable": "Stabil",
+    "none": "Tidak Ada",
+    "excellent": "Sempurna",
+    "healthy": "Sehat",
+    "degraded": "Menurun",
+    "critical": "Kritis",
+    "no_data": "Tidak Ada Data",
+    "protected": "Terlindungi",
+    "operational": "Operasional",
+    "syncing": "Sinkronisasi",
+    "connected": "Terhubung",
+    "offline": "Luring",
+    "system_connected": "Sistem Terhubung",
+    "system_offline": "Sistem Terputus",
+    "view_repository": "Lihat Repositori",
+    "terminate_session": "Akhiri Sesi",
+    "ago": "lalu",
+    "never": "Belum Pernah",
+    "added_to_monitoring": "{name} telah ditambahkan ke pemantauan.",
+    "is_down": "{name} sedang DOWN!",
+    "is_back_online": "{name} kembali online.",
+    "service_recovered": "Layanan pulih dan sekarang online.",
+    "service_unresponsive": "Layanan tidak responsif dan melaporkan kesalahan.",
+    "status_changed": "Status layanan berubah."
   },
   "docs": {
     "title": "Dokumentasi",
@@ -18,87 +49,120 @@
       "badge": "Panduan Arsitektur"
     },
     "intro": {
-      "title": "Apa itu PulseOps?",
-      "description": "PulseOps adalah platform observabilitas kelas produksi yang dirancang untuk memberikan visibilitas instan ke dalam infrastruktur terdistribusi. Dengan memanfaatkan arsitektur event-driven berkinerja tinggi, PulseOps memastikan bahwa perubahan operasional tercermin di semua klien dalam hitungan milidetik.",
-      "goal_title": "Masalah yang Kami Selesaikan",
-      "goal_desc": "Pemantauan tradisional seringkali bergantung pada penyegaran manual atau long-polling, yang menyebabkan wawasan menjadi 'basi'. PulseOps memecahkan masalah ini dengan membangun lapisan komunikasi bidirectional yang persisten antara mesin pemantau dan dashboard."
+      "title": "Observabilitas Enterprise",
+      "description": "PulseOps dirancang untuk pemantauan ketersediaan tinggi. Arsitektur sistem kami memastikan bahwa setiap pemeriksaan kesehatan diproses dengan presisi milidetik dan disiarkan ke semua klien yang terhubung secara instan.",
+      "goal_title": "Tujuan Desain",
+      "goal_desc": "Memberikan pengalaman pemantauan tingkat produksi yang menghilangkan titik buta dalam sistem terdistribusi modern."
     },
     "architecture": {
-      "title": "Arsitektur Sistem",
-      "description": "Implementasi full-stack modern yang berfokus pada skalabilitas dan integritas data real-time.",
-      "frontend": "Frontend Next.js",
-      "backend": "Backend NestJS",
-      "database": "PostgreSQL + Prisma",
-      "sync": "Sinkronisasi WebSocket",
-      "flow_desc": "PulseOps menggunakan alur 'Scheduler-ke-Klien' di mana mesin pemantau mengatur pemeriksaan dan segera menyiarkan hasil melalui Socket.io."
+      "title": "Tinjauan Arsitektur",
+      "description": "Ekosistem pemantauan fidelitas tinggi yang dibangun di atas primitif asinkron modern dan sinkronisasi status waktu nyata.",
+      "frontend": "Klien Pulse",
+      "backend": "Inti Observabilitas",
+      "sync": "Sinkronisasi Status",
+      "flow_desc": "Siaran telemetri dua arah waktu nyata melalui lapisan WebSocket v2."
     },
     "flow": {
-      "title": "Siklus Hidup Pemantauan",
-      "step1": "Pemicu Scheduler",
-      "step1_desc": "Cron-tasks Node.js memulai siklus pemantauan.",
-      "step2": "Pemeriksaan Kesehatan",
-      "step2_desc": "Pengumpulan telemetri HTTP berbasis Axios.",
-      "step3": "Evaluasi Status",
-      "step4": "Pembaruan Database",
-      "step5": "Siaran WebSocket",
-      "step5_desc": "Event dipancarkan melalui NestJS Event Emitter ke Gateway.",
-      "step6": "Sinkronisasi UI",
-      "step6_desc": "Invalidasi cache React Query di semua tab."
+      "title": "Siklus Pemantauan",
+      "step1": "Inisialisasi Titik Akhir",
+      "step1_desc": "Sistem mendaftarkan target pemantauan baru",
+      "step2": "Probe Asinkron",
+      "step2_desc": "Probe presisi tinggi non-blocking",
+      "step3": "Ingesti",
+      "step3_desc": "Inti memproses data telemetri",
+      "step4": "Validasi",
+      "step4_desc": "Logika klasifikasi status",
+      "step5": "Persistensi",
+      "step5_desc": "Data diarsipkan untuk log audit",
+      "step6": "Siaran",
+      "step6_desc": "Siaran peristiwa WebSocket"
     },
     "logic": {
-      "title": "Logika Klasifikasi",
-      "description": "Kecerdasan pemantauan yang memahami konteks di luar status naik/turun sederhana.",
-      "op": "Operasional",
-      "op_desc": "200 OK - Respons sukses standar.",
+      "title": "Logika Cerdas",
+      "description": "Sistem menerapkan heuristik canggih untuk mengklasifikasikan kesehatan titik akhir berdasarkan karakteristik respons.",
+      "op": "Sehat",
+      "op_desc": "Respons 2xx standar dalam ambang batas",
       "prot": "Terlindungi",
-      "prot_desc": "401/403 - Perlu autentikasi tetapi layanan dapat dijangkau.",
-      "conf": "Salah Konfigurasi",
-      "conf_desc": "404 - Titik akhir hilang atau salah konfigurasi.",
-      "off": "Offline",
-      "off_desc": "Timeout atau 500+ - Kegagalan infrastruktur serius."
+      "prot_desc": "Unauthorized (401/403) tetapi dapat dijangkau",
+      "conf": "Konflik",
+      "conf_desc": "Kesalahan sumber daya (404/409/429)",
+      "off": "Kritis",
+      "off_desc": "Waktu habis koneksi atau kegagalan soket"
     },
     "stack": {
       "title": "Tumpukan Teknologi",
-      "description": "Keputusan rekayasa yang matang untuk platform observabilitas yang skalabel.",
-      "nextjs": "Framework frontend dengan React Query untuk manajemen state yang tangguh.",
-      "nestjs": "Framework Node.js perusahaan untuk layanan pemantauan yang skalabel.",
-      "prisma": "ORM type-safe untuk interaksi database yang andal.",
-      "websocket": "Socket.io untuk komunikasi bidirectional latensi rendah."
+      "nextjs": "Kerangka Kerja Frontend",
+      "nestjs": "Mesin Backend",
+      "prisma": "Lapisan ORM",
+      "websocket": "Protokol Sinkronisasi",
+      "core_stack": "Tumpukan Inti",
+      "engine": "Mesin"
     },
     "principles": {
       "title": "Prinsip Rekayasa",
-      "p1": "Utamakan Real-time",
-      "p1_desc": "Setiap perubahan status harus disiarkan secara instan.",
-      "p2": "Berbasis Event",
-      "p2_desc": "Arsitektur terlepas menggunakan pemancar event internal.",
-      "p3": "UI yang Tangguh",
-      "p3_desc": "Pembaruan optimis dan penanganan kesalahan yang kuat."
-    }
+      "p1": "Realtime Utama",
+      "p1_desc": "Pemantauan hanya sebaik kesegarannya. Polling dihindari untuk telemetri instan.",
+      "p2": "Presisi Tinggi",
+      "p2_desc": "Pengukuran dilakukan pada tingkat timer perangkat keras untuk akurasi maksimal.",
+      "p3": "Desain Resilien",
+      "p3_desc": "Armada pemantauan dapat memulihkan diri sendiri dan mentoleransi masalah jaringan sementara."
+    },
+    "badges": {
+      "introduction": "Pendahuluan",
+      "engineering": "Rekayasa",
+      "realtime_engine": "Mesin Realtime",
+      "intelligent_agent": "Agen Cerdas",
+      "infrastructure": "Infrastruktur"
+    },
+    "manifesto": "Manifesto"
   },
   "dashboard": {
-    "title": "Ikhtisar Infrastruktur",
-    "subtitle": "Telemetri kesehatan real-time di seluruh kluster dan titik akhir edge yang terhubung.",
-    "tracking": "Saat ini memantau {count} layanan global",
+    "title": "Komando Operasi",
+    "subtitle": "Pemantauan infrastruktur real-time dan intelijen kesehatan sistem.",
+    "tracking": "Memantau {count} titik akhir di seluruh klaster",
     "system_health": "Kesehatan Sistem",
-    "active_clusters": "Kluster Aktif",
+    "active_clusters": "Klaster Aktif",
+    "operational_context": {
+      "monitoring_active": "Pemantauan realtime aktif",
+      "socket_connected": "WebSocket terhubung",
+      "sync_now": "Sinkronisasi: Baru saja",
+      "version": "Inti Observabilitas v1.0.4"
+    },
     "metrics": {
       "total_endpoints": "Total Titik Akhir",
       "operational": "Operasional",
       "critical_alerts": "Peringatan Kritis",
-      "avg_latency": "Latensi Rata-rata"
+      "avg_latency": "Latensi Rata-rata",
+      "total_endpoints_desc": "Kapasitas armada 100%",
+      "no_endpoints": "Tidak ada titik akhir yang dikonfigurasi",
+      "operational_desc": "{count} layanan melaporkan status sehat",
+      "critical_desc": "{count} titik akhir saat ini tidak dapat dijangkau",
+      "no_disruption": "Tidak ada gangguan layanan terdeteksi",
+      "latency_desc": "Dihitung dari layanan sehat yang aktif saja"
+    },
+    "security": {
+      "title": "Intelijen Keamanan",
+      "subtitle": "Pemantauan firewall aktif dan telemetri deteksi ancaman real-time.",
+      "telemetry_hint": "Log firewall real-time sedang diproses.",
+      "threat_intel": "Intelijen Ancaman Realtime",
+      "scanning": "Memindai",
+      "threats": "Ancaman",
+      "status_protected": "Status: Terlindungi",
+      "live_logs": "Log Firewall Langsung",
+      "log_established": "Koneksi dibuat dari",
+      "log_rule_applied": "ID Aturan: 403-BLOCK diterapkan pada muatan mencurigakan",
+      "log_mitigated": "Ancaman dimitigasi: deteksi CVE-2024-XXXX",
+      "alerts_24h": "{count} Peringatan Keparahan Tinggi dalam 24 jam terakhir",
+      "security_dashboard": "Dashboard Keamanan"
     },
     "activity": {
       "title": "Aktivitas Terbaru",
       "live": "Langsung",
       "empty": "Menunggu peristiwa sistem..."
-    },
-    "security": {
-      "title": "Ikhtisar Keamanan",
-      "subtitle": "Pemindaian keamanan tingkat lanjut dan metrik deteksi kerentanan sedang diproses.",
-      "telemetry_hint": "Telemetri firewall real-time akan muncul di sini segera."
     }
   },
   "services": {
+    "title": "Manajemen Layanan",
     "subtitle": "Ringkasan status real-time infrastruktur global dan layanan mikro Anda.",
     "add_service": "Tambah Layanan",
     "new_service": "Pantau Layanan Baru",
@@ -109,22 +173,32 @@
       "service": "Layanan",
       "category": "Kategori",
       "status": "Status",
-      "latency": "Latensi",
-      "last_checked": "Terakhir Diperiksa"
+      "last_response": "Respons Terakhir",
+      "last_latency": "Latensi Terakhir",
+      "last_checked": "Terakhir Diperiksa",
+      "response_health": "Respons / Kesehatan",
+      "network_latency": "Latensi Jaringan",
+      "last_sync": "Sinkronisasi Terakhir",
+      "sync_every": "Sinkronkan Setiap {interval} dtk",
+      "issue_detected": "Masalah Terdeteksi",
+      "next_sync": "Sinkronisasi berikutnya dalam {interval} dtk",
+      "never": "Belum Pernah"
     },
     "form": {
       "name": "Nama Layanan",
       "url": "URL Layanan",
       "category": "Kategori",
+      "interval": "Interval Pemeriksaan (dtk)",
       "placeholder_name": "misal: API Gateway",
-      "placeholder_url": "https://api.example.com/health"
+      "placeholder_url": "https://api.example.com/health",
+      "placeholder_category": "misal: Infrastruktur, Database"
     },
     "messages": {
       "created": "Layanan berhasil dibuat",
-      "updated": "Layanan berhasil diperbarui",
-      "deleted": "Layanan berhasil dihapus",
       "create_failed": "Gagal membuat layanan",
+      "updated": "Layanan berhasil diperbarui",
       "update_failed": "Gagal memperbarui layanan",
+      "deleted": "Layanan berhasil dihapus",
       "delete_failed": "Gagal menghapus layanan",
       "refreshing": "Menyegarkan layanan...",
       "refreshed": "Data berhasil diperbarui",
@@ -140,6 +214,8 @@
     "tagline": "Platform observabilitas infrastruktur real-time.",
     "version": "v1.0.0 • Pemantauan Real-time Aktif",
     "credit": "Didesain & dibangun oleh Renaldi Mohamad",
-    "follow_me": "Ikuti Saya"
+    "follow_me": "Ikuti Saya",
+    "active_engine": "Mesin Aktif",
+    "engineering": "Rekayasa"
   }
 }
