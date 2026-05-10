@@ -1,4 +1,4 @@
-export type ServiceStatus = 'UP' | 'DOWN' | 'PENDING' | 'UNKNOWN' | 'PROTECTED';
+export type ServiceStatus = 'UP' | 'DOWN' | 'PENDING' | 'UNKNOWN' | 'PROTECTED' | 'DEGRADED';
 
 export interface Service {
   id: string;
@@ -10,6 +10,7 @@ export interface Service {
   rawStatus: number | null;
   lastError: string | null;
   lastChecked: string | null;
+  checkInterval: number;
   createdAt: string;
   updatedAt: string;
 }
@@ -20,4 +21,6 @@ export interface ServiceStats {
   down: number;
   pending: number;
   unknown: number;
+  protected: number;
+  degraded: number;
 }

@@ -5,8 +5,10 @@ import { useQueryClient } from '@tanstack/react-query';
 import { socket } from '@/lib/socket';
 import { Service } from '@/types/service';
 import { useToast } from '@/components/ui/toast';
+import { useI18n } from '@/lib/i18n';
 
 export const useRealtimeSynchronization = () => {
+  const { t } = useI18n();
   const queryClient = useQueryClient();
   const { success, error } = useToast();
 
@@ -19,7 +21,7 @@ export const useRealtimeSynchronization = () => {
         if (old.some(s => s.id === newService.id)) return old;
         return [newService, ...old];
       });
-      success(`${newService.name} has been added to monitoring.`);
+      success(t('common.added_to_monitoring', { name: newService.name }));
     });
 
     // 2. Service Updated (includes status changes)
@@ -32,9 +34,9 @@ export const useRealtimeSynchronization = () => {
         // Show status change notification & add to events
         if (prev && prev.status !== updatedService.status) {
           if (updatedService.status === 'DOWN') {
-            error(`${updatedService.name} is DOWN!`);
+            error(t('common.is_down', { name: updatedService.name }));
           } else if (updatedService.status === 'UP') {
-            success(`${updatedService.name} is back online.`);
+            success(t('common.is_back_online', { name: updatedService.name }));
           }
 
           // Add to global events
@@ -45,10 +47,10 @@ export const useRealtimeSynchronization = () => {
               type: updatedService.status,
               timestamp: new Date(),
               message: updatedService.status === 'UP'
-                ? 'Service recovered and is now online.'
+                ? t('common.service_recovered')
                 : updatedService.status === 'DOWN'
-                  ? 'Service is unresponsive and reporting errors.'
-                  : 'Service status changed.',
+                  ? t('common.service_unresponsive')
+                  : t('common.status_changed'),
             };
             return [newEvent, ...(oldEvents || [])].slice(0, 20);
           });

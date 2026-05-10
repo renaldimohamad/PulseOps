@@ -11,6 +11,8 @@ enum ServiceStatus {
   DOWN
   PENDING
   UNKNOWN
+  PROTECTED
+  DEGRADED
 }
 
 model Service {
