@@ -2,53 +2,79 @@ import { Service } from '../types/service';
 import { CONFIG } from './config';
 
 /**
- * Standardized API client with detailed production debugging.
+ * Global fetch lock to prevent duplicate simultaneous requests.
  */
-async function fetchWithRetry(path: string, options: RequestInit = {}, retries = 2) {
+const pendingRequests = new Map<string, Promise<Response>>();
+
+/**
+ * Standardized API client with detailed production debugging and request deduplication.
+ */
+async function fetchWithRetry(path: string, options: RequestInit = {}, retries = 2): Promise<Response> {
   // Ensure path starts with /
   const cleanPath = path.startsWith('/') ? path : `/${path}`;
   const url = `${CONFIG.API_URL}${cleanPath}`;
-  const requestId = Math.random().toString(36).substring(7);
+  const method = options.method || 'GET';
+  const requestKey = `${method}:${url}`;
 
-  // LOG: Log every fetch call in production for debugging loops
-  console.log(`[PulseOps API] [${requestId}] ${options.method || 'GET'} ${url}`);
-
-  try {
-    const response = await fetch(url, {
-      ...options,
-      headers: {
-        'Accept': 'application/json',
-        ...options.headers,
-      },
-    });
-
-
-    if (!response.ok) {
-      // LOG: Log error details
-      const errorText = await response.text().catch(() => 'No error body');
-      console.error(`[PulseOps API] [${requestId}] Error ${response.status}:`, errorText);
-      
-      let errorMessage = `HTTP ${response.status}`;
-      try {
-        const errorJson = JSON.parse(errorText);
-        errorMessage = errorJson.message || errorMessage;
-      } catch (e) {}
-      
-      throw new Error(errorMessage);
-    }
-
-    return response;
-  } catch (error: any) {
-    console.error(`[PulseOps API] [${requestId}] Exception:`, error.message);
-    
-    // Retry logic only for network errors
-    if (retries > 0 && (error.name === 'TypeError' || error.message.includes('fetch'))) {
-      console.warn(`[PulseOps API] [${requestId}] Retrying in 1s... (${retries} left)`);
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      return fetchWithRetry(path, options, retries - 1);
-    }
-    throw error;
+  // GUARD: Centralized deduplication for GET requests to prevent infinite fetch loops
+  if (method === 'GET' && pendingRequests.has(requestKey)) {
+    console.log(`🛡️ [PulseOps API] Deduplicating active request: ${requestKey}`);
+    return pendingRequests.get(requestKey)!;
   }
+
+  const requestId = Math.random().toString(36).substring(7);
+  
+  // LOG: Log every fetch call in production for debugging loops
+  console.log(`[PulseOps API] [${requestId}] ${method} ${url}`);
+
+  const requestPromise = (async () => {
+    try {
+      const response = await fetch(url, {
+        ...options,
+        headers: {
+          'Accept': 'application/json',
+          ...options.headers,
+        },
+      });
+
+      if (!response.ok) {
+        // LOG: Log error details
+        const errorText = await response.text().catch(() => 'No error body');
+        console.error(`❌ [PulseOps API] [${requestId}] Error ${response.status}:`, errorText);
+        
+        let errorMessage = `HTTP ${response.status}`;
+        try {
+          const errorJson = JSON.parse(errorText);
+          errorMessage = errorJson.message || errorMessage;
+        } catch (e) {}
+        
+        throw new Error(errorMessage);
+      }
+
+      return response;
+    } catch (error: any) {
+      console.error(`⚠️ [PulseOps API] [${requestId}] Exception:`, error.message);
+      
+      // Retry logic only for network errors
+      if (retries > 0 && (error.name === 'TypeError' || error.message.includes('fetch'))) {
+        console.warn(`🔄 [PulseOps API] [${requestId}] Retrying in 1s... (${retries} left)`);
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        return fetchWithRetry(path, options, retries - 1);
+      }
+      throw error;
+    } finally {
+      // Release the lock
+      if (method === 'GET') {
+        pendingRequests.delete(requestKey);
+      }
+    }
+  })();
+
+  if (method === 'GET') {
+    pendingRequests.set(requestKey, requestPromise);
+  }
+
+  return requestPromise;
 }
 
 export const serviceApi = {

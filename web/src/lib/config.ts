@@ -15,7 +15,14 @@ const getApiUrl = () => {
   }
 
   // Ensure no trailing slash for consistency
-  return url.endsWith('/') ? url.slice(0, -1) : url;
+  let cleaned = url.endsWith('/') ? url.slice(0, -1) : url;
+
+  // Defensive: Strip /services if accidentally included in the env var base URL
+  if (cleaned.endsWith('/services')) {
+    cleaned = cleaned.replace('/services', '');
+  }
+
+  return cleaned;
 };
 
 const getSocketUrl = () => {
