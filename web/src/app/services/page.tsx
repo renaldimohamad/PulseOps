@@ -1,5 +1,6 @@
 'use client';
 
+import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { serviceApi } from '@/lib/api';
@@ -17,7 +18,7 @@ import { useI18n } from '@/lib/i18n';
 export default function ServicesPage() {
   const { t } = useI18n();
   const queryClient = useQueryClient();
-  const { data: successToast, error: errorToast, info: infoToast } = useToast();
+  const { success: successToast, error: errorToast, info: infoToast } = useToast();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [editingService, setEditingService] = useState<Service | null>(null);
@@ -103,9 +104,12 @@ export default function ServicesPage() {
       <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 pb-2">
         <div className="space-y-2 md:space-y-3">
           <div className="flex flex-wrap items-center gap-3">
-            <h1 className="heading-xl text-foreground">
+            <p className="text-lg md:text-xl lg:text-2xl font-semibold tracking-tight text-foreground leading-tight">
               {t('common.services')}
-            </h1>
+            </p>
+            {/* <h1 className="heading-xl text-foreground">
+              {t('common.services')}
+            </h1> */}
             <div className="flex items-center gap-1.5 rounded-full bg-success/10 px-2.5 py-1 text-success border border-success/20 shadow-[0_0_10px_rgba(16,185,129,0.1)]">
               <span className="pulse-dot">
                 <span className="pulse-dot-inner"></span>
@@ -114,7 +118,7 @@ export default function ServicesPage() {
               <span className="status-text">{t('dashboard.activity.live')}</span>
             </div>
           </div>
-          <p className="body-md max-w-xl">
+          <p className="text-[12px] md:text-16 font-medium text-foreground/50 leading-relaxed max-w-xl">
             {t('services.subtitle')}
           </p>
         </div>

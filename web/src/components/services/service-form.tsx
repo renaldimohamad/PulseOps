@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { Service } from '@/types/service';
 import { Button } from '@/components/ui/button';
-import { Globe, Tag, Info } from 'lucide-react';
+import { Globe, Tag, Info, Clock } from 'lucide-react';
 
 interface ServiceFormProps {
   initialData?: Service | null;
@@ -19,6 +19,7 @@ export const ServiceForm = ({ initialData, onSubmit, isLoading }: ServiceFormPro
     name: '',
     url: '',
     category: '',
+    checkInterval: 60,
   });
 
   const firstInputRef = useRef<HTMLInputElement>(null);
@@ -29,9 +30,10 @@ export const ServiceForm = ({ initialData, onSubmit, isLoading }: ServiceFormPro
         name: initialData.name,
         url: initialData.url,
         category: initialData.category,
+        checkInterval: initialData.checkInterval,
       });
     } else {
-      setFormData({ name: '', url: '', category: '' });
+      setFormData({ name: '', url: '', category: '', checkInterval: 60 });
       setTimeout(() => firstInputRef.current?.focus(), 100);
     }
   }, [initialData]);
@@ -82,9 +84,24 @@ export const ServiceForm = ({ initialData, onSubmit, isLoading }: ServiceFormPro
           type="text"
           required
           className={inputStyles}
-          placeholder="e.g. Infrastructure, Database"
+          placeholder={t('services.form.placeholder_category')}
           value={formData.category}
           onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+        />
+      </div>
+
+      <div className="space-y-2">
+        <label className="flex items-center gap-2 text-[10px] md:text-xs font-black uppercase tracking-widest text-muted-foreground ml-1">
+          <Clock size={12} className="text-brand-600" /> {t('services.form.interval')}
+        </label>
+        <input
+          type="number"
+          required
+          min={10}
+          max={3600}
+          className={inputStyles}
+          value={formData.checkInterval}
+          onChange={(e) => setFormData({ ...formData, checkInterval: parseInt(e.target.value) || 60 })}
         />
       </div>
 

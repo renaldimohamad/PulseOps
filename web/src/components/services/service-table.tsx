@@ -78,25 +78,45 @@ export const ServiceTable = ({ services, onEdit, onDelete, isLoading, onAdd }: S
                 <Badge status={service.status} />
               </div>
 
-              <div className="grid grid-cols-2 gap-4 py-4 border-y border-border/30">
+              <div className="grid grid-cols-2 gap-y-5 gap-x-4 py-4 border-y border-border/30">
                 <div className="space-y-1">
-                  <span className="caption block opacity-60">{t('services.table.latency')}</span>
-                  <div className="flex items-center gap-2">
-                    <div className={cn(
-                      "h-1.5 w-1.5 rounded-full",
-                      service.latency && service.latency < 200 ? "bg-success" :
-                        service.latency && service.latency < 500 ? "bg-warning" : "bg-danger"
-                    )} />
-                    <span className="metric-text text-sm">
-                      {service.latency ? `${service.latency}ms` : '-'}
+                  <span className="caption block opacity-60 uppercase text-[9px] font-bold tracking-tighter">{t('services.table.response_health')}</span>
+                  <div className="flex flex-col">
+                    <span className="font-mono text-[12px] font-bold text-foreground/80">
+                      {service.rawStatus || '---'}
+                    </span>
+                    <span className="text-[9px] font-bold text-muted-foreground/60 uppercase tracking-tighter">
+                      {service.rawStatus === 200 ? t('common.operational') : t('services.table.issue_detected')}
                     </span>
                   </div>
                 </div>
                 <div className="space-y-1">
-                  <span className="caption block opacity-60">{t('services.table.last_checked')}</span>
-                  <span className="text-[11px] font-medium text-foreground/60">
-                    {service.lastChecked ? formatDistanceToNow(new Date(service.lastChecked)) : '-'}
+                  <span className="caption block opacity-60 uppercase text-[9px] font-bold tracking-tighter">{t('services.table.network_latency')}</span>
+                  <div className="flex items-center gap-2">
+                    <div className={cn(
+                      "h-1.5 w-1.5 rounded-full",
+                      service.latency && service.latency < 200 ? "bg-success shadow-[0_0_8px_rgba(16,185,129,0.4)]" :
+                        service.latency && service.latency < 500 ? "bg-success/60" :
+                          service.latency && service.latency < 800 ? "bg-warning" : "bg-danger animate-pulse"
+                    )} />
+                    <span className="metric-text text-sm font-bold">
+                      {service.latency ? `${service.latency}ms` : '-'}
+                    </span>
+                  </div>
+                  <span className="text-[9px] font-bold text-muted-foreground/40 uppercase tracking-tighter block">
+                    {service.latency ? (service.latency < 200 ? t('common.excellent') : service.latency < 500 ? t('common.healthy') : service.latency < 800 ? t('common.degraded') : t('common.critical')) : t('common.no_data')}
                   </span>
+                </div>
+                <div className="space-y-1 col-span-2">
+                  <span className="caption block opacity-60 uppercase text-[9px] font-bold tracking-tighter">{t('services.table.last_sync')}</span>
+                  <div className="flex items-center justify-between">
+                    <span className="text-[11px] font-bold text-foreground/60">
+                      {service.lastChecked ? formatDistanceToNow(new Date(service.lastChecked), { addSuffix: true }) : t('common.never')}
+                    </span>
+                    <span className="text-[9px] font-bold text-muted-foreground/40 uppercase tracking-tighter">
+                      {t('services.table.sync_every', { interval: service.checkInterval || 60 })}
+                    </span>
+                  </div>
                 </div>
               </div>
 
@@ -136,7 +156,8 @@ export const ServiceTable = ({ services, onEdit, onDelete, isLoading, onAdd }: S
               <th className="px-6 py-4 table-header-premium">{t('services.table.service')}</th>
               <th className="px-6 py-4 table-header-premium">{t('services.table.category')}</th>
               <th className="px-6 py-4 table-header-premium">{t('services.table.status')}</th>
-              <th className="px-6 py-4 table-header-premium">{t('services.table.latency')}</th>
+              <th className="px-6 py-4 table-header-premium">{t('services.table.last_response')}</th>
+              <th className="px-6 py-4 table-header-premium">{t('services.table.last_latency')}</th>
               <th className="px-6 py-4 table-header-premium">{t('services.table.last_checked')}</th>
               <th className="px-6 py-4 table-header-premium text-right">{t('common.actions')}</th>
             </tr>
@@ -188,34 +209,76 @@ export const ServiceTable = ({ services, onEdit, onDelete, isLoading, onAdd }: S
                   <td className="px-6 py-5">
                     <div className="flex flex-col gap-1">
                       <Badge status={service.status} />
-                      {service.status === 'DOWN' && service.rawStatus && (
-                        <span className="font-mono text-[9px] uppercase tracking-tighter text-danger/80 ml-1">
-                          {service.rawStatus === 404 && 'Misconfigured (404)'}
-                          {(service.rawStatus === 401 || service.rawStatus === 403) && 'Auth Required'}
-                          {service.rawStatus >= 500 && 'Server Error'}
-                        </span>
-                      )}
                     </div>
                   </td>
                   <td className="px-6 py-5">
-                    <div className="flex items-center gap-2">
-                      <div className={cn(
-                        "h-1 w-1 rounded-full",
-                        service.latency && service.latency < 200 ? "bg-success" :
-                          service.latency && service.latency < 500 ? "bg-warning" : "bg-danger"
-                      )} />
-                      <span className={cn(
-                        "metric-text text-[13px]",
-                        service.latency && service.latency > 500 ? 'text-warning' : 'text-foreground/70'
-                      )}>
-                        {service.latency ? `${service.latency}ms` : '-'}
+                    <div className="flex flex-col">
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="font-mono text-[13px] font-bold text-foreground/80">
+                          {service.rawStatus || '---'}
+                        </span>
+                        {service.rawStatus && (
+                          <span className={cn(
+                            "px-1.5 py-0.5 rounded text-[9px] font-bold uppercase tracking-tighter",
+                            service.rawStatus >= 200 && service.rawStatus < 300 ? "bg-success/10 text-success/80 border border-success/20" :
+                              service.rawStatus >= 400 && service.rawStatus < 500 ? "bg-warning/10 text-warning/80 border border-warning/20" :
+                                "bg-danger/10 text-danger/80 border border-danger/20"
+                          )}>
+                            {service.rawStatus}
+                          </span>
+                        )}
+                      </div>
+                      <span className="text-[10px] text-muted-foreground/60 font-semibold uppercase tracking-widest">
+                        {service.rawStatus === 200 ? t('common.operational') :
+                          service.rawStatus === 401 || service.rawStatus === 403 ? t('common.protected') :
+                            service.rawStatus === 404 ? `${t('common.degraded')} (404)` :
+                              service.rawStatus ? t('common.critical') : t('services.table.issue_detected')}
                       </span>
                     </div>
                   </td>
-                  <td className="px-6 py-5 text-[12px] text-foreground/60 font-medium whitespace-nowrap">
-                    {service.lastChecked
-                      ? `${formatDistanceToNow(new Date(service.lastChecked))} ${locale === 'en' ? 'ago' : 'lalu'}`
-                      : 'Never'}
+                  <td className="px-6 py-5">
+                    <div className="flex flex-col gap-1.5">
+                      <div className="flex items-center gap-2">
+                        <div className={cn(
+                          "h-1.5 w-1.5 rounded-full relative",
+                          service.latency && service.latency < 200 ? "bg-success shadow-[0_0_8px_rgba(16,185,129,0.4)]" :
+                            service.latency && service.latency < 500 ? "bg-success/60" :
+                              service.latency && service.latency < 800 ? "bg-warning shadow-[0_0_8px_rgba(245,158,11,0.4)]" : "bg-danger animate-pulse"
+                        )} />
+                        <motion.span
+                          key={service.latency}
+                          initial={{ opacity: 0.5 }}
+                          animate={{ opacity: 1 }}
+                          className={cn(
+                            "metric-text text-[13px] font-bold",
+                            service.latency && service.latency > 800 ? 'text-danger' :
+                              service.latency && service.latency > 500 ? 'text-warning' : 'text-foreground/90'
+                          )}
+                        >
+                          {service.latency ? `${service.latency}ms` : '-'}
+                        </motion.span>
+                      </div>
+                      <span className={cn(
+                        "text-[9px] font-bold uppercase tracking-widest",
+                        service.latency && service.latency < 200 ? "text-success/60" :
+                          service.latency && service.latency < 500 ? "text-success/40" :
+                            service.latency && service.latency < 800 ? "text-warning/70" : "text-danger/70"
+                      )}>
+                        {service.latency ? (service.latency < 200 ? t('common.excellent') : service.latency < 500 ? t('common.healthy') : service.latency < 800 ? t('common.degraded') : t('common.critical')) : t('common.no_data')}
+                      </span>
+                    </div>
+                  </td>
+                  <td className="px-6 py-5">
+                    <div className="flex flex-col gap-1">
+                      <span className="text-[11px] text-foreground/70 font-bold whitespace-nowrap">
+                        {service.lastChecked
+                          ? formatDistanceToNow(new Date(service.lastChecked), { addSuffix: true })
+                          : t('common.never')}
+                      </span>
+                      <span className="text-[9px] font-bold text-muted-foreground/40 uppercase tracking-tighter">
+                        {t('services.table.next_sync', { interval: service.checkInterval || 60 })}
+                      </span>
+                    </div>
                   </td>
                   <td className="px-6 py-5 text-right">
                     <div className="flex justify-end gap-1 opacity-70 group-hover:opacity-100 transition-opacity duration-200">

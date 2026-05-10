@@ -113,7 +113,7 @@ export default function DocsPage() {
       {/* Intro Section */}
       <section className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
         <div className="space-y-8">
-          <SectionTitle icon={BookOpen} badge="Introduction">
+          <SectionTitle icon={BookOpen} badge={t('docs.badges.introduction')}>
             {t('docs.intro.title')}
           </SectionTitle>
           <p className="text-[17px] text-foreground/60 leading-relaxed font-normal">
@@ -151,7 +151,7 @@ export default function DocsPage() {
 
       {/* Architecture Section */}
       <section>
-        <SectionTitle icon={Layers} badge="Engineering">
+        <SectionTitle icon={Layers} badge={t('docs.badges.engineering')}>
           {t('docs.architecture.title')}
         </SectionTitle>
         <p className="text-[17px] text-foreground/50 mb-12 max-w-2xl font-normal leading-relaxed">{t('docs.architecture.description')}</p>
@@ -159,7 +159,7 @@ export default function DocsPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 relative">
           <DocCard title={t('docs.architecture.frontend')} icon={Globe}>
             <div className="space-y-3 mt-6">
-              <div className="text-[10px] font-bold uppercase tracking-[0.15em] text-brand-600/60">Core Stack</div>
+              <div className="text-[10px] font-bold uppercase tracking-[0.15em] text-brand-600/60">{t('docs.stack.core_stack')}</div>
               <div className="flex flex-wrap gap-2">
                 <span className="px-2.5 py-1 rounded-lg bg-muted/40 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground border border-border/40">Next.js 14+</span>
                 <span className="px-2.5 py-1 rounded-lg bg-muted/40 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground border border-border/40">Tailwind</span>
@@ -169,7 +169,7 @@ export default function DocsPage() {
           </DocCard>
           <DocCard title={t('docs.architecture.backend')} icon={Server}>
             <div className="space-y-3 mt-6">
-              <div className="text-[10px] font-bold uppercase tracking-[0.15em] text-brand-600/60">Engine</div>
+              <div className="text-[10px] font-bold uppercase tracking-[0.15em] text-brand-600/60">{t('docs.stack.engine')}</div>
               <div className="flex flex-wrap gap-2">
                 <span className="px-2.5 py-1 rounded-lg bg-muted/40 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground border border-border/40">NestJS</span>
                 <span className="px-2.5 py-1 rounded-lg bg-muted/40 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground border border-border/40">Socket.io</span>
@@ -193,7 +193,7 @@ export default function DocsPage() {
       <section className="bg-muted/10 rounded-[4rem] p-8 md:p-20 border border-border/40 overflow-hidden relative">
         <div className="absolute top-0 right-0 w-96 h-96 bg-brand-500/[0.02] blur-[120px] -z-10" />
 
-        <SectionTitle icon={Workflow} badge="Realtime Engine">
+        <SectionTitle icon={Workflow} badge={t('docs.badges.realtime_engine')}>
           {t('docs.flow.title')}
         </SectionTitle>
 
@@ -221,7 +221,7 @@ export default function DocsPage() {
 
       {/* Logic Section */}
       <section>
-        <SectionTitle icon={Terminal} badge="Intelligent Agent">
+        <SectionTitle icon={Terminal} badge={t('docs.badges.intelligent_agent')}>
           {t('docs.logic.title')}
         </SectionTitle>
         <p className="text-[17px] text-foreground/50 mb-12 max-w-2xl font-normal leading-relaxed">{t('docs.logic.description')}</p>
@@ -236,7 +236,7 @@ export default function DocsPage() {
 
       {/* Tech Stack */}
       <section>
-        <SectionTitle icon={Box} badge="Infrastructure">
+        <SectionTitle icon={Box} badge={t('docs.badges.infrastructure')}>
           {t('docs.stack.title')}
         </SectionTitle>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-4">
@@ -253,7 +253,7 @@ export default function DocsPage() {
 
         <div className="relative z-10 space-y-20">
           <div className="space-y-6">
-            <span className="text-[11px] font-bold text-brand-500 tracking-[0.4em] uppercase">Manifesto</span>
+            <span className="text-[11px] font-bold text-brand-500 tracking-[0.4em] uppercase">{t('docs.manifesto')}</span>
             <h2 className="text-4xl md:text-6xl font-bold tracking-tight text-background uppercase leading-tight">
               {t('docs.principles.title')}
             </h2>

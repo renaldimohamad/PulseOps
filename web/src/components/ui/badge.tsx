@@ -11,26 +11,29 @@ import { useI18n } from '@/lib/i18n';
 
 const Badge = ({ className, status, variant = 'soft', children, ...props }: BadgeProps) => {
   const { t } = useI18n();
-  
+
   const statusStyles: Record<ServiceStatus, string> = {
     UP: 'bg-success/5 text-success/90 border-success/20 shadow-[0_0_15px_rgba(16,185,129,0.05)]',
     DOWN: 'bg-danger/5 text-danger/80 border-danger/20 shadow-[0_0_15px_rgba(239,68,68,0.05)]',
+    DEGRADED: 'bg-warning/5 text-warning/80 border-warning/20 shadow-[0_0_15px_rgba(245,158,11,0.05)]',
     PENDING: 'bg-warning/5 text-warning/80 border-warning/20 shadow-[0_0_15px_rgba(245,158,11,0.05)]',
     PROTECTED: 'bg-brand-500/5 text-brand-500 border-brand-500/20 shadow-[0_0_15px_rgba(14,145,233,0.05)]',
     UNKNOWN: 'bg-muted/30 text-muted-foreground border-border/40',
   };
 
   const statusLabels: Record<ServiceStatus, string> = {
-    UP: t('dashboard.metrics.operational'),
-    DOWN: 'Offline',
-    PENDING: 'Pending',
-    PROTECTED: 'Protected',
-    UNKNOWN: 'Unknown',
+    UP: t('common.operational'),
+    DOWN: t('common.offline'),
+    DEGRADED: t('common.degraded'),
+    PENDING: t('common.syncing'),
+    PROTECTED: t('common.protected'),
+    UNKNOWN: t('common.no_data'),
   };
 
   const dotStyles: Record<ServiceStatus, string> = {
     UP: 'bg-success shadow-[0_0_8px_rgba(16,185,129,0.3)]',
     DOWN: 'bg-danger shadow-[0_0_8px_rgba(239,68,68,0.3)]',
+    DEGRADED: 'bg-warning shadow-[0_0_8px_rgba(245,158,11,0.3)]',
     PENDING: 'bg-warning animate-pulse',
     PROTECTED: 'bg-brand-500 shadow-[0_0_8px_rgba(14,145,233,0.3)]',
     UNKNOWN: 'bg-muted-foreground/50',

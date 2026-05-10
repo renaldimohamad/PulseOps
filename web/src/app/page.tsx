@@ -1,10 +1,11 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { serviceApi } from '@/lib/api';
 import { socket } from '@/lib/socket';
 import { MetricCard } from '@/components/dashboard/metric-card';
+import { SecurityOverview } from '@/components/dashboard/security-overview';
 import { ActivityFeed } from '@/components/dashboard/activity-feed';
 import { Card } from '@/components/ui/card';
 import { Activity, CheckCircle2, XCircle, Clock, ShieldCheck, Zap, Server } from 'lucide-react';
@@ -28,6 +29,8 @@ export default function Dashboard() {
   const queryClient = useQueryClient();
   const { data: events = [] } = useQuery<ActivityEvent[]>({
     queryKey: ['events'],
+    queryFn: () => [],
+    enabled: false,
     initialData: [],
   });
 
@@ -36,13 +39,40 @@ export default function Dashboard() {
     queryFn: () => serviceApi.getAll(),
   });
 
-  const stats: ServiceStats = {
+  const stats: ServiceStats = useMemo(() => ({
     total: services?.length || 0,
     up: services?.filter((s) => s.status === 'UP').length || 0,
     down: services?.filter((s) => s.status === 'DOWN').length || 0,
     pending: services?.filter((s) => s.status === 'PENDING').length || 0,
     unknown: services?.filter((s) => s.status === 'UNKNOWN').length || 0,
-  };
+    protected: services?.filter((s) => s.status === 'PROTECTED').length || 0,
+    degraded: services?.filter((s) => s.status === 'DEGRADED').length || 0,
+  }), [services]);
+
+  // Avg Latency Calculation: Only include UP and PROTECTED services with valid latency > 0
+  const averageLatency = useMemo(() => {
+    if (!services || services.length === 0) return 0;
+
+    const activeServices = services.filter((s) =>
+      (s.status === 'UP' || s.status === 'PROTECTED') &&
+      s.latency !== null &&
+      s.latency !== undefined &&
+      Number(s.latency) > 0
+    );
+
+    if (activeServices.length === 0) return 0;
+
+    const sum = activeServices.reduce((acc, s) => acc + Number(s.latency || 0), 0);
+    const avg = Math.round(sum / activeServices.length);
+
+    // Debug log for verification
+    if (process.env.NODE_ENV === 'development') {
+      console.log(`[Latency Debug] Total Active: ${activeServices.length}, Sum: ${sum}, Avg: ${avg}ms`);
+      console.table(activeServices.map(s => ({ name: s.name, status: s.status, latency: s.latency })));
+    }
+
+    return avg;
+  }, [services]);
 
   if (isLoading) {
     return (
@@ -61,11 +91,8 @@ export default function Dashboard() {
     );
   }
 
-  const healthScore = stats.total > 0 ? Math.round((stats.up / stats.total) * 100) : 0;
-  const servicesWithLatency = services?.filter((s) => s.latency !== undefined && s.latency !== null) || [];
-  const averageLatency = servicesWithLatency.length > 0
-    ? Math.round(servicesWithLatency.reduce((acc, s) => acc + (s.latency || 0), 0) / servicesWithLatency.length)
-    : 0;
+  const healthyCount = stats.up + stats.protected;
+  const healthScore = stats.total > 0 ? Math.round((healthyCount / stats.total) * 100) : 0;
 
   return (
     <div className="space-y-6 md:space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-1000 max-w-full overflow-x-hidden">
@@ -76,12 +103,18 @@ export default function Dashboard() {
             <p className="text-lg md:text-xl lg:text-2xl font-semibold tracking-tight text-foreground leading-tight">
               {t('dashboard.title')}
             </p>
-            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-success/10 border border-success/20 shadow-[0_0_15px_rgba(16,185,129,0.05)]">
-              <span className="pulse-dot">
-                <span className="pulse-dot-inner"></span>
-                <span className="pulse-dot-main bg-success/80"></span>
-              </span>
-              <span className="text-[10px] font-bold uppercase tracking-widest text-success/70">{t('dashboard.activity.live')}</span>
+            <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-success/10 border border-success/20 shadow-[0_0_15px_rgba(16,185,129,0.05)]">
+                <span className="pulse-dot">
+                  <span className="pulse-dot-inner"></span>
+                  <span className="pulse-dot-main bg-success/80"></span>
+                </span>
+                <span className="text-[10px] font-bold uppercase tracking-widest text-success/70">{t('dashboard.activity.live')}</span>
+              </div>
+              <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-brand-500/10 border border-brand-500/20">
+                <div className="h-1 w-1 rounded-full bg-brand-500 animate-pulse" />
+                <span className="text-[10px] font-bold uppercase tracking-widest text-brand-500/70">Socket v2.4</span>
+              </div>
             </div>
           </div>
           <p className="text-[12px] md:text-16 font-medium text-foreground/50 leading-relaxed max-w-xl">
@@ -123,67 +156,68 @@ export default function Dashboard() {
           value={stats.total}
           icon={Activity}
           color="text-brand-600"
-          trend="+2 this week"
+          trend={t('common.active')}
+          description={stats.total > 0 ? t('dashboard.metrics.total_endpoints_desc') : t('dashboard.metrics.no_endpoints')}
+          statusIndicator="info"
         />
         <MetricCard
           title={t('dashboard.metrics.operational')}
           value={stats.up}
           icon={CheckCircle2}
           color="text-success"
-          trend="Stable"
+          trend={t('common.stable')}
+          description={t('dashboard.metrics.operational_desc', { count: stats.up })}
+          statusIndicator="success"
         />
         <MetricCard
           title={t('dashboard.metrics.critical_alerts')}
           value={stats.down}
           icon={XCircle}
           color="text-danger"
-          trend={stats.down > 0 ? "Immediate Action" : "None"}
+          trend={stats.down > 0 ? t('dashboard.metrics.critical_alerts') : t('common.none')}
+          description={stats.down > 0 ? t('dashboard.metrics.critical_desc', { count: stats.down }) : t('dashboard.metrics.no_disruption')}
+          statusIndicator={stats.down > 0 ? "danger" : "success"}
         />
         <MetricCard
           title={t('dashboard.metrics.avg_latency')}
           value={averageLatency}
+          suffix="ms"
           icon={Zap}
           color="text-warning"
-          trend={averageLatency < 300 ? "Excellent" : averageLatency < 800 ? "Normal" : "High Latency"}
+          trend={averageLatency === 0 ? t('common.no_data') : averageLatency < 200 ? t('common.excellent') : averageLatency < 500 ? t('common.healthy') : averageLatency < 800 ? t('common.degraded') : t('common.critical')}
+          description={t('dashboard.metrics.latency_desc')}
+          statusIndicator={averageLatency === 0 ? 'info' : averageLatency < 500 ? 'success' : averageLatency < 800 ? 'warning' : 'danger'}
         />
       </div>
 
+      {/* Operational Context Bar */}
+      <div className="flex flex-wrap items-center gap-x-8 gap-y-3 px-6 py-3 rounded-2xl border border-border/40 bg-muted/10 backdrop-blur-md">
+        <div className="flex items-center gap-2">
+          <div className="h-1.5 w-1.5 rounded-full bg-success animate-pulse" />
+          <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground/70">{t('dashboard.operational_context.monitoring_active')}</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <div className="h-1.5 w-1.5 rounded-full bg-brand-500" />
+          <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground/70">{t('dashboard.operational_context.socket_connected')}</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <Clock size={12} className="text-muted-foreground/40" />
+          <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground/70">{t('dashboard.operational_context.sync_now')}</span>
+        </div>
+        <div className="ml-auto hidden md:flex items-center gap-2">
+          <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-foreground/30 italic">{t('dashboard.operational_context.version')}</span>
+        </div>
+      </div>
       {/* Main Dashboard Section */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
         <div className="lg:col-span-2 space-y-6">
-          <Card className="border border-border/40 shadow-sm bg-card/40 backdrop-blur-xl h-full min-h-[350px] md:min-h-[400px] flex flex-col items-center justify-center p-8 md:p-12 text-center group overflow-hidden">
-            <div className="relative mb-8">
-              <div className="absolute inset-0 bg-brand-500/5 blur-[80px] scale-150 rounded-full group-hover:bg-brand-500/10 transition-colors" />
-              <div className="relative h-20 w-20 md:h-24 md:w-24 bg-card/50 rounded-[2rem] shadow-sm border border-border/60 flex items-center justify-center text-brand-600 group-hover:rotate-6 transition-transform duration-500">
-                <ShieldCheck size={40} className="md:w-12 md:h-12" strokeWidth={1.2} />
-              </div>
-            </div>
-            <h3 className="text-xl md:text-2xl font-semibold text-foreground/90 mb-3 uppercase tracking-tight">{t('dashboard.security.title')}</h3>
-            <p className="text-[14px] font-medium text-foreground/40 max-w-sm mb-10 text-center mx-auto leading-relaxed">
-              {t('dashboard.security.subtitle')}
-              <br />
-              <span className="text-[12px] opacity-60 mt-2 block italic">{t('dashboard.security.telemetry_hint')}</span>
-            </p>
-            <div className="flex gap-2">
-              {[1, 2, 3].map(i => (
-                <div key={i} className="h-1.5 w-8 rounded-full bg-muted/40 overflow-hidden">
-                  <motion.div
-                    animate={{ x: [-32, 32] }}
-                    transition={{ duration: 2, repeat: Infinity, delay: i * 0.4 }}
-                    className="h-full w-4 bg-brand-500/30"
-                  />
-                </div>
-              ))}
-            </div>
-          </Card>
+          <SecurityOverview />
         </div>
-
         <div className="lg:col-span-1">
           <ActivityFeed events={events} />
         </div>
       </div>
     </div>
-
   );
 }
 
