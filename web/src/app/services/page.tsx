@@ -17,7 +17,7 @@ import { useI18n } from '@/lib/i18n';
 export default function ServicesPage() {
   const { t } = useI18n();
   const queryClient = useQueryClient();
-  const { success, error, info } = useToast();
+  const { data: successToast, error: errorToast, info: infoToast } = useToast();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [editingService, setEditingService] = useState<Service | null>(null);
@@ -28,16 +28,13 @@ export default function ServicesPage() {
     queryFn: () => serviceApi.getAll(),
   });
 
-
-
   const createMutation = useMutation({
     mutationFn: serviceApi.create,
     onSuccess: () => {
       setIsModalOpen(false);
-      // RealtimeSync handles cache update & success toast
     },
     onError: () => {
-      error(t('services.messages.create_failed'));
+      errorToast(t('services.messages.create_failed'));
     }
   });
 
@@ -46,10 +43,9 @@ export default function ServicesPage() {
     onSuccess: () => {
       setIsModalOpen(false);
       setEditingService(null);
-      // RealtimeSync handles cache update & success toast
     },
     onError: () => {
-      error(t('services.messages.update_failed'));
+      errorToast(t('services.messages.update_failed'));
     }
   });
 
@@ -58,10 +54,9 @@ export default function ServicesPage() {
     onSuccess: () => {
       setIsDeleteModalOpen(false);
       setServiceToDelete(null);
-      // RealtimeSync handles cache update & success toast
     },
     onError: () => {
-      error(t('services.messages.delete_failed'));
+      errorToast(t('services.messages.delete_failed'));
     }
   });
 
@@ -87,13 +82,12 @@ export default function ServicesPage() {
   };
 
   const handleRefresh = async () => {
-    info(t('services.messages.refreshing'));
+    infoToast(t('services.messages.refreshing'));
     await queryClient.invalidateQueries({ queryKey: ['services'] });
-    success(t('services.messages.refreshed'));
   };
 
   const handleNotification = () => {
-    info(`${t('services.messages.system_status_title')}: ${t('services.messages.system_status_ok')}`);
+    infoToast(`${t('services.messages.system_status_title')}: ${t('services.messages.system_status_ok')}`);
   };
 
   const handleSubmit = (data: any) => {
@@ -109,18 +103,18 @@ export default function ServicesPage() {
       <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 pb-2">
         <div className="space-y-2 md:space-y-3">
           <div className="flex flex-wrap items-center gap-3">
-            <h1 className="text-3xl md:text-5xl font-black tracking-tighter text-foreground leading-none">
+            <h1 className="heading-xl text-foreground">
               {t('common.services')}
             </h1>
-            <div className="flex items-center gap-1.5 rounded-full bg-success/10 px-2.5 py-1 text-[9px] md:text-[10px] font-black uppercase tracking-widest text-success border border-success/20 shadow-[0_0_10px_rgba(16,185,129,0.1)]">
-              <span className="relative flex h-1.5 w-1.5 md:h-2 md:w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-success opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-1.5 w-1.5 md:h-2 md:w-2 bg-success"></span>
+            <div className="flex items-center gap-1.5 rounded-full bg-success/10 px-2.5 py-1 text-success border border-success/20 shadow-[0_0_10px_rgba(16,185,129,0.1)]">
+              <span className="pulse-dot">
+                <span className="pulse-dot-inner"></span>
+                <span className="pulse-dot-main bg-success"></span>
               </span>
-              {t('dashboard.activity.live')}
+              <span className="status-text">{t('dashboard.activity.live')}</span>
             </div>
           </div>
-          <p className="text-sm md:text-base text-muted-foreground font-medium max-w-xl leading-relaxed">
+          <p className="body-md max-w-xl">
             {t('services.subtitle')}
           </p>
         </div>
@@ -147,7 +141,7 @@ export default function ServicesPage() {
           </div>
           <Button
             onClick={handleAdd}
-            className="flex-1 lg:flex-none h-12 px-6 rounded-2xl shadow-lg shadow-brand-500/20 bg-brand-600 text-white hover:bg-brand-700 font-black uppercase tracking-widest text-xs active:scale-95 transition-all"
+            className="flex-1 lg:flex-none h-12 px-6 rounded-2xl shadow-lg shadow-brand-500/20 bg-brand-600 text-white hover:bg-brand-700 font-bold uppercase tracking-widest text-xs active:scale-95 transition-all"
           >
             <Plus size={18} className="mr-2" /> {t('services.add_service')}
           </Button>

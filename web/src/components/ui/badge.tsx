@@ -13,15 +13,15 @@ const Badge = ({ className, status, variant = 'soft', children, ...props }: Badg
   const { t } = useI18n();
   
   const statusStyles: Record<ServiceStatus, string> = {
-    UP: 'bg-success/10 text-success border-success/20 shadow-[0_0_12px_rgba(16,185,129,0.1)]',
-    DOWN: 'bg-danger/10 text-danger border-danger/20 shadow-[0_0_12px_rgba(239,68,68,0.1)]',
-    PENDING: 'bg-warning/10 text-warning border-warning/20 shadow-[0_0_12px_rgba(245,158,11,0.1)]',
-    PROTECTED: 'bg-brand-500/10 text-brand-600 border-brand-500/20 shadow-[0_0_12px_rgba(14,145,233,0.1)]',
-    UNKNOWN: 'bg-muted text-muted-foreground border-border',
+    UP: 'bg-success/5 text-success/90 border-success/20 shadow-[0_0_15px_rgba(16,185,129,0.05)]',
+    DOWN: 'bg-danger/5 text-danger/80 border-danger/20 shadow-[0_0_15px_rgba(239,68,68,0.05)]',
+    PENDING: 'bg-warning/5 text-warning/80 border-warning/20 shadow-[0_0_15px_rgba(245,158,11,0.05)]',
+    PROTECTED: 'bg-brand-500/5 text-brand-500 border-brand-500/20 shadow-[0_0_15px_rgba(14,145,233,0.05)]',
+    UNKNOWN: 'bg-muted/30 text-muted-foreground border-border/40',
   };
 
   const statusLabels: Record<ServiceStatus, string> = {
-    UP: t('dashboard.metrics.operational'), // or custom label
+    UP: t('dashboard.metrics.operational'),
     DOWN: 'Offline',
     PENDING: 'Pending',
     PROTECTED: 'Protected',
@@ -29,14 +29,14 @@ const Badge = ({ className, status, variant = 'soft', children, ...props }: Badg
   };
 
   const dotStyles: Record<ServiceStatus, string> = {
-    UP: 'bg-success shadow-[0_0_8px_rgba(16,185,129,0.5)]',
-    DOWN: 'bg-danger shadow-[0_0_8px_rgba(239,68,68,0.5)]',
+    UP: 'bg-success shadow-[0_0_8px_rgba(16,185,129,0.3)]',
+    DOWN: 'bg-danger shadow-[0_0_8px_rgba(239,68,68,0.3)]',
     PENDING: 'bg-warning animate-pulse',
-    PROTECTED: 'bg-brand-500 shadow-[0_0_8px_rgba(14,145,233,0.5)]',
-    UNKNOWN: 'bg-muted-foreground',
+    PROTECTED: 'bg-brand-500 shadow-[0_0_8px_rgba(14,145,233,0.3)]',
+    UNKNOWN: 'bg-muted-foreground/50',
   };
 
-  const baseStyles = 'inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wider transition-all duration-300 whitespace-nowrap';
+  const baseStyles = 'inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 status-text transition-all duration-300 whitespace-nowrap backdrop-blur-[2px]';
 
   return (
     <div
@@ -48,16 +48,19 @@ const Badge = ({ className, status, variant = 'soft', children, ...props }: Badg
       {...props}
     >
       {status && (
-        <span className="relative flex h-2 w-2">
+        <span className="pulse-dot">
           {status === 'UP' && (
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-success opacity-40"></span>
+            <span className="pulse-dot-inner"></span>
           )}
-          <span className={cn('relative inline-flex h-2 w-2 rounded-full', dotStyles[status])} />
+          <span className={cn('pulse-dot-main', dotStyles[status])} />
         </span>
       )}
-      {children || (status ? statusLabels[status] : 'Unknown')}
+      <span className="translate-y-[0.5px]">
+        {children || (status ? statusLabels[status] : 'Unknown')}
+      </span>
     </div>
   );
 };
+
 
 export { Badge };

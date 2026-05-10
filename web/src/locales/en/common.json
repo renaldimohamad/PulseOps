@@ -137,6 +137,10 @@
       "refreshed": "Data updated successfully",
       "system_status_title": "System Status",
       "system_status_ok": "All monitored services are functioning within normal parameters."
+    },
+    "empty_state": {
+      "title": "No services monitored yet",
+      "subtitle": "Start monitoring your infrastructure by adding your first service endpoint. We'll track uptime and latency in real-time."
     }
   },
   "footer": {
