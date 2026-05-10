@@ -17,11 +17,15 @@
 
 | Dashboard Overview | Documentation Page |
 | :--- | :--- |
-| ![Dashboard Placeholder](https://via.placeholder.com/800x450/111111/FFFFFF?text=Dashboard+Overview) | ![Docs Placeholder](https://via.placeholder.com/800x450/111111/FFFFFF?text=Documentation+Page) |
+| ![Dashboard Overview](web/public/docs/dashboard-page.png) | ![Documentation Page](web/public/docs/docs-page.png) |
 
-| Mobile Responsive | Dark & Light Mode |
+| Services Management | Dark & Light Mode |
 | :--- | :--- |
-| ![Mobile Placeholder](https://via.placeholder.com/400x700/111111/FFFFFF?text=Mobile+UX) | ![Theme Placeholder](https://via.placeholder.com/800x450/111111/FFFFFF?text=Dark/Light+Theme) |
+| ![Services Management](web/public/docs/services-page.png) | ![Dark Mode](web/public/docs/dashboard-dark-page.png) |
+
+| Mobile Responsive | Realtime Engine Sync |
+| :--- | :--- |
+| ![Mobile Responsive](web/public/docs/mobile-page-dashboard.png) | ![Services Dark](web/public/docs/services-dark-page.png) |
 
 ---
 
