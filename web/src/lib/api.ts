@@ -1,6 +1,13 @@
 import { Service } from '../types/service';
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || '';
+const BASE_URL = API_URL.endsWith('/') ? API_URL.slice(0, -1) : API_URL;
+
+if (!BASE_URL && typeof window !== 'undefined' && process.env.NODE_ENV === 'production') {
+  console.error('CRITICAL: NEXT_PUBLIC_API_URL is not defined in production environment.');
+}
+
+
 
 /**
  * Enhanced fetch wrapper with basic retry logic and error handling

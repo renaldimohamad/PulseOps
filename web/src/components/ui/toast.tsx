@@ -58,14 +58,14 @@ function ToastItem({ toast, onRemove }: { toast: Toast; onRemove: () => void }) 
     <div
       className={cn(
         "pointer-events-auto flex w-full max-w-sm items-center gap-4 overflow-hidden rounded-2xl border bg-card p-4 shadow-premium transition-all duration-500 animate-in slide-in-from-right-full fade-in",
-        toast.type === 'success' ? "border-success/30" : 
-        toast.type === 'error' ? "border-danger/30" : "border-border"
+        toast.type === 'success' ? "border-success/30" :
+          toast.type === 'error' ? "border-danger/30" : "border-border"
       )}
     >
       <div className={cn(
         "flex h-10 w-10 shrink-0 items-center justify-center rounded-xl",
-        toast.type === 'success' ? "bg-success/10 text-success" : 
-        toast.type === 'error' ? "bg-danger/10 text-danger" : "bg-brand-500/10 text-brand-600"
+        toast.type === 'success' ? "bg-success/10 text-success" :
+          toast.type === 'error' ? "bg-danger/10 text-danger" : "bg-brand-500/10 text-brand-600"
       )}>
         {toast.type === 'success' && <CheckCircle2 size={20} />}
         {toast.type === 'error' && <XCircle size={20} />}
