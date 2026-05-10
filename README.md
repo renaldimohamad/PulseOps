@@ -211,9 +211,24 @@ Salah satu tantangan terbesar adalah memastikan **konsistensi state** di banyak 
 
 ---
 
-## 🌍 Production Deployment
+## 🌐 Production Deployment
 
-PulseOps dirancang untuk siap dideploy ke infrastruktur cloud modern dengan konfigurasi yang aman dan skalabel.
+PulseOps sudah berhasil di-deploy ke environment production dengan konfigurasi berikut:
+
+### Frontend (Dashboard)
+- URL: [https://pulseops.renaldi.fun](https://pulseops.renaldi.fun)
+- Status: Active ✅
+- Description: Main dashboard for monitoring services health status in real-time
+
+### Backend API
+- URL: [https://pulseops-api.renaldi.fun](https://pulseops-api.renaldi.fun)
+- Status: In Progress ⏳ (SSL Certificate still generating / DNS propagation ongoing)
+- Base Endpoint: `/api`
+- Description: REST API service for PulseOps monitoring system
+
+> [!IMPORTANT]
+> ⚠️ Note: Backend API custom domain is still propagating DNS and SSL certificate. If not accessible, fallback API is still running on Railway default domain:
+> [https://pulseops-production.up.railway.app/api](https://pulseops-production.up.railway.app/api)
 
 ### 🏗️ Deployment Architecture
 
@@ -227,34 +242,12 @@ PulseOps dirancang untuk siap dideploy ke infrastruktur cloud modern dengan konf
 
 ### 📋 Environment Variables (Production)
 
-Pastikan variabel berikut dikonfigurasi di platform hosting masing-masing:
-
-#### Frontend (Vercel)
 | Variable | Description | Example |
 | :--- | :--- | :--- |
 | `NEXT_PUBLIC_API_URL` | URL REST API Backend | `https://api-pulseops.renaldi.fun/api` |
 | `NEXT_PUBLIC_SOCKET_URL` | URL WebSocket Backend | `https://api-pulseops.renaldi.fun` |
-
-#### Backend (Railway/Render)
-| Variable | Description | Example |
-| :--- | :--- | :--- |
-| `NODE_ENV` | Mode aplikasi | `production` |
-| `DATABASE_URL` | Koneksi Neon PostgreSQL | `postgresql://user:pass@ep-noisy.aws.neon.tech/pulseops?sslmode=require` |
+| `DATABASE_URL` | Koneksi Neon PostgreSQL | `postgresql://user:pass@ep-noisy.neon.tech/pulseops` |
 | `FRONTEND_URL` | URL Frontend (CORS) | `https://pulseops.renaldi.fun` |
-| `PORT` | Port aplikasi | `3001` (Otomatis oleh platform) |
-
-### 🚀 Deployment Steps
-
-1.  **Database**: Buat project di [Neon.tech](https://neon.tech), salin *connection string* (aktifkan `sslmode=require`).
-2.  **Backend (Railway)**:
-    -   Hubungkan repository GitHub.
-    -   Tambahkan variabel lingkungan di atas.
-    -   Railway akan mendeteksi NestJS dan menjalankan `npm run build` serta `npm run start:prod`.
-    -   Pastikan `prisma generate` dijalankan (sudah otomatis via `postinstall`).
-3.  **Frontend (Vercel)**:
-    -   Hubungkan repository GitHub (pilih folder `/web`).
-    -   Tambahkan variabel lingkungan `NEXT_PUBLIC_...`.
-    -   Deploy.
 
 ---
 
