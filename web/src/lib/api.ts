@@ -2,6 +2,27 @@ import { Service } from '../types/service';
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
 
+/**
+ * Enhanced fetch wrapper with basic retry logic and error handling
+ */
+async function fetchWithRetry(url: string, options: RequestInit = {}, retries = 2) {
+  try {
+    const response = await fetch(url, options);
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+    }
+    return response;
+  } catch (error: any) {
+    if (retries > 0 && (error.name === 'TypeError' || error.message.includes('fetch'))) {
+      // Small delay before retry
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      return fetchWithRetry(url, options, retries - 1);
+    }
+    throw error;
+  }
+}
+
 export const serviceApi = {
   getAll: async (params?: { category?: string; status?: string }) => {
     const url = new URL(`${BASE_URL}/services`);
@@ -11,42 +32,38 @@ export const serviceApi = {
       });
     }
 
-    const res = await fetch(url.toString(), { cache: 'no-store' });
-    if (!res.ok) throw new Error('Failed to fetch services');
+    const res = await fetchWithRetry(url.toString(), { cache: 'no-store' });
     return res.json() as Promise<Service[]>;
   },
 
   getOne: async (id: string) => {
-    const res = await fetch(`${BASE_URL}/services/${id}`, { cache: 'no-store' });
-    if (!res.ok) throw new Error('Failed to fetch service');
+    const res = await fetchWithRetry(`${BASE_URL}/services/${id}`, { cache: 'no-store' });
     return res.json() as Promise<Service>;
   },
 
   create: async (data: Partial<Service>) => {
-    const res = await fetch(`${BASE_URL}/services`, {
+    const res = await fetchWithRetry(`${BASE_URL}/services`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
     });
-    if (!res.ok) throw new Error('Failed to create service');
     return res.json() as Promise<Service>;
   },
 
   update: async (id: string, data: Partial<Service>) => {
-    const res = await fetch(`${BASE_URL}/services/${id}`, {
+    const res = await fetchWithRetry(`${BASE_URL}/services/${id}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
     });
-    if (!res.ok) throw new Error('Failed to update service');
     return res.json() as Promise<Service>;
   },
 
   delete: async (id: string) => {
-    const res = await fetch(`${BASE_URL}/services/${id}`, {
+    const res = await fetchWithRetry(`${BASE_URL}/services/${id}`, {
       method: 'DELETE',
     });
-    if (!res.ok) throw new Error('Failed to delete service');
     return res.json();
   },
 };
+

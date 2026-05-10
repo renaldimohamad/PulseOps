@@ -211,8 +211,56 @@ Salah satu tantangan terbesar adalah memastikan **konsistensi state** di banyak 
 
 ---
 
+## 🌍 Production Deployment
+
+PulseOps dirancang untuk siap dideploy ke infrastruktur cloud modern dengan konfigurasi yang aman dan skalabel.
+
+### 🏗️ Deployment Architecture
+
+```text
+[ User Browser ] <---- HTTPS/WSS ----> [ Vercel (Frontend) ]
+                                             |
+                                         REST / WS
+                                             |
+[ Neon Tech (DB) ] <---- SSL/TCP ----> [ Railway/Render (Backend) ]
+```
+
+### 📋 Environment Variables (Production)
+
+Pastikan variabel berikut dikonfigurasi di platform hosting masing-masing:
+
+#### Frontend (Vercel)
+| Variable | Description | Example |
+| :--- | :--- | :--- |
+| `NEXT_PUBLIC_API_URL` | URL REST API Backend | `https://api-pulseops.renaldi.fun/api` |
+| `NEXT_PUBLIC_SOCKET_URL` | URL WebSocket Backend | `https://api-pulseops.renaldi.fun` |
+
+#### Backend (Railway/Render)
+| Variable | Description | Example |
+| :--- | :--- | :--- |
+| `NODE_ENV` | Mode aplikasi | `production` |
+| `DATABASE_URL` | Koneksi Neon PostgreSQL | `postgresql://user:pass@ep-noisy.aws.neon.tech/pulseops?sslmode=require` |
+| `FRONTEND_URL` | URL Frontend (CORS) | `https://pulseops.renaldi.fun` |
+| `PORT` | Port aplikasi | `3001` (Otomatis oleh platform) |
+
+### 🚀 Deployment Steps
+
+1.  **Database**: Buat project di [Neon.tech](https://neon.tech), salin *connection string* (aktifkan `sslmode=require`).
+2.  **Backend (Railway)**:
+    -   Hubungkan repository GitHub.
+    -   Tambahkan variabel lingkungan di atas.
+    -   Railway akan mendeteksi NestJS dan menjalankan `npm run build` serta `npm run start:prod`.
+    -   Pastikan `prisma generate` dijalankan (sudah otomatis via `postinstall`).
+3.  **Frontend (Vercel)**:
+    -   Hubungkan repository GitHub (pilih folder `/web`).
+    -   Tambahkan variabel lingkungan `NEXT_PUBLIC_...`.
+    -   Deploy.
+
+---
+
 ## 📝 Penutup
 
 PulseOps bukan sekadar aplikasi CRUD, melainkan manifestasi dari pemahaman mendalam tentang sistem *real-time*, arsitektur modular, dan pentingnya pengalaman pengguna dalam sebuah produk engineering. Project ini siap dikembangkan lebih lanjut menjadi platform *observability* tingkat *enterprise*.
 
 **Designed & engineered with ❤️ by Renaldi Mohamad.**
+

@@ -18,8 +18,16 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: 'PulseOps | Service Monitoring Dashboard',
   description: 'Lightweight real-time infrastructure monitoring dashboard',
-  viewport: 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0, viewport-fit=cover',
 };
+
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: 0,
+  viewportFit: 'cover',
+};
+
 
 export default function RootLayout({
   children,

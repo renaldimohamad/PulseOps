@@ -12,9 +12,15 @@ import { ServiceEvents } from '../events/service.events';
 
 @WebSocketGateway({
   cors: {
-    origin: '*', // Allow all for dev, or specify http://localhost:3000
+    origin: [
+      process.env.FRONTEND_URL || 'http://localhost:3000',
+      'https://pulseops.renaldi.fun'
+    ],
+    methods: ['GET', 'POST'],
+    credentials: true,
   },
 })
+
 export class WsGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer()
   server: Server;
