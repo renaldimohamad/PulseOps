@@ -41,7 +41,7 @@ const SectionTitle = ({ children, icon: Icon, badge }: { children: React.ReactNo
           <Icon size={20} strokeWidth={1.5} />
         </div>
       )}
-      <h2 className="text-2xl md:text-3xl font-semibold tracking-tight text-foreground/90 uppercase">
+      <h2 className="text-lg md:text-xl lg:text-2xl font-semibold tracking-tight text-foreground leading-tight uppercase">
         {children}
       </h2>
     </div>
@@ -57,8 +57,8 @@ const DocCard = ({ title, description, icon: Icon, children }: { title: string; 
     <div className="mb-6 p-3 rounded-2xl bg-brand-500/5 text-brand-500/80 w-fit group-hover:scale-105 transition-transform duration-500 border border-transparent group-hover:border-brand-500/10">
       <Icon size={22} strokeWidth={1.5} />
     </div>
-    <h3 className="text-xl font-semibold text-foreground/90 mb-3 group-hover:text-foreground transition-colors">{title}</h3>
-    {description && <p className="text-[14px] text-foreground/50 leading-relaxed mb-6 font-normal">{description}</p>}
+    <h3 className="text-base md:text-lg font-semibold text-foreground/90 mb-3 group-hover:text-foreground transition-colors">{title}</h3>
+    {description && <p className="text-[11px] md:text-[13px] text-foreground/50 leading-relaxed mb-6 font-normal">{description}</p>}
     {children}
   </motion.div>
 );
@@ -67,7 +67,7 @@ export default function DocsPage() {
   const { t } = useI18n();
 
   return (
-    <div className="space-y-32 pb-32 animate-in fade-in duration-1000">
+    <div className="space-y-32 pb-0 animate-in fade-in duration-1000">
       {/* Hero Section */}
       <section className="relative pt-10 md:pt-20">
         <div className="absolute inset-0 -z-10 overflow-hidden">
@@ -75,7 +75,7 @@ export default function DocsPage() {
           <div className="absolute top-0 left-0 w-full h-full opacity-10" />
         </div>
 
-        <div className="max-w-4xl space-y-10">
+        <div className="max-w-4xl space-y-6 md:space-y-10 flex flex-col items-center md:items-start text-center md:text-left">
           <motion.div
             initial={{ opacity: 0, x: -10 }}
             animate={{ opacity: 1, x: 0 }}
@@ -93,8 +93,7 @@ export default function DocsPage() {
           <motion.h1
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-5xl md:text-7xl font-bold tracking-tight text-foreground leading-[1.05]"
-            style={{ letterSpacing: '-0.025em' }}
+            className="text-2xl md:text-2xl lg:text-3xl font-semibold tracking-tight text-foreground leading-tight"
           >
             {t('docs.hero.title')}
           </motion.h1>
@@ -103,7 +102,7 @@ export default function DocsPage() {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="text-lg md:text-xl font-medium text-foreground/40 leading-relaxed max-w-2xl tracking-normal"
+            className="text-[13px] md:text-[14px] font-medium text-foreground/40 leading-relaxed max-w-2xl"
           >
             {t('docs.hero.subtitle')}
           </motion.p>
@@ -116,7 +115,7 @@ export default function DocsPage() {
           <SectionTitle icon={BookOpen} badge={t('docs.badges.introduction')}>
             {t('docs.intro.title')}
           </SectionTitle>
-          <p className="text-[17px] text-foreground/60 leading-relaxed font-normal">
+          <p className="text-[12px] md:text-[14px] text-foreground/60 leading-relaxed font-normal">
             {t('docs.intro.description')}
           </p>
           <div className="p-8 rounded-[2rem] bg-muted/20 border border-border/40 space-y-4">
@@ -154,7 +153,7 @@ export default function DocsPage() {
         <SectionTitle icon={Layers} badge={t('docs.badges.engineering')}>
           {t('docs.architecture.title')}
         </SectionTitle>
-        <p className="text-[17px] text-foreground/50 mb-12 max-w-2xl font-normal leading-relaxed">{t('docs.architecture.description')}</p>
+        <p className="text-[12px] md:text-[14px] text-foreground/50 mb-12 max-w-2xl font-normal leading-relaxed">{t('docs.architecture.description')}</p>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 relative">
           <DocCard title={t('docs.architecture.frontend')} icon={Globe}>
@@ -224,7 +223,7 @@ export default function DocsPage() {
         <SectionTitle icon={Terminal} badge={t('docs.badges.intelligent_agent')}>
           {t('docs.logic.title')}
         </SectionTitle>
-        <p className="text-[17px] text-foreground/50 mb-12 max-w-2xl font-normal leading-relaxed">{t('docs.logic.description')}</p>
+        <p className="text-[12px] md:text-[14px] text-foreground/50 mb-12 max-w-2xl font-normal leading-relaxed">{t('docs.logic.description')}</p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <DocCard title={t('docs.logic.op')} description={t('docs.logic.op_desc')} icon={CheckCircle} />
@@ -253,8 +252,8 @@ export default function DocsPage() {
 
         <div className="relative z-10 space-y-20">
           <div className="space-y-6">
-            <span className="text-[11px] font-bold text-brand-500 tracking-[0.4em] uppercase">{t('docs.manifesto')}</span>
-            <h2 className="text-4xl md:text-6xl font-bold tracking-tight text-background uppercase leading-tight">
+            <span className="text-[8px] font-bold text-brand-500 tracking-[0.4em] uppercase">{t('docs.manifesto')}</span>
+            <h2 className="text-md md:text-2xl lg:text-4xl font-bold tracking-tight text-background uppercase leading-tight">
               {t('docs.principles.title')}
             </h2>
           </div>
@@ -263,8 +262,8 @@ export default function DocsPage() {
             {[1, 2, 3].map(i => (
               <div key={i} className="space-y-6">
                 <div className="h-[2px] w-12 bg-brand-500/60" />
-                <h4 className="text-xl font-bold text-background uppercase tracking-tight">{t(`docs.principles.p${i}`)}</h4>
-                <p className="text-[14px] font-medium text-background/40 leading-relaxed">
+                <h4 className="text-md md:text-xl font-bold text-background uppercase tracking-tight">{t(`docs.principles.p${i}`)}</h4>
+                <p className="text-[11px] md:text-[14px] text-background/40 leading-relaxed">
                   {t(`docs.principles.p${i}_desc`)}
                 </p>
               </div>
@@ -282,8 +281,8 @@ const StackCard = ({ icon: Icon, title, desc, color }: { icon: any; title: strin
     <div className="mb-6 p-3 rounded-2xl bg-muted/40 w-fit group-hover:scale-105 transition-transform duration-500 border border-transparent group-hover:border-border/40">
       <Icon size={22} strokeWidth={1.5} className="text-foreground/80" />
     </div>
-    <h4 className="text-lg font-semibold text-foreground/90 mb-3 group-hover:text-foreground transition-colors">{title}</h4>
-    <p className="text-[14px] text-foreground/50 leading-relaxed font-normal">{desc}</p>
+    <h4 className="text-base font-semibold text-foreground/90 mb-3 group-hover:text-foreground transition-colors">{title}</h4>
+    <p className="text-[11px] md:text-[13px] text-foreground/50 leading-relaxed font-normal">{desc}</p>
   </div>
 );
 

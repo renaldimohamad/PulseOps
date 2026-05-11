@@ -115,10 +115,10 @@ export default function ServicesPage() {
                 <span className="pulse-dot-inner"></span>
                 <span className="pulse-dot-main bg-success"></span>
               </span>
-              <span className="status-text">{t('dashboard.activity.live')}</span>
+              <span className="text-[8px] md:text-[10px] font-bold uppercase tracking-widest text-success/70">{t('dashboard.activity.live')}</span>
             </div>
           </div>
-          <p className="text-[12px] md:text-16 font-medium text-foreground/50 leading-relaxed max-w-xl">
+          <p className="text-[11px] md:text-16 font-medium text-foreground/50 leading-relaxed max-w-xl">
             {t('services.subtitle')}
           </p>
         </div>
@@ -128,26 +128,29 @@ export default function ServicesPage() {
             <Button
               variant="outline"
               size="icon"
-              className="rounded-2xl h-12 w-12 hover:rotate-180 transition-transform duration-500 bg-card border-border text-muted-foreground hover:text-foreground active:scale-90"
+              className="rounded-2xl md:h-12 h-10 md:w-12 w-10 hover:rotate-180 transition-transform duration-500 bg-card border-border text-muted-foreground hover:text-foreground active:scale-90"
               onClick={handleRefresh}
             >
-              <RefreshCw size={20} />
+              <RefreshCw size={16} className="md:w-5 md:h-5" />
             </Button>
             <Button
               variant="outline"
               size="icon"
-              className="rounded-2xl h-12 w-12 relative bg-card border-border text-muted-foreground hover:text-foreground active:scale-90"
+              className="rounded-2xl md:h-12 h-10 md:w-12 w-10 relative bg-card border-border text-muted-foreground hover:text-foreground active:scale-90"
               onClick={handleNotification}
             >
-              <Bell size={20} />
+              <Bell size={16} className="md:w-5 md:h-5" />
               <span className="absolute top-3 right-3 h-2 w-2 rounded-full bg-brand-500 border-2 border-card shadow-[0_0_8px_rgba(14,145,233,0.5)]" />
             </Button>
           </div>
           <Button
             onClick={handleAdd}
-            className="flex-1 lg:flex-none h-12 px-6 rounded-2xl shadow-lg shadow-brand-500/20 bg-brand-600 text-white hover:bg-brand-700 font-bold uppercase tracking-widest text-xs active:scale-95 transition-all"
+            className="flex-1 lg:flex-none h-8 md:h-14 px-1.5 md:px-6 rounded-xl md:rounded-2xl shadow-lg shadow-brand-500/20 bg-brand-600 text-white hover:bg-brand-700 font-bold uppercase tracking-widest text-xs active:scale-95 transition-all"
           >
-            <Plus size={18} className="mr-2" /> {t('services.add_service')}
+            <Plus size={16} className="md:w-5 md:h-5 mr-2" />
+            <span className='text-[8px] md:text-base'>
+              {t('services.add_service')}
+            </span>
           </Button>
         </div>
       </div>

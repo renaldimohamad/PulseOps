@@ -58,7 +58,7 @@ const Badge = ({ className, status, variant = 'soft', children, ...props }: Badg
           <span className={cn('pulse-dot-main', dotStyles[status])} />
         </span>
       )}
-      <span className="translate-y-[0.5px]">
+      <span className="translate-y-[0.5px] text-[6px] md:text-[9px]">
         {children || (status ? statusLabels[status] : 'Unknown')}
       </span>
     </div>

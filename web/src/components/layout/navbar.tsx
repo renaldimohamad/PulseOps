@@ -81,12 +81,12 @@ export const Navbar = () => {
             <Link href="/" className="flex items-center gap-3 group">
               <div className="relative">
                 <div className="absolute inset-0 bg-brand-500/10 blur-xl rounded-full group-hover:bg-brand-500/20 transition-colors" />
-                <div className="relative flex h-9 w-9 lg:h-10 lg:w-10 items-center justify-center rounded-xl bg-brand-600 text-white shadow-lg shadow-brand-500/10 transition-transform group-hover:scale-105 active:scale-95">
-                  <Activity size={20} className="lg:w-[22px] lg:h-[22px]" strokeWidth={1.5} />
+                <div className="relative flex h-7 w-7 lg:h-10 lg:w-10 items-center justify-center rounded-xl bg-brand-600 text-white shadow-lg shadow-brand-500/10 transition-transform group-hover:scale-105 active:scale-95">
+                  <Activity size={20} className="w-[18px] h-[18px] lg:w-[22px] lg:h-[22px]" strokeWidth={1.5} />
                 </div>
               </div>
               <div className="flex flex-col">
-                <span className="text-base lg:text-[17px] font-semibold tracking-tight text-foreground/90 leading-none group-hover:text-foreground transition-colors">
+                <span className="text-[14px] lg:text-[17px] font-semibold tracking-tight text-foreground/90 leading-none group-hover:text-foreground transition-colors">
                   PulseOps
                 </span>
                 <span className="hidden xs:block text-[9px] font-semibold uppercase tracking-[0.15em] text-brand-600/80 mt-1">
@@ -158,14 +158,14 @@ export const Navbar = () => {
             <div className="hidden lg:flex items-center gap-1 relative user-menu-container">
               <button
                 onClick={() => setLocale(locale === 'en' ? 'id' : 'en')}
-                className="flex h-9 w-10 items-center justify-center text-[10px] font-bold text-muted-foreground/70 hover:bg-muted/40 hover:text-foreground transition-all active:scale-95 rounded-lg"
+                className="cursor-pointer flex h-9 w-10 items-center justify-center text-[10px] font-bold text-muted-foreground/70 hover:bg-muted/40 hover:text-foreground transition-all active:scale-95 rounded-lg"
               >
                 {locale.toUpperCase()}
               </button>
 
               <button
                 onClick={toggleTheme}
-                className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground/70 hover:bg-muted/40 hover:text-foreground transition-all active:scale-95"
+                className="cursor-pointer flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground/70 hover:bg-muted/40 hover:text-foreground transition-all active:scale-95"
               >
                 {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
               </button>
@@ -173,7 +173,7 @@ export const Navbar = () => {
               <button
                 onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
                 className={cn(
-                  "group flex items-center gap-2 rounded-lg border p-1 transition-all active:scale-95",
+                  "cursor-pointer group flex items-center gap-2 rounded-lg border p-1 transition-all active:scale-95",
                   isUserMenuOpen ? "border-brand-500/50 bg-brand-500/5" : "border-border/60 bg-muted/30 hover:border-brand-500/30"
                 )}
               >
@@ -249,11 +249,11 @@ export const Navbar = () => {
 
             {/* Mobile Toggle */}
             <button
-              className="lg:hidden flex h-10 w-10 items-center justify-center rounded-xl bg-muted/40 text-foreground/80 active:scale-90 transition-transform"
+              className="cursor-pointer lg:hidden flex md:h-10 md:w-10items-center justify-center rounded-xl bg-muted/40 text-foreground/80 active:scale-90 transition-transform"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               aria-label="Toggle Menu"
             >
-              {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+              {isMobileMenuOpen ? <X className='w-4 h-4 md:w-6 md:h-6' /> : <Menu className='w-4 h-4 md:w-6 md:h-6' />}
             </button>
           </div>
         </div>
@@ -286,13 +286,19 @@ export const Navbar = () => {
                     href={item.href}
                     onClick={() => setIsMobileMenuOpen(false)}
                     className={cn(
-                      "flex items-center gap-4 px-5 py-3.5 rounded-2xl text-[11px] font-semibold uppercase tracking-widest transition-all active:scale-[0.98]",
+                      "flex items-center gap-4 px-5 py-3.5 rounded-2xl text-[8px] md:text-[11px] font-semibold uppercase tracking-widest transition-all active:scale-[0.98]",
                       pathname === item.href
                         ? "bg-brand-500/5 text-brand-600 border border-brand-500/10"
                         : "text-muted-foreground/70 hover:bg-muted/40 border border-transparent"
                     )}
                   >
-                    {item.href === '/' ? <Monitor size={16} /> : <Activity size={16} />}
+                    {item.href === '/' ? (
+                      <Monitor className="w-3 h-3 md:w-4 md:h-4" />
+                    ) : item.href === '/services' ? (
+                      <Activity className="w-3 h-3 md:w-4 md:h-4" />
+                    ) : (
+                      <FileText className="w-3 h-3 md:w-4 md:h-4" />
+                    )}
                     {item.label}
                   </Link>
                 ))}
@@ -303,9 +309,9 @@ export const Navbar = () => {
                       setLocale(locale === 'en' ? 'id' : 'en');
                       setIsMobileMenuOpen(false);
                     }}
-                    className="flex h-11 px-5 items-center justify-center gap-3 rounded-2xl text-[10px] font-bold uppercase tracking-widest text-muted-foreground/60 bg-muted/30 hover:bg-muted/50 active:scale-95 transition-all"
+                    className="cursor-pointer flex h-11 px-5 items-center justify-center gap-3 rounded-2xl text-[8px] md:text-[10px] font-bold uppercase tracking-widest text-muted-foreground/60 bg-muted/30 hover:bg-muted/50 active:scale-95 transition-all"
                   >
-                    <Languages size={14} />
+                    <Languages className='w-3 h-3 md:w-4 md:h-4' />
                     {locale.toUpperCase()}
                   </button>
                   <button
@@ -313,9 +319,9 @@ export const Navbar = () => {
                       toggleTheme();
                       setIsMobileMenuOpen(false);
                     }}
-                    className="flex h-11 w-full items-center justify-center gap-3 rounded-2xl text-[10px] font-bold uppercase tracking-widest text-muted-foreground/60 bg-muted/30 hover:bg-muted/50 active:scale-95 transition-all"
+                    className="flex h-11 w-full items-center justify-center gap-3 rounded-2xl text-[8px] md:text-[10px] font-bold uppercase tracking-widest text-muted-foreground/60 bg-muted/30 hover:bg-muted/50 active:scale-95 transition-all"
                   >
-                    {theme === 'dark' ? <Sun size={14} /> : <Moon size={14} />}
+                    {theme === 'dark' ? <Sun className='w-3 h-3 md:w-4 md:h-4' /> : <Moon className='w-3 h-3 md:w-4 md:h-4' />}
                     {theme.toUpperCase()}
                   </button>
                 </div>
@@ -325,18 +331,18 @@ export const Navbar = () => {
                     href="https://github.com/renaldimohamad/PulseOps"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex h-11 px-5 items-center gap-3 rounded-2xl text-[10px] font-bold uppercase tracking-widest text-muted-foreground/60 bg-muted/20 hover:bg-muted/40 active:scale-95 transition-all border border-transparent"
+                    className="flex h-11 px-5 items-center gap-3 rounded-2xl text-[8px] md:text-[10px] font-bold uppercase tracking-widest text-muted-foreground/60 bg-muted/20 hover:bg-muted/40 active:scale-95 transition-all border border-transparent"
                   >
-                    <GithubIcon size={14} />
+                    <GithubIcon className='w-3 h-3 md:w-4 md:h-4' />
                     {t('common.view_repository')}
                   </a>
-                  <a
+                  {/* <a
                     href="#"
                     className="flex h-11 px-5 items-center gap-3 rounded-2xl text-[10px] font-bold uppercase tracking-widest text-muted-foreground/60 bg-muted/20 hover:bg-muted/40 active:scale-95 transition-all border border-transparent"
                   >
                     <FileText size={14} />
                     {t('common.docs')}
-                  </a>
+                  </a> */}
                 </div>
               </div>
             </motion.div>

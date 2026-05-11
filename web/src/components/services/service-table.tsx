@@ -71,27 +71,27 @@ export const ServiceTable = ({ services, onEdit, onDelete, isLoading, onAdd }: S
                     <Activity size={18} />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-foreground/90 leading-tight mb-0.5">{service.name}</h4>
-                    <span className="font-mono text-[10px] text-muted-foreground/70 truncate max-w-[150px] block">{service.url}</span>
+                    <h4 className="text-[10px] md:text-base font-semibold text-foreground/90 leading-tight mb-0.5">{service.name}</h4>
+                    <span className="font-mono text-[8px] md:text-sm text-muted-foreground/70 truncate max-w-[150px] block">{service.url}</span>
                   </div>
                 </div>
                 <Badge status={service.status} />
               </div>
 
-              <div className="grid grid-cols-2 gap-y-5 gap-x-4 py-4 border-y border-border/30">
+              <div className="grid grid-cols-2 gap-y-6 gap-x-4 py-4 border-y border-border/30">
                 <div className="space-y-1">
-                  <span className="caption block opacity-60 uppercase text-[9px] font-bold tracking-tighter">{t('services.table.response_health')}</span>
+                  <span className="caption block opacity-60 uppercase text-[8px] md:text-xs font-bold tracking-tighter">{t('services.table.response_health')}</span>
                   <div className="flex flex-col">
                     <span className="font-mono text-[12px] font-bold text-foreground/80">
                       {service.rawStatus || '---'}
                     </span>
-                    <span className="text-[9px] font-bold text-muted-foreground/60 uppercase tracking-tighter">
+                    <span className="text-[6px] md:text-[9px] font-bold text-muted-foreground/60 uppercase tracking-tighter">
                       {service.rawStatus === 200 ? t('common.operational') : t('services.table.issue_detected')}
                     </span>
                   </div>
                 </div>
                 <div className="space-y-1">
-                  <span className="caption block opacity-60 uppercase text-[9px] font-bold tracking-tighter">{t('services.table.network_latency')}</span>
+                  <span className="caption block opacity-60 uppercase text-[8px] md:text-[9px] font-bold tracking-tighter">{t('services.table.network_latency')}</span>
                   <div className="flex items-center gap-2">
                     <div className={cn(
                       "h-1.5 w-1.5 rounded-full",
@@ -99,18 +99,18 @@ export const ServiceTable = ({ services, onEdit, onDelete, isLoading, onAdd }: S
                         service.latency && service.latency < 500 ? "bg-success/60" :
                           service.latency && service.latency < 800 ? "bg-warning" : "bg-danger animate-pulse"
                     )} />
-                    <span className="metric-text text-sm font-bold">
+                    <span className="metric-text text-[10px] md:text-sm font-bold">
                       {service.latency ? `${service.latency}ms` : '-'}
                     </span>
                   </div>
-                  <span className="text-[9px] font-bold text-muted-foreground/40 uppercase tracking-tighter block">
+                  <span className="text-[6px] md:text-[9px] font-bold text-muted-foreground/40 uppercase tracking-tighter block">
                     {service.latency ? (service.latency < 200 ? t('common.excellent') : service.latency < 500 ? t('common.healthy') : service.latency < 800 ? t('common.degraded') : t('common.critical')) : t('common.no_data')}
                   </span>
                 </div>
                 <div className="space-y-1 col-span-2">
-                  <span className="caption block opacity-60 uppercase text-[9px] font-bold tracking-tighter">{t('services.table.last_sync')}</span>
+                  <span className="caption block opacity-60 uppercase text-[8px] md:text-[9px] font-bold tracking-tighter">{t('services.table.last_sync')}</span>
                   <div className="flex items-center justify-between">
-                    <span className="text-[11px] font-bold text-foreground/60">
+                    <span className="text-[9px] md:text-[11px] font-bold text-foreground/60">
                       {service.lastChecked ? formatDistanceToNow(new Date(service.lastChecked), { addSuffix: true }) : t('common.never')}
                     </span>
                   </div>
@@ -118,22 +118,22 @@ export const ServiceTable = ({ services, onEdit, onDelete, isLoading, onAdd }: S
               </div>
 
               <div className="flex items-center justify-between mt-4">
-                <span className="inline-flex items-center rounded-md bg-muted/40 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground border border-border/40">
+                <span className="inline-flex items-center rounded-md bg-muted/40 px-2 py-0.5 text-[8px] md:text-[10px] font-semibold uppercase tracking-wider text-muted-foreground border border-border/40">
                   {service.category}
                 </span>
                 <div className="flex gap-2">
                   <Button
                     variant="ghost"
                     size="icon"
-                    className="h-9 w-9 rounded-lg bg-muted/20 text-muted-foreground active:scale-95"
+                    className="h-8 w-8 md:h-9 md:w-9 rounded-lg bg-muted/20 text-muted-foreground active:scale-95"
                     onClick={() => onEdit(service)}
                   >
-                    <Edit2 size={16} />
+                    <Edit2 size={14} />
                   </Button>
                   <Button
                     variant="ghost"
                     size="icon"
-                    className="h-9 w-9 rounded-lg bg-danger/5 text-danger/70 hover:text-danger active:scale-95"
+                    className="h-8 w-8 md:h-9 md:w-9 rounded-lg bg-danger/5 text-danger/70 hover:text-danger active:scale-95"
                     onClick={() => onDelete(service.id)}
                   >
                     <Trash2 size={16} />
