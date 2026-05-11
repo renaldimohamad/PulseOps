@@ -145,10 +145,10 @@ export default function ServicesPage() {
           </div>
           <Button
             onClick={handleAdd}
-            className="flex-1 lg:flex-none h-8 md:h-14 px-1.5 md:px-6 rounded-xl md:rounded-2xl shadow-lg shadow-brand-500/20 bg-brand-600 text-white hover:bg-brand-700 font-bold uppercase tracking-widest text-xs active:scale-95 transition-all"
+            className="flex-1 lg:flex-none h-8 md:h-12 px-1.5 md:px-6 rounded-xl md:rounded-2xl shadow-lg shadow-brand-500/20 bg-brand-600 text-white hover:bg-brand-700 font-bold uppercase tracking-widest text-xs active:scale-95 transition-all"
           >
             <Plus size={16} className="md:w-5 md:h-5 mr-2" />
-            <span className='text-[8px] md:text-base'>
+            <span className='text-[8px] md:text-[10px]'>
               {t('services.add_service')}
             </span>
           </Button>

@@ -53,7 +53,7 @@ export const Modal = ({ isOpen, onClose, title, children }: ModalProps) => {
       >
         <div className="flex items-center justify-between border-b border-border px-6 md:px-8 py-5 md:py-6 shrink-0">
           <div>
-            <h3 className="text-lg md:text-xl font-black text-foreground tracking-tight uppercase">{title}</h3>
+            <h3 className="text-[10px] md:text-[13px] font-black text-foreground tracking-tight uppercase">{title}</h3>
           </div>
           <Button
             variant="ghost"
@@ -61,7 +61,7 @@ export const Modal = ({ isOpen, onClose, title, children }: ModalProps) => {
             onClick={onClose}
             className="h-10 w-10 md:h-9 md:w-9 rounded-full text-muted-foreground hover:text-foreground hover:bg-muted transition-all active:scale-90"
           >
-            <X size={20} />
+            <X size={20} className='w-4 h-4 md:w-5 md:h-5' />
           </Button>
         </div>
         <div className="px-6 md:px-8 py-6 md:py-8 text-foreground overflow-y-auto">
