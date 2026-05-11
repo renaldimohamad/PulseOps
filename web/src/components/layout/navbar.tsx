@@ -173,11 +173,11 @@ export const Navbar = () => {
               <button
                 onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
                 className={cn(
-                  "cursor-pointer group flex items-center gap-2 rounded-lg border p-1 transition-all active:scale-95",
+                  "group flex items-center gap-2 rounded-lg border p-1 transition-all active:scale-95",
                   isUserMenuOpen ? "border-brand-500/50 bg-brand-500/5" : "border-border/60 bg-muted/30 hover:border-brand-500/30"
                 )}
               >
-                <div className="h-7 w-7 rounded-md bg-gradient-to-tr from-brand-600/80 to-brand-400/80 flex items-center justify-center font-mono text-[10px] text-white shadow-sm ring-1 ring-white/10">
+                <div className="cursor-pointer h-7 w-7 rounded-md bg-gradient-to-tr from-brand-600/80 to-brand-400/80 flex items-center justify-center font-mono text-[10px] text-white shadow-sm ring-1 ring-white/10">
                   RM
                 </div>
                 <ChevronDown size={12} className={cn("text-muted-foreground/60 transition-transform duration-300 pr-0.5", isUserMenuOpen && "rotate-180 text-brand-600")} />
