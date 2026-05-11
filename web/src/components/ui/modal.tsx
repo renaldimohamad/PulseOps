@@ -21,7 +21,9 @@ export const Modal = ({ isOpen, onClose, title, children }: ModalProps) => {
       setMounted(true);
       document.body.style.overflow = 'hidden';
     } else {
-      const timer = setTimeout(() => setMounted(false), 300);
+      const timer = setTimeout(() => {
+        setMounted(false);
+      }, 300);
       document.body.style.overflow = 'unset';
       return () => clearTimeout(timer);
     }
@@ -32,26 +34,38 @@ export const Modal = ({ isOpen, onClose, title, children }: ModalProps) => {
   return (
     <div
       className={cn(
-        "fixed inset-0 z-[100] flex items-end md:items-center justify-center transition-all duration-300 ease-out",
+        "fixed inset-0 z-[100] flex items-end md:items-center justify-center transition-opacity duration-300",
         isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
       )}
     >
+      {/* Backdrop */}
       <div
         className={cn(
           "fixed inset-0 bg-background/80 backdrop-blur-md transition-opacity duration-300",
           isOpen ? "opacity-100" : "opacity-0"
         )}
-        onClick={onClose}
+        onClick={(e) => {
+          e.stopPropagation();
+          onClose();
+        }}
       />
+      
+      {/* Modal Content */}
       <div
+        onClick={(e) => e.stopPropagation()}
         className={cn(
-          "relative w-full md:max-w-lg overflow-hidden rounded-t-[2.5rem] md:rounded-[2.5rem] bg-card border-x border-t md:border border-border shadow-2xl transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] max-h-[95dvh] md:max-h-[90dvh] flex flex-col",
+          "relative w-full md:max-w-lg overflow-hidden rounded-t-[2.5rem] md:rounded-[2.5rem] bg-card border-x border-t md:border border-border shadow-2xl transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] max-h-[95dvh] md:max-h-[90dvh] flex flex-col",
           isOpen
             ? "translate-y-0 md:scale-100 md:translate-y-0"
-            : "translate-y-full md:scale-95 md:translate-y-4"
+            : "translate-y-full md:scale-95 md:translate-y-8"
         )}
       >
-        <div className="flex items-center justify-between border-b border-border px-6 md:px-8 py-5 md:py-6 shrink-0">
+        {/* Mobile Drag Handle */}
+        <div className="md:hidden flex justify-center pt-3 pb-1">
+          <div className="w-10 h-1.5 rounded-full bg-muted-foreground/20" />
+        </div>
+
+        <div className="flex items-center justify-between border-b border-border px-6 md:px-8 py-4 md:py-6 shrink-0">
           <div>
             <h3 className="text-[10px] md:text-[13px] font-black text-foreground tracking-tight uppercase">{title}</h3>
           </div>
@@ -59,12 +73,13 @@ export const Modal = ({ isOpen, onClose, title, children }: ModalProps) => {
             variant="ghost"
             size="icon"
             onClick={onClose}
-            className="h-10 w-10 md:h-9 md:w-9 rounded-full text-muted-foreground hover:text-foreground hover:bg-muted transition-all active:scale-90"
+            className="h-9 w-9 rounded-full text-muted-foreground hover:text-foreground hover:bg-muted transition-all active:scale-90"
           >
-            <X size={20} className='w-4 h-4 md:w-5 md:h-5' />
+            <X size={18} className="md:w-5 md:h-5" />
           </Button>
         </div>
-        <div className="px-6 md:px-8 py-6 md:py-8 text-foreground overflow-y-auto">
+        
+        <div className="px-6 md:px-8 py-6 md:py-8 text-foreground overflow-y-auto overscroll-contain">
           {children}
         </div>
       </div>
