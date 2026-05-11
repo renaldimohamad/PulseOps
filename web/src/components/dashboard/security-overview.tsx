@@ -40,11 +40,11 @@ export const SecurityOverview = () => {
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <div className="space-y-1">
-            <h3 className="text-lg font-semibold text-foreground flex items-center gap-2">
-              <ShieldCheck className="text-brand-500" size={20} />
+            <h3 className="text-md md:text-lg font-semibold text-foreground flex items-center gap-2">
+              <ShieldCheck className="text-brand-500 md:w-6 md:h-6 w-4 h-4" size={20} />
               {t('dashboard.security.title')}
             </h3>
-            <p className="text-xs text-muted-foreground font-medium uppercase tracking-wider">
+            <p className="text-[7px] md:text-[9px] text-muted-foreground font-medium uppercase tracking-wider">
               {t('dashboard.security.threat_intel')}
             </p>
           </div>
@@ -54,7 +54,7 @@ export const SecurityOverview = () => {
               transition={{ duration: 1.5, repeat: Infinity }}
               className="h-1.5 w-1.5 rounded-full bg-brand-500"
             />
-            <span className="text-[10px] font-bold text-brand-500 uppercase tracking-widest">{t('dashboard.security.scanning')}</span>
+            <span className="text-[8px] md:text-[10px] font-bold text-brand-500 uppercase tracking-widest">{t('dashboard.security.scanning')}</span>
           </div>
         </div>
 
@@ -92,8 +92,8 @@ export const SecurityOverview = () => {
                   <span className="text-[8px] font-bold uppercase text-muted-foreground">{t('dashboard.security.threats')}</span>
                 </div>
               </div>
-              <div className="space-y-1">
-                <p className="text-xs font-bold text-foreground uppercase tracking-widest">{t('dashboard.security.status_protected')}</p>
+              <div className="space-y-4">
+                <p className="text-[8px] md:text-[8px] font-bold text-foreground uppercase tracking-widest">{t('dashboard.security.status_protected')}</p>
                 <div className="flex justify-center gap-1">
                   {[1, 2, 3, 4, 5].map(i => (
                     <div key={i} className={cn("h-1 w-4 rounded-full", i <= 4 ? "bg-success" : "bg-muted")} />
@@ -116,9 +116,9 @@ export const SecurityOverview = () => {
                   <div className={cn("p-1.5 rounded-lg bg-background shadow-sm", m.color)}>
                     <m.icon size={14} />
                   </div>
-                  <span className="text-[10px] font-bold text-muted-foreground uppercase">{m.label}</span>
+                  <span className="text-[8px] md:text-[10px] font-bold text-muted-foreground uppercase">{m.label}</span>
                 </div>
-                <div className="text-xl font-mono font-bold text-foreground">
+                <div className="text-[12px] md:text-xl font-mono font-bold text-foreground">
                   {m.value}
                 </div>
               </div>
@@ -142,10 +142,12 @@ export const SecurityOverview = () => {
         {/* Footer Hint */}
         <div className="mt-8 pt-4 border-t border-border/20 flex items-center justify-between">
           <div className="flex items-center gap-2 text-[10px] font-bold text-muted-foreground/60 uppercase">
-            <AlertTriangle size={12} className="text-warning" />
-            {t('dashboard.security.alerts_24h', { count: 0 })}
+            <AlertTriangle className="text-warning w-4 h-4" />
+            <span className="md:text-[10px] text-[8px]">
+              {t('dashboard.security.alerts_24h', { count: 0 })}
+            </span>
           </div>
-          <button className="text-[10px] font-bold text-brand-500 uppercase tracking-widest hover:underline">
+          <button className="md:text-[10px] text-[6px] font-bold text-brand-500 uppercase tracking-widest hover:underline text-center">
             {t('dashboard.security.security_dashboard')} &rarr;
           </button>
         </div>

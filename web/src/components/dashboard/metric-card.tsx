@@ -39,7 +39,7 @@ const Counter = ({ value }: { value: number | string }) => {
       if (!startTime) startTime = currentTime;
       const progress = Math.min((currentTime - startTime) / duration, 1);
       const current = Math.round(start + progress * (end - start));
-      
+
       setDisplayValue(current);
 
       if (progress < 1) {
@@ -51,7 +51,7 @@ const Counter = ({ value }: { value: number | string }) => {
     prevValue.current = value;
   }, [value]);
 
-  return <>{displayValue}</>;
+  return <span className="text-[13px] md:text-[20px]">{displayValue}</span>;
 };
 
 export const MetricCard = ({ title, value, suffix, icon: Icon, color, trend, description, statusIndicator, loading }: MetricCardProps) => {
@@ -74,14 +74,14 @@ export const MetricCard = ({ title, value, suffix, icon: Icon, color, trend, des
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-3">
               <div className={cn(
-                "p-2.5 rounded-xl transition-all duration-300 border border-transparent",
+                "p-1.5 md:p-2.5 rounded-xl transition-all duration-300 border border-transparent",
                 color.includes('brand') ? "bg-brand-500/5 text-brand-500 group-hover:border-brand-500/20 group-hover:bg-brand-500/10" :
                   color.includes('success') ? "bg-success/5 text-success/80 group-hover:border-success/20 group-hover:bg-success/10" :
                     color.includes('danger') ? "bg-danger/5 text-danger/80 group-hover:border-danger/20 group-hover:bg-danger/10" : "bg-muted/40 text-muted-foreground"
               )}>
-                <Icon size={18} className="md:w-[20px] md:h-[20px]" strokeWidth={1.5} />
+                <Icon size={18} className="w-[14px] h-[14px] md:w-[20px] md:h-[20px]" strokeWidth={1.5} />
               </div>
-              <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-muted-foreground/80">
+              <span className="text-[7px] md:text-[11px] font-semibold uppercase tracking-[0.1em] text-muted-foreground/80">
                 {title}
               </span>
             </div>
@@ -118,12 +118,12 @@ export const MetricCard = ({ title, value, suffix, icon: Icon, color, trend, des
                 )}
                 <Counter value={value} />
               </span>
-              <span className="text-[12px] font-medium text-foreground/40 lowercase mb-1">
+              <span className="text-[10px] md:text-[12px] font-medium text-foreground/40 lowercase mb-1">
                 {suffix || t('common.services')}
               </span>
             </div>
             {description && (
-              <p className="text-[10px] font-medium text-muted-foreground/60 tracking-wide mt-1">
+              <p className="text-[8px] md:text-[10px] font-medium text-muted-foreground/60 tracking-wide mt-1">
                 {description}
               </p>
             )}

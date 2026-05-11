@@ -104,12 +104,12 @@ export default function Dashboard() {
               {t('dashboard.title')}
             </p>
             <div className="flex items-center gap-2">
-              <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-success/10 border border-success/20 shadow-[0_0_15px_rgba(16,185,129,0.05)]">
+              <div className="flex items-center gap-1.5 px-2 md:px-3 py-1 md:py-1.5 rounded-full bg-success/10 border border-success/20 shadow-[0_0_15px_rgba(16,185,129,0.05)]">
                 <span className="pulse-dot">
                   <span className="pulse-dot-inner"></span>
                   <span className="pulse-dot-main bg-success/80"></span>
                 </span>
-                <span className="text-[10px] font-bold uppercase tracking-widest text-success/70">{t('dashboard.activity.live')}</span>
+                <span className="text-[8px] md:text-[10px] font-bold uppercase tracking-widest text-success/70">{t('dashboard.activity.live')}</span>
               </div>
               <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-brand-500/10 border border-brand-500/20">
                 <div className="h-1 w-1 rounded-full bg-brand-500 animate-pulse" />
@@ -117,7 +117,7 @@ export default function Dashboard() {
               </div>
             </div>
           </div>
-          <p className="text-[12px] md:text-16 font-medium text-foreground/50 leading-relaxed max-w-xl">
+          <p className="text-[11px] md:text-[12px] md:text-16 font-normal md:font-medium text-foreground/50 leading-relaxed max-w-xl">
             {t('dashboard.subtitle')}
             <span className="hidden sm:inline"> {t('dashboard.tracking', { count: stats.total })}</span>
           </p>
@@ -125,9 +125,9 @@ export default function Dashboard() {
 
         <div className="flex items-center gap-2 md:gap-4 bg-muted/20 backdrop-blur-md p-1.5 md:p-2 rounded-2xl border border-border/40 w-full lg:w-auto overflow-x-auto scrollbar-hide">
           <div className="flex-1 lg:flex-none px-4 py-2.5 border-r border-border/40 min-w-[140px]">
-            <div className="text-[9px] font-bold uppercase tracking-widest text-muted-foreground/60 mb-1.5">{t('dashboard.system_health')}</div>
+            <div className="text-[7px] md:text-[9px] font-bold uppercase tracking-widest text-muted-foreground/60 mb-1.5">{t('dashboard.system_health')}</div>
             <div className="flex items-center gap-2.5">
-              <div className="font-mono text-xl md:text-2xl font-semibold text-foreground/90">{healthScore}%</div>
+              <div className="font-mono text-xs md:text-2xl font-semibold text-foreground/90">{healthScore}%</div>
               <div className="h-1.5 w-12 rounded-full overflow-hidden bg-muted/40">
                 <motion.div
                   initial={{ width: 0 }}
@@ -141,9 +141,12 @@ export default function Dashboard() {
             </div>
           </div>
           <div className="flex-1 lg:flex-none px-4 py-2.5 min-w-[140px]">
-            <div className="text-[9px] font-bold uppercase tracking-widest text-muted-foreground/60 mb-1.5">{t('dashboard.active_clusters')}</div>
-            <div className="font-mono text-xl md:text-2xl font-semibold text-brand-600/80 flex items-center gap-2.5">
-              <Server size={18} className="opacity-60" /> 04
+            <div className="text-[7px] md:text-[9px] font-bold uppercase tracking-widest text-muted-foreground/60 mb-1.5">{t('dashboard.active_clusters')}</div>
+            <div className="font-mono text-lg md:text-2xl font-semibold text-brand-600/80 flex items-center gap-2.5">
+              <Server className="opacity-60 w-3 md:w-5 h-3 md:h-5" />
+              <span className="font-mono text-xs md:text-2xl font-semibold text-foreground/90">
+                04
+              </span>
             </div>
           </div>
         </div>
@@ -194,18 +197,18 @@ export default function Dashboard() {
       <div className="flex flex-wrap items-center gap-x-8 gap-y-3 px-6 py-3 rounded-2xl border border-border/40 bg-muted/10 backdrop-blur-md">
         <div className="flex items-center gap-2">
           <div className="h-1.5 w-1.5 rounded-full bg-success animate-pulse" />
-          <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground/70">{t('dashboard.operational_context.monitoring_active')}</span>
+          <span className="text-[6px] md:text-[10px] font-bold uppercase tracking-widest text-muted-foreground/70">{t('dashboard.operational_context.monitoring_active')}</span>
         </div>
         <div className="flex items-center gap-2">
           <div className="h-1.5 w-1.5 rounded-full bg-brand-500" />
-          <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground/70">{t('dashboard.operational_context.socket_connected')}</span>
+          <span className="text-[6px] md:text-[10px] font-bold uppercase tracking-widest text-muted-foreground/70">{t('dashboard.operational_context.socket_connected')}</span>
         </div>
         <div className="flex items-center gap-2">
-          <Clock size={12} className="text-muted-foreground/40" />
-          <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground/70">{t('dashboard.operational_context.sync_now')}</span>
+          <Clock className="text-muted-foreground/40  md:w-4 md:h-4 w-1.5 h-1.5" />
+          <span className="text-[6px] md:text-[10px] font-bold uppercase tracking-widest text-muted-foreground/70">{t('dashboard.operational_context.sync_now')}</span>
         </div>
         <div className="ml-auto hidden md:flex items-center gap-2">
-          <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-foreground/30 italic">{t('dashboard.operational_context.version')}</span>
+          <span className="text-[6px] md:text-[10px] font-bold uppercase tracking-[0.2em] text-foreground/30 italic">{t('dashboard.operational_context.version')}</span>
         </div>
       </div>
       {/* Main Dashboard Section */}

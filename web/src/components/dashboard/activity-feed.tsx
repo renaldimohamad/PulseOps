@@ -28,7 +28,7 @@ export const ActivityFeed = ({ events }: ActivityFeedProps) => {
     <Card className="border border-border/40 shadow-sm bg-card/40 backdrop-blur-xl overflow-hidden h-full flex flex-col">
       <CardHeader className="p-4 md:px-6 md:py-5 border-b border-border/30 bg-muted/20">
         <div className="flex items-center justify-between">
-          <CardTitle className="text-[11px] font-semibold uppercase tracking-widest text-muted-foreground/80 flex items-center gap-2.5">
+          <CardTitle className="text-[8px] md:text-[11px] font-semibold uppercase tracking-widest text-muted-foreground/80 flex items-center gap-2.5">
             <Activity size={14} className="text-brand-500/80" />
             {t('dashboard.activity.title')}
           </CardTitle>
@@ -37,7 +37,7 @@ export const ActivityFeed = ({ events }: ActivityFeedProps) => {
               <span className="pulse-dot-inner"></span>
               <span className="pulse-dot-main bg-brand-500/80"></span>
             </span>
-            <span className="text-[9px] font-bold uppercase tracking-wider text-brand-600/80">{t('dashboard.activity.live')}</span>
+            <span className="text-[8px] md:text-[9px] font-bold uppercase tracking-wider text-brand-600/80">{t('dashboard.activity.live')}</span>
           </div>
         </div>
       </CardHeader>
@@ -46,7 +46,7 @@ export const ActivityFeed = ({ events }: ActivityFeedProps) => {
           <div className="flex flex-col">
             <AnimatePresence initial={false}>
               {events.length === 0 ? (
-                <div className="p-12 text-center text-[11px] font-medium uppercase tracking-widest text-muted-foreground/40">
+                <div className="p-12 text-center text-[8px] md:text-[11px] font-medium uppercase tracking-widest text-muted-foreground/40">
                   {t('dashboard.activity.empty')}
                 </div>
               ) : (
