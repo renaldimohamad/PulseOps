@@ -20,14 +20,22 @@ export const Modal = ({ isOpen, onClose, title, children }: ModalProps) => {
     if (isOpen) {
       setMounted(true);
       document.body.style.overflow = 'hidden';
+      // Use a small delay to ensure the modal is in the DOM before animating
     } else {
       const timer = setTimeout(() => {
         setMounted(false);
-      }, 300);
-      document.body.style.overflow = 'unset';
+        document.body.style.overflow = 'unset';
+      }, 300); // Match transition duration
       return () => clearTimeout(timer);
     }
   }, [isOpen]);
+
+  // Clean up on unmount just in case
+  useEffect(() => {
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, []);
 
   if (!mounted && !isOpen) return null;
 
@@ -54,7 +62,7 @@ export const Modal = ({ isOpen, onClose, title, children }: ModalProps) => {
       <div
         onClick={(e) => e.stopPropagation()}
         className={cn(
-          "relative w-full md:max-w-lg overflow-hidden rounded-t-[2.5rem] md:rounded-[2.5rem] bg-card border-x border-t md:border border-border shadow-2xl transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] max-h-[95dvh] md:max-h-[90dvh] flex flex-col",
+          "relative w-full md:max-w-lg overflow-hidden rounded-t-[2rem] md:rounded-[2.5rem] bg-card border-x border-t md:border border-border shadow-2xl transition-all duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] max-h-[95dvh] md:max-h-[90dvh] flex flex-col",
           isOpen
             ? "translate-y-0 md:scale-100 md:translate-y-0"
             : "translate-y-full md:scale-95 md:translate-y-8"
