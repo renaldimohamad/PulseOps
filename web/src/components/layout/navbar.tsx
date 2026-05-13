@@ -90,7 +90,7 @@ export const Navbar = () => {
                   PulseOps
                 </span>
                 <span className="hidden xs:block text-[9px] font-semibold uppercase tracking-[0.15em] text-brand-600/80 mt-1">
-                  Control Center
+                  {t('common.control_center')}
                 </span>
               </div>
             </Link>
@@ -148,7 +148,7 @@ export const Navbar = () => {
                   mounted && isConnected ? "bg-brand-500/60 animate-pulse" : "bg-danger/60"
                 )} />
                 <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/60">
-                  {!mounted ? 'Syncing' : isConnected ? 'Connected' : 'Offline'}
+                  {!mounted ? t('common.syncing') : isConnected ? t('common.connected') : t('common.offline')}
                 </span>
               </div>
             </div>

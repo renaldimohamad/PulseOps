@@ -39,7 +39,10 @@
     "is_back_online": "{name} kembali online.",
     "service_recovered": "Layanan pulih dan sekarang online.",
     "service_unresponsive": "Layanan tidak responsif dan melaporkan kesalahan.",
-    "status_changed": "Status layanan berubah."
+    "status_changed": "Status layanan berubah.",
+    "unknown_service": "Layanan Tidak Diketahui",
+    "control_center": "Pusat Kontrol",
+    "poor": "Buruk"
   },
   "docs": {
     "title": "Dokumentasi",
@@ -138,27 +141,96 @@
       "operational_desc": "{count} layanan melaporkan status sehat",
       "critical_desc": "{count} titik akhir saat ini tidak dapat dijangkau",
       "no_disruption": "Tidak ada gangguan layanan terdeteksi",
-      "latency_desc": "Dihitung dari layanan sehat yang aktif saja"
+      "latency_desc": "Dihitung dari layanan sehat yang aktif saja",
+      "insight_reachable": "Semua titik akhir infrastruktur yang dipantau saat ini dapat dijangkau dan berfungsi dalam ambang batas operasional.",
+      "insight_degraded": "{count} titik akhir memberikan respons dengan status HTTP yang menurun. Keterjangkauan infrastruktur tetap terjaga."
     },
     "security": {
-      "title": "Intelijen Keamanan",
-      "subtitle": "Pemantauan firewall aktif dan telemetri deteksi ancaman real-time.",
-      "telemetry_hint": "Log firewall real-time sedang diproses.",
-      "threat_intel": "Intelijen Ancaman Realtime",
-      "scanning": "Memindai",
-      "threats": "Ancaman",
-      "status_protected": "Status: Terlindungi",
-      "live_logs": "Log Firewall Langsung",
-      "log_established": "Koneksi dibuat dari",
-      "log_rule_applied": "ID Aturan: 403-BLOCK diterapkan pada muatan mencurigakan",
-      "log_mitigated": "Ancaman dimitigasi: deteksi CVE-2024-XXXX",
-      "alerts_24h": "{count} Peringatan Keparahan Tinggi dalam 24 jam terakhir",
-      "security_dashboard": "Dashboard Keamanan"
+      "alerts_24h": "{count} peristiwa degradasi terdeteksi dalam 24 jam",
+      "security_dashboard": "Lihat Analitik",
+      "intelligence": "Intelijen Infrastruktur",
+      "fleet_engine": "Mesin Observabilitas Seluruh Armada",
+      "responsiveness": "Responsivitas",
+      "score": "Skor",
+      "latency_spread": "Rentang Latensi",
+      "risks_title": "Risiko Performa Kritis",
+      "risks_action": "Tindakan Diperlukan",
+      "best_performers_title": "Layanan dengan Performa Terbaik",
+      "best_performers_optimized": "Teroptimasi",
+      "insufficient_data_title": "Intelijen Kontekstual Tertunda",
+      "insufficient_data_desc": "Peringkat performa komparatif memerlukan armada multi-node (minimal 2 layanan) untuk menghasilkan wawasan operasional yang bermakna.",
+      "telemetry_hint": "Pemberian Skor Performa Armada"
     },
     "activity": {
       "title": "Aktivitas Terbaru",
       "live": "Langsung",
       "empty": "Menunggu peristiwa sistem..."
+    },
+    "observability": {
+      "data_stream_inactive": "Aliran Data Tidak Aktif",
+      "data_stream_inactive_desc": "Telemetri belum diperbarui selama lebih dari 30 detik. Pengambilan ulang otomatis dipicu.",
+      "force_refresh": "Segarkan Paksa Manual",
+      "critical_outage_title": "Pemadaman Infrastruktur Kritis",
+      "critical_outage_desc": "Sistem saat ini mengalami masalah kritis yang memengaruhi ketersediaan layanan.",
+      "fleet_status": "Status Armada",
+      "fleet_availability": "Ketersediaan Armada",
+      "operational_insight": "Wawasan Operasional",
+      "risk_level": "Tingkat Risiko",
+      "stability_index": "Indeks Stabilitas",
+      "total_services": "Total Layanan",
+      "healthy": "Sehat",
+      "critical": "Kritis",
+      "degraded": "Menurun",
+      "avg_latency": "Latensi Rata-rata",
+      "fastest_response": "Respons Tercepat",
+      "slowest_response": "Respons Terlambat",
+      "telemetry_stream_active": "Aliran Telemetri Realtime Aktif",
+      "logs_ingested": "{count} Log Diterima",
+      "pacing": "Pacing: {interval}"
+    },
+    "insights": {
+      "critical_outage": "Terdeteksi {count} pemadaman kritis. Diperlukan tindakan segera.",
+      "degraded_warning": "{count} titik akhir menunjukkan penurunan performa.",
+      "high_latency": "Latensi global meningkat. Menyelidiki kongesti jaringan.",
+      "optimal_health": "Semua infrastruktur beroperasi dalam ambang batas sehat.",
+      "collecting_data": "Mengumpulkan data telemetri awal..."
+    },
+    "analytics": {
+      "sync_status": "Status Sinkronisasi",
+      "reliability_score": "Skor Reliabilitas",
+      "active_alerts": "Peringatan Aktif",
+      "performance_score": "Skor Performa",
+      "availability_rate": "Tingkat Ketersediaan",
+      "stability_index": "Indeks Stabilitas",
+      "peak_latency": "Latensi Puncak",
+      "base_latency": "Latensi Dasar",
+      "network_avg": "Rata-rata Jaringan",
+      "fleet_health": "Kesehatan Armada",
+      "outliers_slow": "Anomali Performa (Terlambat)",
+      "outliers_fast": "Titik Akhir Optimal (Tercepat)",
+      "collecting": "Mengumpulkan Telemetri...",
+      "analyzing": "Menganalisis Telemetri Armada...",
+      "score": "Skor",
+      "active": "Aktif",
+      "critical": "Kritis",
+      "stable": "Stabil",
+      "ms": "ms"
+    },
+    "breakdown": {
+      "title": "Rincian Layanan",
+      "subtitle": "Telemetri Granular per Node",
+      "live_monitoring": "Pemantauan Langsung: {count} Node",
+      "no_services": "Tidak Ada Layanan Terdeteksi",
+      "last_checked": "Terakhir Diperiksa",
+      "response": "Respons",
+      "category": "Kategori",
+      "general": "Umum",
+      "status": {
+        "operational": "Operasional",
+        "critical": "Kritis",
+        "degraded": "Menurun",
+        "pending": "Tertunda"
+      }
     }
   },
   "services": {

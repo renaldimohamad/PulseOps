@@ -44,7 +44,7 @@ export const CONFIG = {
   API_URL: getApiUrl(),
   SOCKET_URL: getSocketUrl(),
   IS_PROD: process.env.NODE_ENV === 'production',
-  VERSION: '1.1.1-prod',
+  VERSION: '1.2.0-prod',
 };
 
 // Production health check for configuration

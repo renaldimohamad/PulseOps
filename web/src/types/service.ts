@@ -24,3 +24,61 @@ export interface ServiceStats {
   protected: number;
   degraded: number;
 }
+
+export interface Incident {
+  id: string;
+  serviceId: string;
+  status: ServiceStatus;
+  message: string;
+  snapshot: any;
+  startedAt: string;
+  resolvedAt: string | null;
+  service?: Service;
+}
+
+export interface DashboardSnapshot extends AnalyticsOverview {
+  services: Service[];
+  trend: LatencyTrendPoint[];
+  performanceSummary: any;
+  activeIncidents: Incident[];
+  generatedAt: string;
+  version: number;
+}
+
+export interface AnalyticsOverview {
+  fleet: {
+    totalServices: number;
+    healthyServices: number;
+    criticalServices: number;
+    degradedServices: number;
+    availability: number;
+    status: 'OPERATIONAL' | 'DEGRADED' | 'CRITICAL';
+  };
+  performance: {
+    averageLatency: number;
+    fastestResponse: number;
+    slowestResponse: number;
+    responsiveness: 'EXCELLENT' | 'STABLE' | 'POOR';
+  };
+  incidents: {
+    totalIncidents: number;
+    activeIncidents: number;
+    severity: 'NONE' | 'MEDIUM' | 'CRITICAL';
+  };
+  telemetry: {
+    latencyLogs: number;
+    monitoringInterval: string;
+    lastSync: string;
+  };
+  intelligence: {
+    reliabilityScore: number;
+    stabilityIndex: 'HEALTHY' | 'STABLE' | 'UNSTABLE';
+    riskLevel: 'LOW' | 'MEDIUM' | 'HIGH';
+    insight: string;
+  };
+}
+
+export interface LatencyTrendPoint {
+  timestamp: string;
+  latency: number | null;
+}

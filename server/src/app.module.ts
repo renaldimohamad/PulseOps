@@ -7,6 +7,9 @@ import { HealthModule } from './modules/health/health.module';
 import { ServicesModule } from './modules/services/services.module';
 import { HealthCheckModule } from './modules/health-check/health-check.module';
 import { WsModule } from './modules/ws/ws.module';
+import { AnalyticsModule } from './modules/analytics/analytics.module';
+import { IncidentsModule } from './modules/incidents/incidents.module';
+import { AlertsModule } from './modules/alerts/alerts.module';
 
 @Module({
   imports: [
@@ -20,6 +23,9 @@ import { WsModule } from './modules/ws/ws.module';
     ServicesModule,
     HealthCheckModule,
     WsModule,
+    AnalyticsModule,
+    IncidentsModule,
+    AlertsModule,
   ],
 })
 export class AppModule {}

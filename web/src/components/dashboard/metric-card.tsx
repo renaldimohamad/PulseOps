@@ -15,12 +15,13 @@ interface MetricCardProps {
   description?: string;
   statusIndicator?: 'success' | 'warning' | 'danger' | 'info';
   loading?: boolean;
+  children?: React.ReactNode;
 }
 
 import { useEffect, useState, useRef } from 'react';
 import { useI18n } from '@/lib/i18n';
 
-const Counter = ({ value }: { value: number | string }) => {
+export const Counter = ({ value, className }: { value: number | string, className?: string }) => {
   const [displayValue, setDisplayValue] = useState(value);
   const prevValue = useRef(value);
 
@@ -51,10 +52,10 @@ const Counter = ({ value }: { value: number | string }) => {
     prevValue.current = value;
   }, [value]);
 
-  return <span className="text-[13px] md:text-[20px]">{displayValue}</span>;
+  return <span className={className}>{displayValue}</span>;
 };
 
-export const MetricCard = ({ title, value, suffix, icon: Icon, color, trend, description, statusIndicator, loading }: MetricCardProps) => {
+export const MetricCard = ({ title, value, suffix, icon: Icon, color, trend, description, statusIndicator, loading, children }: MetricCardProps) => {
   const { t } = useI18n();
 
   return (
@@ -62,7 +63,7 @@ export const MetricCard = ({ title, value, suffix, icon: Icon, color, trend, des
       whileHover={{ y: -2, scale: 1.005 }}
       transition={{ type: 'spring', stiffness: 400, damping: 25 }}
     >
-      <Card className="relative overflow-hidden group border border-border/40 shadow-sm bg-card/40 backdrop-blur-xl">
+      <Card className="relative overflow-hidden group border border-border/40 shadow-sm bg-card/40 backdrop-blur-xl h-full flex flex-col">
         <div className={cn(
           "absolute top-0 left-0 w-[3px] h-full transition-all duration-300 group-hover:w-[4px]",
           color.includes('brand') ? "bg-brand-500/80" :
@@ -70,88 +71,72 @@ export const MetricCard = ({ title, value, suffix, icon: Icon, color, trend, des
               color.includes('danger') ? "bg-danger/80" : "bg-muted"
         )} />
 
-        <CardContent className="p-5 md:p-6">
-          <div className="flex items-center justify-between mb-4">
+        <CardContent className="p-5 md:p-7 flex flex-col flex-1">
+          <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-3">
               <div className={cn(
-                "p-1.5 md:p-2.5 rounded-xl transition-all duration-300 border border-transparent",
-                color.includes('brand') ? "bg-brand-500/5 text-brand-500 group-hover:border-brand-500/20 group-hover:bg-brand-500/10" :
-                  color.includes('success') ? "bg-success/5 text-success/80 group-hover:border-success/20 group-hover:bg-success/10" :
-                    color.includes('danger') ? "bg-danger/5 text-danger/80 group-hover:border-danger/20 group-hover:bg-danger/10" : "bg-muted/40 text-muted-foreground"
+                "p-2 md:p-3 rounded-2xl transition-all duration-300 border border-border/10",
+                color.includes('brand') ? "bg-brand-500/5 text-brand-500" :
+                  color.includes('success') ? "bg-success/5 text-success/80" :
+                    color.includes('danger') ? "bg-danger/5 text-danger/80" : "bg-muted/40 text-muted-foreground"
               )}>
-                <Icon size={18} className="w-[14px] h-[14px] md:w-[20px] md:h-[20px]" strokeWidth={1.5} />
+                <Icon size={18} className="w-[16px] h-[16px] md:w-[22px] md:h-[22px]" strokeWidth={1.5} />
               </div>
-              <span className="text-[7px] md:text-[11px] font-semibold uppercase tracking-[0.1em] text-muted-foreground/80">
+              <span className="text-[8px] md:text-[11px] font-bold uppercase tracking-[0.2em] text-muted-foreground/50">
                 {title}
               </span>
             </div>
             {trend && (
-              <span className={cn(
-                "hidden xs:inline-block text-[10px] font-bold tracking-wider px-2 py-0.5 rounded-full border",
-                trend.includes('+') || trend.includes('Stable') || trend.includes('Excellent') || trend.includes('Healthy') ? "text-success/90 bg-success/5 border-success/10" :
-                  trend.includes('Immediate') || trend.includes('High') || trend.includes('Critical') ? "text-danger/90 bg-danger/5 border-danger/10" :
-                    "text-warning/90 bg-warning/5 border-warning/10"
+              <div className={cn(
+                "hidden xs:flex items-center gap-1.5 text-[9px] font-bold tracking-widest px-2.5 py-1 rounded-lg border backdrop-blur-sm",
+                trend.includes('+') || trend.includes('Stable') || trend.includes('Excellent') || trend.includes('Healthy') || trend.includes('Operational') ? "text-success bg-success/5 border-success/10" :
+                  trend.includes('Immediate') || trend.includes('High') || trend.includes('Critical') || trend.includes('Down') ? "text-danger bg-danger/5 border-danger/10" :
+                    "text-warning bg-warning/5 border-warning/10"
               )}>
                 {trend}
-              </span>
+              </div>
             )}
           </div>
 
-          <div className="flex flex-col gap-1">
+          <div className="flex flex-col gap-1.5 flex-1">
             <div className="flex items-baseline gap-2">
-              <span className="metric-text text-3xl md:text-4xl text-foreground font-semibold flex items-center gap-2">
+              <span className="metric-text text-3xl md:text-5xl text-foreground font-bold tracking-tighter flex items-center gap-3">
                 {statusIndicator && (
-                  <div className="relative flex h-2 w-2 mr-1">
+                  <div className="relative flex h-2.5 w-2.5">
                     <span className={cn(
-                      "animate-ping absolute inline-flex h-full w-full rounded-full opacity-75",
+                      "animate-ping absolute inline-flex h-full w-full rounded-full opacity-40",
                       statusIndicator === 'success' ? "bg-success" :
                         statusIndicator === 'warning' ? "bg-warning" :
                           statusIndicator === 'danger' ? "bg-danger" : "bg-brand-500"
                     )}></span>
                     <span className={cn(
-                      "relative inline-flex rounded-full h-2 w-2",
+                      "relative inline-flex rounded-full h-2.5 w-2.5",
                       statusIndicator === 'success' ? "bg-success" :
                         statusIndicator === 'warning' ? "bg-warning" :
                           statusIndicator === 'danger' ? "bg-danger" : "bg-brand-500"
                     )}></span>
                   </div>
                 )}
-                <Counter value={value} />
+                <Counter value={value} className="text-[13px] md:text-[20px]" />
               </span>
-              <span className="text-[10px] md:text-[12px] font-medium text-foreground/40 lowercase mb-1">
+              <span className="text-[10px] md:text-[14px] font-bold text-foreground/20 uppercase tracking-widest mb-1">
                 {suffix || t('common.services')}
               </span>
             </div>
             {description && (
-              <p className="text-[8px] md:text-[10px] font-medium text-muted-foreground/60 tracking-wide mt-1">
+              <p className="text-[8px] md:text-[10px] font-bold text-muted-foreground/40 uppercase tracking-[0.1em] mt-2">
                 {description}
               </p>
             )}
           </div>
-
-          <div className="mt-6 flex gap-1 items-center opacity-40">
-            <div className="h-[2px] flex-1 bg-muted rounded-full overflow-hidden">
-              <motion.div
-                initial={{ width: 0 }}
-                animate={{ width: '100%' }}
-                transition={{ duration: 1, ease: "easeInOut" }}
-                className={cn(
-                  "h-full rounded-full",
-                  color.includes('brand') ? "bg-brand-500" :
-                    color.includes('success') ? "bg-success" :
-                      color.includes('danger') ? "bg-danger" : "bg-muted"
-                )}
-              />
-            </div>
-          </div>
+          
+          {/* Chart area or spacer to ensure all cards have the same vertical layout */}
+          {children ? (
+            children
+          ) : (
+            <div className="mt-4 h-[40px] w-full" />
+          )}
         </CardContent>
-
-        <div className={cn(
-          "absolute -right-8 -bottom-8 h-32 w-32 rounded-full blur-[80px] opacity-0 group-hover:opacity-10 transition-opacity duration-1000",
-          color.includes('brand') ? "bg-brand-500" :
-            color.includes('success') ? "bg-success" :
-              color.includes('danger') ? "bg-danger" : "bg-muted"
-        )} />
       </Card>
     </motion.div>
   );

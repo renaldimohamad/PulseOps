@@ -101,7 +101,7 @@ export const ServiceTable = ({ services, onEdit, onDelete, isLoading, onAdd }: S
                           service.latency && service.latency < 800 ? "bg-warning" : "bg-danger animate-pulse"
                     )} />
                     <span className="metric-text text-[10px] md:text-sm font-bold">
-                      {service.latency ? `${service.latency}ms` : '-'}
+                      {service.latency ? `${service.latency}${t('dashboard.analytics.ms')}` : '-'}
                     </span>
                   </div>
                   <span className="text-[6px] md:text-[9px] font-bold text-muted-foreground/40 uppercase tracking-tighter block">
@@ -254,7 +254,7 @@ export const ServiceTable = ({ services, onEdit, onDelete, isLoading, onAdd }: S
                               service.latency && service.latency > 500 ? 'text-warning' : 'text-foreground/90'
                           )}
                         >
-                          {service.latency ? `${service.latency}ms` : '-'}
+                          {service.latency ? `${service.latency}${t('dashboard.analytics.ms')}` : '-'}
                         </motion.span>
                       </div>
                       <span className={cn(

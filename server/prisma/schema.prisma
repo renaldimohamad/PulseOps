@@ -4,6 +4,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 enum ServiceStatus {
@@ -28,5 +29,48 @@ model Service {
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
 
+  // Observability Relations
+  latencyLogs LatencyLog[]
+  incidents   Incident[]
+  alerts      Alert[]
+
   @@map("services")
+}
+
+model LatencyLog {
+  id        String   @id @default(uuid())
+  serviceId String
+  latency   Int
+  status    Int?
+  timestamp DateTime @default(now())
+  service   Service  @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+
+  @@index([serviceId, timestamp])
+  @@map("latency_logs")
+}
+
+model Incident {
+  id         String        @id @default(uuid())
+  serviceId  String
+  status     ServiceStatus
+  message    String
+  snapshot   Json? // Detailed response body or headers
+  startedAt  DateTime      @default(now())
+  resolvedAt DateTime?
+  service    Service       @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+
+  @@index([serviceId, startedAt])
+  @@map("incidents")
+}
+
+model Alert {
+  id        String   @id @default(uuid())
+  serviceId String
+  type      String // LATENCY_THRESHOLD, STATUS_DOWN, etc
+  threshold Int?
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  service   Service  @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+
+  @@map("alerts")
 }

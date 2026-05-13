@@ -13,4 +13,7 @@ export enum ServiceEvents {
   UPDATED = 'service.updated',
   DELETED = 'service.deleted',
   STATUS_CHANGED = 'service.statusChanged',
+  INCIDENT_CREATED = 'incident.created',
+  INCIDENT_RESOLVED = 'incident.resolved',
+  ALERT_TRIGGERED = 'alert.triggered',
 }

@@ -39,7 +39,7 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable} font-sans bg-background text-foreground antialiased selection:bg-brand-500/10 selection:text-brand-600 min-h-screen flex flex-col overflow-x-hidden`}>
         <Providers>
           <Navbar />
-          <main className="flex-1 mx-auto w-full max-w-7xl px-6 pt-32 md:pt-40 pb-12 sm:px-6 lg:px-8 transition-all duration-500">
+          <main className="flex-1 mx-auto w-full max-w-7xl px-6 pt-32 md:pt-40 pb-12 sm:px-2 lg:px-2 transition-all duration-500">
             {children}
           </main>
           <Footer />

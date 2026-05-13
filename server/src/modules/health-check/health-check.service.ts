@@ -5,6 +5,8 @@ import { PrismaService } from '../../prisma/prisma.service';
 import { ServiceStatus } from '@prisma/client';
 import { ServiceEvents } from '../events/service.events';
 import { firstValueFrom } from 'rxjs';
+import { IncidentsService } from '../incidents/incidents.service';
+import { AlertsService } from '../alerts/alerts.service';
 
 @Injectable()
 export class HealthCheckService {
@@ -14,14 +16,18 @@ export class HealthCheckService {
     private prisma: PrismaService,
     private httpService: HttpService,
     private eventEmitter: EventEmitter2,
+    private incidentsService: IncidentsService,
+    private alertsService: AlertsService,
   ) {}
 
   async checkAllServices() {
     this.logger.log('Starting health check for all services...');
     const services = await this.prisma.service.findMany();
 
-    // Parallel health check using Promise.all to avoid sequential delays
     await Promise.all(services.map((service) => this.checkService(service)));
+    
+    // Trigger intelligent analytics refresh
+    this.eventEmitter.emit('analytics.refresh');
     
     this.logger.log('Health check completed.');
   }
@@ -32,22 +38,34 @@ export class HealthCheckService {
     let latency = 0;
     let rawStatus: number | null = null;
     let lastError: string | null = null;
+    let snapshot: any = null;
 
     try {
       const response = await firstValueFrom(
         this.httpService.get(service.url, { 
-          timeout: 10000, // Increased timeout to 10s
-          validateStatus: () => true // Handle all status codes manually
+          timeout: 10000,
+          validateStatus: () => true 
         }),
       );
 
-      // Measure latency only for the actual network request
       latency = Math.round(performance.now() - startTime);
       rawStatus = response.status;
+      snapshot = {
+        headers: response.headers,
+        status: response.status,
+        statusText: response.statusText,
+      };
       
-      // Better status detection mapping
       if (rawStatus >= 200 && rawStatus < 400) {
-        status = ServiceStatus.UP;
+        if (latency >= 1500) {
+          status = ServiceStatus.DOWN;
+          lastError = `Critical Latency: ${latency}ms`;
+        } else if (latency >= 1000) {
+          status = ServiceStatus.DEGRADED;
+          lastError = `High Latency: ${latency}ms`;
+        } else {
+          status = ServiceStatus.UP;
+        }
       } else if (rawStatus === 401 || rawStatus === 403) {
         status = ServiceStatus.PROTECTED;
       } else if (rawStatus === 404) {
@@ -58,15 +76,19 @@ export class HealthCheckService {
         status = ServiceStatus.DOWN;
       }
         
-      if (status === ServiceStatus.DOWN) {
+      if (status === ServiceStatus.DOWN && !lastError) {
         lastError = `Unhealthy status code: ${rawStatus}`;
       }
     } catch (error: any) {
       latency = Math.round(performance.now() - startTime);
       status = ServiceStatus.DOWN;
       rawStatus = error.response?.status || null;
+      snapshot = error.response ? {
+        status: error.response.status,
+        headers: error.response.headers,
+        data: error.response.data,
+      } : { error: error.message };
       
-      // Map specific network errors
       if (error.code === 'ECONNABORTED' || error.message.includes('timeout')) {
         lastError = 'Connection Timeout';
       } else if (error.code === 'ENOTFOUND') {
@@ -76,11 +98,39 @@ export class HealthCheckService {
       } else {
         lastError = error.message;
       }
-      
-      this.logger.warn(`Service ${service.name} (${service.url}) is DOWN: ${lastError}`);
     }
 
-    // Always update DB to ensure realtime latency/lastChecked observability
+    // 1. Store Latency Log (Telemetry)
+    await this.prisma.latencyLog.create({
+      data: {
+        serviceId: service.id,
+        latency,
+        status: rawStatus,
+      },
+    });
+
+    // 2. Incident Management
+    if (status === ServiceStatus.DOWN) {
+      await this.incidentsService.createIncident(
+        service.id,
+        status,
+        lastError || 'Unknown Error',
+        snapshot,
+      );
+    } else if (service.status === ServiceStatus.DOWN) {
+      // Resolve incident if it was DOWN before
+      await this.incidentsService.resolveIncident(service.id);
+    }
+
+    // 3. Alert Evaluation
+    await this.alertsService.evaluateThresholds(service.id, latency, status);
+
+    // 3.5 Intelligent Degradation Detection
+    if (status !== ServiceStatus.DOWN && latency > 1000) {
+      this.eventEmitter.emit('service.degraded', { ...service, status, latency });
+    }
+
+    // 4. Update Main Service Record
     const updatedService = await this.prisma.service.update({
       where: { id: service.id },
       data: {
@@ -92,7 +142,6 @@ export class HealthCheckService {
       },
     });
 
-    // Notify clients via WebSocket
     this.eventEmitter.emit(ServiceEvents.STATUS_CHANGED, updatedService);
     
     if (service.status !== status) {

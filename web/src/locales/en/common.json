@@ -39,7 +39,10 @@
     "is_back_online": "{name} is back online.",
     "service_recovered": "Service recovered and is now online.",
     "service_unresponsive": "Service is unresponsive and reporting errors.",
-    "status_changed": "Service status changed."
+    "status_changed": "Service status changed.",
+    "unknown_service": "Unknown Service",
+    "control_center": "Control Center",
+    "poor": "Poor"
   },
   "docs": {
     "title": "Documentation",
@@ -138,27 +141,96 @@
       "operational_desc": "{count} services reporting healthy status",
       "critical_desc": "{count} endpoints currently unreachable",
       "no_disruption": "No service disruptions detected",
-      "latency_desc": "Calculated from active healthy services only"
+      "latency_desc": "Calculated from active healthy services only",
+      "insight_reachable": "All monitored infrastructure endpoints are currently reachable and performing within operational thresholds.",
+      "insight_degraded": "{count} endpoint(s) responding with degraded HTTP status. Infrastructure reachability maintained."
     },
     "security": {
-      "title": "Security Intelligence",
-      "subtitle": "Active firewall monitoring and real-time threat detection telemetry.",
-      "telemetry_hint": "Real-time firewall logs are currently being processed.",
-      "threat_intel": "Realtime Threat Intelligence",
-      "scanning": "Scanning",
-      "threats": "Threats",
-      "status_protected": "Status: Protected",
-      "live_logs": "Live Firewall Logs",
-      "log_established": "Connection established from",
-      "log_rule_applied": "Rule ID: 403-BLOCK applied to suspicious payload",
-      "log_mitigated": "Threat mitigated: CVE-2024-XXXX detection",
-      "alerts_24h": "{count} High Severity Alerts in last 24h",
-      "security_dashboard": "Security Dashboard"
+      "alerts_24h": "{count} degradation events detected in 24h",
+      "security_dashboard": "View Analytics",
+      "intelligence": "Infrastructure Intelligence",
+      "fleet_engine": "Fleet-wide Observability Engine",
+      "responsiveness": "Responsiveness",
+      "score": "Score",
+      "latency_spread": "Latency Spread",
+      "risks_title": "Critical Performance Risks",
+      "risks_action": "Action Required",
+      "best_performers_title": "Best Performing Services",
+      "best_performers_optimized": "Optimized",
+      "insufficient_data_title": "Contextual Intelligence Pending",
+      "insufficient_data_desc": "Comparative performance ranking requires a multi-node fleet (min. 2 services) to generate meaningful operational insights.",
+      "telemetry_hint": "Fleet Performance Scoring"
     },
     "activity": {
       "title": "Recent Activity",
       "live": "Live",
       "empty": "Waiting for system events..."
+    },
+    "observability": {
+      "data_stream_inactive": "Data Stream Inactive",
+      "data_stream_inactive_desc": "Telemetry hasn't been updated in over 30 seconds. Automatic refetch triggered.",
+      "force_refresh": "Manual Force Refresh",
+      "critical_outage_title": "Critical Infrastructure Outage",
+      "critical_outage_desc": "System is currently experiencing critical issues affecting service availability.",
+      "fleet_status": "Fleet Status",
+      "fleet_availability": "Fleet Availability",
+      "operational_insight": "Operational Insight",
+      "risk_level": "Risk Level",
+      "stability_index": "Stability Index",
+      "total_services": "Total Services",
+      "healthy": "Healthy",
+      "critical": "Critical",
+      "degraded": "Degraded",
+      "avg_latency": "Average Latency",
+      "fastest_response": "Fastest Response",
+      "slowest_response": "Slowest Response",
+      "telemetry_stream_active": "Realtime Telemetry Stream Active",
+      "logs_ingested": "{count} Logs Ingested",
+      "pacing": "Pacing: {interval}"
+    },
+    "insights": {
+      "critical_outage": "{count} critical outages detected. Immediate action required.",
+      "degraded_warning": "{count} endpoints showing degraded performance.",
+      "high_latency": "Global latency elevated. Investigating network congestion.",
+      "optimal_health": "All infrastructure operating within healthy thresholds.",
+      "collecting_data": "Collecting initial telemetry data..."
+    },
+    "analytics": {
+      "sync_status": "Sync Status",
+      "reliability_score": "Reliability Score",
+      "active_alerts": "Active Alerts",
+      "performance_score": "Performance Score",
+      "availability_rate": "Availability Rate",
+      "stability_index": "Stability Index",
+      "peak_latency": "Peak Latency",
+      "base_latency": "Base Latency",
+      "network_avg": "Network Avg",
+      "fleet_health": "Fleet Health",
+      "outliers_slow": "Performance Outliers (Slowest)",
+      "outliers_fast": "Optimized Endpoints (Fastest)",
+      "collecting": "Collecting Telemetry...",
+      "analyzing": "Analyzing Fleet Telemetry...",
+      "score": "Score",
+      "active": "Active",
+      "critical": "Critical",
+      "stable": "Stable",
+      "ms": "ms"
+    },
+    "breakdown": {
+      "title": "Service Breakdown",
+      "subtitle": "Granular Telemetry per Node",
+      "live_monitoring": "Live Monitoring: {count} Nodes",
+      "no_services": "No Services Detected",
+      "last_checked": "Last Checked",
+      "response": "Response",
+      "category": "Category",
+      "general": "General",
+      "status": {
+        "operational": "Operational",
+        "critical": "Critical",
+        "degraded": "Degraded",
+        "pending": "Pending"
+      }
     }
   },
   "services": {

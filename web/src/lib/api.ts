@@ -124,3 +124,72 @@ export const serviceApi = {
     return res.json();
   },
 };
+
+export const analyticsApi = {
+  getSnapshot: async () => {
+    const res = await fetchWithRetry('/analytics/snapshot', { cache: 'no-store' });
+    return res.json();
+  },
+  getOverview: async () => {
+    const res = await fetchWithRetry('/analytics/overview', { cache: 'no-store' });
+    return res.json();
+  },
+  getLatencyTrend: async () => {
+    const res = await fetchWithRetry('/analytics/latency-trend', { cache: 'no-store' });
+    return res.json();
+  },
+  getIncidents: async () => {
+    const res = await fetchWithRetry('/analytics/incidents', { cache: 'no-store' });
+    return res.json();
+  },
+  getPerformanceSummary: async () => {
+    const res = await fetchWithRetry('/analytics/performance-summary', { cache: 'no-store' });
+    return res.json();
+  },
+};
+
+export const incidentsApi = {
+  getAll: async () => {
+    const res = await fetchWithRetry('/incidents', { cache: 'no-store' });
+    return res.json();
+  },
+  getActive: async () => {
+    const res = await fetchWithRetry('/incidents/active', { cache: 'no-store' });
+    return res.json();
+  },
+  resolve: async (id: string) => {
+    const res = await fetchWithRetry(`/incidents/${id}/resolve`, {
+      method: 'PATCH',
+    });
+    return res.json();
+  },
+};
+
+export const alertsApi = {
+  getAll: async () => {
+    const res = await fetchWithRetry('/alerts', { cache: 'no-store' });
+    return res.json();
+  },
+  create: async (data: any) => {
+    const res = await fetchWithRetry('/alerts', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+    return res.json();
+  },
+  update: async (id: string, data: any) => {
+    const res = await fetchWithRetry(`/alerts/${id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+    return res.json();
+  },
+  delete: async (id: string) => {
+    const res = await fetchWithRetry(`/alerts/${id}`, {
+      method: 'DELETE',
+    });
+    return res.json();
+  },
+};
