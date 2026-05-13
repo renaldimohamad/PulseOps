@@ -14,7 +14,8 @@ import { ServiceEvents } from '../events/service.events';
   cors: {
     origin: [
       process.env.FRONTEND_URL || 'http://localhost:3000',
-      'https://pulseops.renaldi.fun'
+      'https://pulseops.renaldi.fun',
+      'https://pulseops.renaldi.fun/'
     ],
     methods: ['GET', 'POST'],
     credentials: true,

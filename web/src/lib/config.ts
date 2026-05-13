@@ -26,7 +26,7 @@ const getApiUrl = () => {
 };
 
 const getSocketUrl = () => {
-  const url = process.env.NEXT_PUBLIC_SOCKET_URL;
+  const url = process.env.NEXT_PUBLIC_SOCKET_URL || process.env.NEXT_PUBLIC_WS_URL;
   
   if (!url) {
     // Standard fallback logic: if API URL has /api, socket is usually the base
@@ -44,11 +44,11 @@ export const CONFIG = {
   API_URL: getApiUrl(),
   SOCKET_URL: getSocketUrl(),
   IS_PROD: process.env.NODE_ENV === 'production',
-  VERSION: '1.0.0-prod',
+  VERSION: '1.1.1-prod',
 };
 
-// Debug log for production initialization
-if (typeof window !== 'undefined') {
+// Production health check for configuration
+if (typeof window !== 'undefined' && !CONFIG.IS_PROD) {
   console.log('🛡️ PulseOps Config Initialized:', {
     apiUrl: CONFIG.API_URL,
     socketUrl: CONFIG.SOCKET_URL,

@@ -18,27 +18,25 @@ async function fetchWithRetry(path: string, options: RequestInit = {}, retries =
 
   // GUARD: Centralized deduplication for GET requests to prevent infinite fetch loops
   if (method === 'GET' && pendingRequests.has(requestKey)) {
-    console.log(`🛡️ [PulseOps API] Deduplicating active request: ${requestKey}`);
+    if (!CONFIG.IS_PROD) console.log(`🛡️ [PulseOps API] Deduplicating active request: ${requestKey}`);
     return pendingRequests.get(requestKey)!;
   }
 
   const requestId = Math.random().toString(36).substring(7);
   
-  // LOG: Log every fetch call in production for debugging loops
-  console.log(`[PulseOps API] [${requestId}] ${method} ${url}`);
+  // LOG: Only log in development
+  if (!CONFIG.IS_PROD) console.log(`[PulseOps API] [${requestId}] ${method} ${url}`);
 
   const requestPromise = (async () => {
     try {
       const response = await fetch(url, {
         ...options,
-        // credentials: 'include', // Only if backend handles cross-origin cookies
         headers: {
-          // 'Accept': 'application/json', // Removed to minimize preflight complexity
           ...options.headers,
         },
       });
 
-      console.log(`[PulseOps API] [${requestId}] Status: ${response.status} ${response.statusText}`);
+      if (!CONFIG.IS_PROD) console.log(`[PulseOps API] [${requestId}] Status: ${response.status} ${response.statusText}`);
 
       if (!response.ok) {
         // LOG: Log error details
@@ -60,7 +58,7 @@ async function fetchWithRetry(path: string, options: RequestInit = {}, retries =
       
       // Retry logic only for network errors
       if (retries > 0 && (error.name === 'TypeError' || error.message.includes('fetch'))) {
-        console.warn(`🔄 [PulseOps API] [${requestId}] Retrying in 1.5s... (${retries} left)`);
+        if (!CONFIG.IS_PROD) console.warn(`🔄 [PulseOps API] [${requestId}] Retrying in 1.5s... (${retries} left)`);
         await new Promise(resolve => setTimeout(resolve, 1500));
         return fetchWithRetry(path, options, retries - 1);
       }

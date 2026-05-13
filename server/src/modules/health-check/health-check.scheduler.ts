@@ -9,7 +9,7 @@ export class HealthCheckScheduler {
 
   constructor(private healthCheckService: HealthCheckService) {}
 
-  @Cron(CronExpression.EVERY_30_SECONDS)
+  @Cron(CronExpression.EVERY_10_SECONDS)
   async handleCron() {
     if (this.isRunning) {
       this.logger.warn('Previous health check still running, skipping...');

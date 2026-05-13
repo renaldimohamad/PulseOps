@@ -8,6 +8,7 @@ import { formatDistanceToNow } from 'date-fns';
 import { Skeleton } from '@/components/ui/skeleton';
 import { EmptyState } from './empty-state';
 import { cn } from '@/lib/utils';
+import { RelativeTime } from '@/components/ui/relative-time';
 
 interface ServiceTableProps {
   services: Service[];
@@ -110,9 +111,10 @@ export const ServiceTable = ({ services, onEdit, onDelete, isLoading, onAdd }: S
                 <div className="space-y-1 col-span-2">
                   <span className="caption block opacity-60 uppercase text-[8px] md:text-[9px] font-bold tracking-tighter">{t('services.table.last_sync')}</span>
                   <div className="flex items-center justify-between">
-                    <span className="text-[9px] md:text-[11px] font-bold text-foreground/60">
-                      {service.lastChecked ? formatDistanceToNow(new Date(service.lastChecked), { addSuffix: true }) : t('common.never')}
-                    </span>
+                    <RelativeTime 
+                      date={service.lastChecked} 
+                      className="text-[9px] md:text-[11px] font-bold text-foreground/70"
+                    />
                   </div>
                 </div>
               </div>
@@ -267,11 +269,10 @@ export const ServiceTable = ({ services, onEdit, onDelete, isLoading, onAdd }: S
                   </td>
                   <td className="px-6 py-5">
                     <div className="flex flex-col gap-1">
-                      <span className="text-[11px] text-foreground/70 font-bold whitespace-nowrap">
-                        {service.lastChecked
-                          ? formatDistanceToNow(new Date(service.lastChecked), { addSuffix: true })
-                          : t('common.never')}
-                      </span>
+                      <RelativeTime 
+                        date={service.lastChecked}
+                        className="text-[11px] text-foreground/80 font-bold"
+                      />
                     </div>
                   </td>
                   <td className="px-6 py-5 text-right">

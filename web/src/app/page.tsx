@@ -13,6 +13,7 @@ import { Service, ServiceStats } from '@/types/service';
 import { motion } from 'framer-motion';
 import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/lib/utils';
+import { RelativeTime } from '@/components/ui/relative-time';
 
 interface ActivityEvent {
   id: string;
@@ -67,11 +68,21 @@ export default function Dashboard() {
 
     // Debug log for verification
     if (process.env.NODE_ENV === 'development') {
-      console.log(`[Latency Debug] Total Active: ${activeServices.length}, Sum: ${sum}, Avg: ${avg}ms`);
-      console.table(activeServices.map(s => ({ name: s.name, status: s.status, latency: s.latency })));
+      // console.log(`[Latency Debug] Total Active: ${activeServices.length}, Sum: ${sum}, Avg: ${avg}ms`);
     }
 
     return avg;
+  }, [services]);
+  
+  // Find the most recent sync time among all services
+  const lastGlobalSync = useMemo(() => {
+    if (!services || services.length === 0) return null;
+    const timestamps = services
+      .map(s => s.lastChecked ? new Date(s.lastChecked).getTime() : 0)
+      .filter(t => t > 0);
+    
+    if (timestamps.length === 0) return null;
+    return new Date(Math.max(...timestamps));
   }, [services]);
 
   if (isLoading) {
@@ -204,8 +215,12 @@ export default function Dashboard() {
           <span className="text-[6px] md:text-[10px] font-bold uppercase tracking-widest text-muted-foreground/70">{t('dashboard.operational_context.socket_connected')}</span>
         </div>
         <div className="flex items-center gap-2">
-          <Clock className="text-muted-foreground/40  md:w-4 md:h-4 w-1.5 h-1.5" />
-          <span className="text-[6px] md:text-[10px] font-bold uppercase tracking-widest text-muted-foreground/70">{t('dashboard.operational_context.sync_now')}</span>
+          <Clock className="text-muted-foreground/40 md:w-4 md:h-4 w-3 h-3" />
+          <RelativeTime 
+            date={lastGlobalSync} 
+            prefix={t('dashboard.operational_context.sync_now').split(' ')[0]} 
+            className="text-[8px] md:text-[10px] font-bold uppercase tracking-widest text-muted-foreground/70"
+          />
         </div>
         <div className="ml-auto hidden md:flex items-center gap-2">
           <span className="text-[6px] md:text-[10px] font-bold uppercase tracking-[0.2em] text-foreground/30 italic">{t('dashboard.operational_context.version')}</span>

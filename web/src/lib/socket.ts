@@ -5,7 +5,7 @@ import { CONFIG } from './config';
  * Standardized Socket.io client using centralized CONFIG.
  */
 export const socket = io(CONFIG.SOCKET_URL, {
-  transports: ['websocket'],
+  transports: ['websocket', 'polling'],
   autoConnect: true,
   reconnection: true,
   reconnectionAttempts: 10,
@@ -14,9 +14,9 @@ export const socket = io(CONFIG.SOCKET_URL, {
 });
 
 // Production logging for connection status
-if (typeof window !== 'undefined') {
+if (typeof window !== 'undefined' && !CONFIG.IS_PROD) {
   socket.on('connect', () => {
-    console.log('🟢 WebSocket Connected to:', CONFIG.SOCKET_URL);
+    console.log('🟢 WebSocket Connected');
   });
   
   socket.on('disconnect', (reason) => {

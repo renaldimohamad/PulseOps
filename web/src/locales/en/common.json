@@ -125,8 +125,8 @@
     "operational_context": {
       "monitoring_active": "Realtime monitoring active",
       "socket_connected": "WebSocket connected",
-      "sync_now": "Sync: Just now",
-      "version": "Observability Core v1.0.4"
+      "sync_now": "Sync:",
+      "version": "Observability Core v1.1.1"
     },
     "metrics": {
       "total_endpoints": "Total Endpoints",
@@ -209,7 +209,7 @@
   },
   "footer": {
     "tagline": "Realtime infrastructure observability platform.",
-    "version": "v1.0.0 • Realtime Monitoring Enabled",
+    "version": "v1.1.1 • Production Environment",
     "credit": "Designed & engineered by Renaldi Mohamad",
     "follow_me": "Follow Me",
     "active_engine": "Active Engine",

@@ -1,10 +1,8 @@
 'use client';
 
-import { motion } from 'framer-motion';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { serviceApi } from '@/lib/api';
-import { socket } from '@/lib/socket';
 import { ServiceTable } from '@/components/services/service-table';
 import { ServiceForm } from '@/components/services/service-form';
 import { Modal } from '@/components/ui/modal';

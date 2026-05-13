@@ -16,7 +16,11 @@ async function bootstrap() {
   const frontendUrl = configService.get<string>('FRONTEND_URL') || 'http://localhost:3000';
   
   app.enableCors({
-    origin: [frontendUrl, 'https://pulseops.renaldi.fun'], // Explicitly include production domain
+    origin: [
+      frontendUrl,
+      'https://pulseops.renaldi.fun',
+      'https://pulseops.renaldi.fun/'
+    ],
     methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
     credentials: true,
     allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
@@ -45,11 +49,10 @@ async function bootstrap() {
   const port = configService.get<number>('PORT') || 3001;
   const nodeEnv = configService.get<string>('NODE_ENV') || 'development';
 
-  await app.listen(port, '0.0.0.0'); // Bind to all interfaces for cloud deployment
+  await app.listen(port, '0.0.0.0');
   
-  logger.log(`🚀 PulseOps API is running in ${nodeEnv} mode`);
-  logger.log(`🔗 Local: http://localhost:${port}/api`);
-  logger.log(`🌐 Allowed Origin: ${frontendUrl}`);
+  logger.log(`🚀 PulseOps API initialized in ${nodeEnv} mode`);
+  logger.log(`🌐 Traffic allowed from: ${frontendUrl}`);
 }
 bootstrap();
 

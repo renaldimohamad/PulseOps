@@ -125,8 +125,8 @@
     "operational_context": {
       "monitoring_active": "Pemantauan realtime aktif",
       "socket_connected": "WebSocket terhubung",
-      "sync_now": "Sinkronisasi: Baru saja",
-      "version": "Inti Observabilitas v1.0.4"
+      "sync_now": "Sync:",
+      "version": "Inti Observabilitas v1.1.1"
     },
     "metrics": {
       "total_endpoints": "Total Titik Akhir",
@@ -209,7 +209,7 @@
   },
   "footer": {
     "tagline": "Platform observabilitas infrastruktur real-time.",
-    "version": "v1.0.0 • Pemantauan Real-time Aktif",
+    "version": "v1.1.1 • Lingkungan Produksi",
     "credit": "Didesain & dibangun oleh Renaldi Mohamad",
     "follow_me": "Ikuti Saya",
     "active_engine": "Mesin Aktif",
