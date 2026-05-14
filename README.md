@@ -1,15 +1,14 @@
 # 📡 PulseOps — Realtime Infrastructure Observability
 
-[![Next.js](https://img.shields.io/badge/Frontend-Next.js%2014-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
+[![Next.js](https://img.shields.io/badge/Frontend-Next.js%2015-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
 [![NestJS](https://img.shields.io/badge/Backend-NestJS%2010-E0234E?style=for-the-badge&logo=nestjs)](https://nestjs.org/)
 [![Prisma](https://img.shields.io/badge/ORM-Prisma-2D3748?style=for-the-badge&logo=prisma)](https://www.prisma.io/)
 [![Socket.io](https://img.shields.io/badge/Realtime-Socket.io-010101?style=for-the-badge&logo=socket.io)](https://socket.io/)
 [![PostgreSQL](https://img.shields.io/badge/Database-PostgreSQL-336791?style=for-the-badge&logo=postgresql)](https://www.postgresql.org/)
 
-**PulseOps** adalah prototype *realtime observability dashboard* dan *centralized monitoring command center* yang dirancang untuk memberikan visibilitas instan terhadap kesehatan infrastruktur, baik layanan internal maupun eksternal.
+**PulseOps** adalah platform *realtime observability dashboard* dan *centralized monitoring command center* yang dirancang untuk memberikan visibilitas instan terhadap kesehatan infrastruktur, baik layanan internal maupun eksternal.
 
-> **Built by Renaldi Mohamad**  
-> *Technical Test Submission — Fullstack Software Engineer*
+> **Designed & Engineered by Renaldi Mohamad**
 
 ---
 
@@ -77,15 +76,15 @@ Frontend (Next.js)  <----->  Socket.io (Realtime Sync)  <----->  Backend (NestJS
 
 ## 🧠 Alasan Pemilihan Stack ("The Why")
 
-Keputusan pemilihan teknologi didasarkan pada keseimbangan antara produktivitas, performa, dan relevansi teknis dalam konteks *technical test*.
+Keputusan pemilihan teknologi didasarkan pada keseimbangan antara produktivitas, performa, dan skalabilitas jangka panjang.
 
-### Frontend: Next.js vs Angular
+### Frontend: Next.js
 -   **Productivity**: Next.js memberikan kecepatan development yang lebih tinggi dengan ekosistem library (seperti Framer Motion & Tailwind) yang sangat matang untuk UI *high-end*.
--   **State Management**: Penggunaan React Query dalam Next.js sangat superior dalam menangani sinkronisasi data *asynchronous* dan *realtime cache invalidation* dibanding pendekatan boilerplate yang berat di Angular.
+-   **State Management**: Penggunaan React Query dalam Next.js sangat superior dalam menangani sinkronisasi data *asynchronous* dan *realtime cache invalidation* untuk dashboard monitoring.
 
-### Backend: NestJS vs Spring Boot
--   **Architecture Similarity**: NestJS dipilih karena memiliki konsep yang identik dengan Spring Boot (Dependency Injection, Modularization, Decorators), namun berjalan di atas Node.js yang lebih ringan dan efisien untuk aplikasi berbasis I/O intensif seperti WebSocket.
--   **Unified Language**: Menggunakan TypeScript di kedua sisi (frontend & backend) mempercepat validasi tipe data dan meminimalkan *overhead* kognitif selama pengerjaan test yang terbatas waktu.
+### Backend: NestJS
+-   **Enterprise Architecture**: NestJS dipilih karena arsitekturnya yang modular dan terstruktur (Dependency Injection, Decorators), yang sangat efisien untuk aplikasi berbasis I/O intensif seperti WebSocket.
+-   **Unified Language**: Menggunakan TypeScript di kedua sisi (frontend & backend) mempercepat validasi tipe data dan meminimalkan *overhead* kognitif dalam pengembangan sistem yang kompleks.
 -   **Realtime Native Support**: NestJS memiliki integrasi WebSockets (Socket.io) yang sangat intuitif dan *first-class*, menjadikannya pilihan ideal untuk sistem monitoring.
 
 ---
@@ -101,7 +100,7 @@ PulseOps tidak hanya melihat "Up" atau "Down", tapi memahami konteks operasional
 
 ## 📂 Struktur Repository
 
-PulseOps menggunakan struktur *monorepo-style* sederhana untuk memisahkan tanggung jawab antara *monitoring engine* dan *user interface*.
+PulseOps menggunakan struktur *monorepo-style* untuk memisahkan tanggung jawab antara *monitoring engine* dan *user interface*.
 
 ```text
 /server          # Backend NestJS (Monitoring Engine, WebSocket Gateway, Prisma)
@@ -164,24 +163,6 @@ npm run dev
 
 ---
 
-## 📂 Struktur Folder
-
-```text
-/server (NestJS)
-  ├── src/modules/services      # Business logic monitoring
-  ├── src/modules/health-check  # Engine pemantauan otomatis
-  ├── src/gateways              # WebSocket logic
-  └── prisma/                   # Database schema & migrations
-
-/web (Next.js)
-  ├── src/app/                  # App Router & Pages
-  ├── src/components/           # Reusable UI & Layouts
-  ├── src/hooks/                # Custom hooks & Realtime Sync
-  └── src/locales/              # I18n translation files
-```
-
----
-
 ## 🛠️ API Overview
 
 | Method | Endpoint | Description |
@@ -197,7 +178,7 @@ npm run dev
 
 Salah satu tantangan terbesar adalah memastikan **konsistensi state** di banyak tab/klien saat terjadi update otomatis. Awalnya, penggunaan *simple polling* menyebabkan beban server yang tidak perlu.
 
-**Solusi**: Saya mengimplementasikan sistem **Realtime Invalidation**. Alih-alih mengirim seluruh payload data melalui WebSocket (yang bisa menjadi sangat besar), sistem hanya mengirim sinyal event. Frontend kemudian menggunakan React Query untuk melakukan *smart refetch* hanya pada bagian data yang berubah. Hal ini menjamin data selalu akurat dengan *bandwidth* minimal.
+**Solusi**: Implementasi sistem **Realtime Invalidation**. Alih-alih mengirim seluruh payload data melalui WebSocket, sistem hanya mengirim sinyal event. Frontend kemudian menggunakan React Query untuk melakukan *smart refetch* hanya pada bagian data yang berubah. Hal ini menjamin data selalu akurat dengan *bandwidth* minimal.
 
 ---
 
@@ -230,30 +211,10 @@ PulseOps sudah berhasil di-deploy ke environment production dengan konfigurasi b
 > ⚠️ Note: Backend API custom domain is still propagating DNS and SSL certificate. If not accessible, fallback API is still running on Railway default domain:
 > [https://pulseops-production.up.railway.app/api](https://pulseops-production.up.railway.app/api)
 
-### 🏗️ Deployment Architecture
-
-```text
-[ User Browser ] <---- HTTPS/WSS ----> [ Vercel (Frontend) ]
-                                             |
-                                         REST / WS
-                                             |
-[ Neon Tech (DB) ] <---- SSL/TCP ----> [ Railway/Render (Backend) ]
-```
-
-### 📋 Environment Variables (Production)
-
-| Variable | Description | Example |
-| :--- | :--- | :--- |
-| `NEXT_PUBLIC_API_URL` | URL REST API Backend | `https://api-pulseops.renaldi.fun/api` |
-| `NEXT_PUBLIC_SOCKET_URL` | URL WebSocket Backend | `https://api-pulseops.renaldi.fun` |
-| `DATABASE_URL` | Koneksi Neon PostgreSQL | `postgresql://user:pass@ep-noisy.neon.tech/pulseops` |
-| `FRONTEND_URL` | URL Frontend (CORS) | `https://pulseops.renaldi.fun` |
-
 ---
 
 ## 📝 Penutup
 
-PulseOps bukan sekadar aplikasi CRUD, melainkan manifestasi dari pemahaman mendalam tentang sistem *real-time*, arsitektur modular, dan pentingnya pengalaman pengguna dalam sebuah produk engineering. Project ini siap dikembangkan lebih lanjut menjadi platform *observability* tingkat *enterprise*.
+PulseOps bukan sekadar dashboard monitoring biasa, melainkan manifestasi dari pemahaman mendalam tentang sistem *real-time*, arsitektur modular, dan pentingnya pengalaman pengguna dalam sebuah produk engineering. Project ini siap dikembangkan lebih lanjut menjadi platform *observability* tingkat *enterprise*.
 
 **Designed & engineered with ❤️ by Renaldi Mohamad.**
-
