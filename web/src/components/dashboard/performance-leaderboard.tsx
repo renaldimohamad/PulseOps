@@ -35,15 +35,15 @@ export const PerformanceLeaderboard = ({ data, type }: PerformanceLeaderboardPro
   const maxLatency = Math.max(...data.map(d => d.latency), 1);
 
   return (
-    <div className="space-y-4 p-2">
+    <div className="flex flex-col p-1">
       {data.length === 0 ? (
-        <div className="py-20 text-center flex flex-col items-center gap-6 opacity-30">
-          <div className="p-4 rounded-2xl bg-muted/20">
-            <Activity size={32} className="text-muted-foreground animate-pulse" />
+        <div className="py-12 text-center flex flex-col items-center gap-4 opacity-30">
+          <div className="p-3 rounded-xl bg-muted/20">
+            <Activity size={24} className="text-muted-foreground animate-pulse" />
           </div>
-          <div className="space-y-1">
-            <span className="text-[11px] font-black uppercase tracking-[0.3em] block">{t('dashboard.analytics.collecting')}</span>
-            <span className="text-[10px] font-bold text-muted-foreground/40 uppercase tracking-widest">{t('dashboard.analytics.analyzing')}</span>
+          <div className="space-y-0.5">
+            <span className="text-[10px] font-black uppercase tracking-[0.2em] block">{t('dashboard.analytics.collecting')}</span>
+            <span className="text-[8px] font-bold text-muted-foreground/40 uppercase tracking-widest">{t('dashboard.analytics.analyzing')}</span>
           </div>
         </div>
       ) : (
@@ -55,50 +55,50 @@ export const PerformanceLeaderboard = ({ data, type }: PerformanceLeaderboardPro
           return (
             <motion.div
               key={item.name}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, scale: 0.98 }}
+              animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: index * 0.05 }}
               className={cn(
-                "group relative flex items-center gap-6 p-6 rounded-3xl transition-all duration-300 border border-transparent hover:bg-white/[0.02]",
+                "group relative flex items-center gap-4 p-4 rounded-xl transition-all duration-300 border border-transparent hover:bg-white/[0.02]",
                 isRisk ? "hover:border-danger/10" : "hover:border-success/10"
               )}
             >
               {/* Status Indicator Thread */}
               <div className={cn(
-                "w-1.5 h-12 rounded-full shrink-0 shadow-inner",
+                "w-1 h-10 rounded-full shrink-0 shadow-inner",
                 item.status === 'DOWN' || item.latency >= 1500 ? "bg-danger/60 shadow-danger/20" :
                   item.latency >= 500 ? "bg-warning/60 shadow-warning/20" : "bg-success/60 shadow-success/20"
               )} />
 
               {/* Service Details */}
-              <div className="flex-1 min-w-0 space-y-4">
-                <div className="flex items-start justify-between gap-4">
-                  <div className="space-y-1 min-w-0">
-                    <h4 className="text-[14px] font-black text-foreground/90 truncate tracking-tight uppercase leading-none">
+              <div className="flex-1 min-w-0 space-y-3">
+                <div className="flex items-start justify-between gap-3">
+                  <div className="space-y-0.5 min-w-0">
+                    <h4 className="text-[13px] font-black text-foreground/90 truncate tracking-tight uppercase leading-none">
                       {item.name}
                     </h4>
-                    <p className="text-[10px] font-bold text-muted-foreground/40 uppercase tracking-widest truncate">
+                    <p className="text-[9px] font-bold text-muted-foreground/40 uppercase tracking-widest truncate">
                       {item.insight}
                     </p>
                   </div>
-                  <div className="flex flex-col items-end gap-2">
+                  <div className="flex flex-col items-end gap-1.5">
                      <span className={cn(
-                      "text-[8px] font-black px-2 py-0.5 rounded-lg border uppercase tracking-[0.2em] shadow-sm",
+                      "text-[7px] font-black px-1.5 py-0.5 rounded-md border uppercase tracking-[0.1em] shadow-sm",
                       status.color
                     )}>
                       {status.label}
                     </span>
                     <div className="flex items-baseline gap-1">
-                      <span className="text-[16px] font-mono font-black text-foreground/80 tabular-nums leading-none">
+                      <span className="text-[14px] font-mono font-black text-foreground/80 tabular-nums leading-none">
                         {item.latency}
                       </span>
-                      <span className="text-[10px] font-black text-muted-foreground/20 uppercase">{t('dashboard.analytics.ms')}</span>
+                      <span className="text-[9px] font-black text-muted-foreground/20 uppercase">{t('dashboard.analytics.ms')}</span>
                     </div>
                   </div>
                 </div>
 
                 {/* Performance Gauge */}
-                <div className="relative h-1.5 w-full bg-foreground/[0.03] rounded-full overflow-hidden">
+                <div className="relative h-1 w-full bg-foreground/[0.03] rounded-full overflow-hidden">
                   <motion.div
                     initial={{ width: 0 }}
                     animate={{ width: `${percentage}%` }}
@@ -112,11 +112,11 @@ export const PerformanceLeaderboard = ({ data, type }: PerformanceLeaderboardPro
               </div>
 
               {/* Trending State */}
-              <div className="hidden sm:flex shrink-0 p-3 rounded-2xl bg-muted/10 opacity-20 group-hover:opacity-100 transition-all">
+              <div className="hidden sm:flex shrink-0 p-2 rounded-lg bg-muted/10 opacity-20 group-hover:opacity-100 transition-all">
                 {isRisk ? (
-                  <TrendingUp size={16} className="text-danger" />
+                  <TrendingUp size={14} className="text-danger" />
                 ) : (
-                  <TrendingDown size={16} className="text-success" />
+                  <TrendingDown size={14} className="text-success" />
                 )}
               </div>
             </motion.div>

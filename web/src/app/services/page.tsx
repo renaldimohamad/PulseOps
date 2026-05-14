@@ -12,6 +12,7 @@ import { Plus, Bell, RefreshCw } from 'lucide-react';
 import { Service } from '@/types/service';
 import { useToast } from '@/components/ui/toast';
 import { useI18n } from '@/lib/i18n';
+import { EmptyState } from '@/components/services/empty-state';
 
 export default function ServicesPage() {
   const { t } = useI18n();
@@ -153,15 +154,19 @@ export default function ServicesPage() {
         </div>
       </div>
 
-      <div className="rounded-[32px] border border-border bg-card/70 backdrop-blur-xl shadow-premium overflow-hidden transition-all duration-500">
-        <ServiceTable
-          services={services}
-          onEdit={handleEdit}
-          onDelete={handleDelete}
-          isLoading={isLoading}
-          onAdd={handleAdd}
-        />
-      </div>
+      {services.length === 0 && !isLoading ? (
+        <EmptyState onAdd={handleAdd} />
+      ) : (
+        <div className="rounded-[32px] border border-border bg-card/70 backdrop-blur-xl shadow-premium overflow-hidden transition-all duration-500">
+          <ServiceTable
+            services={services}
+            onEdit={handleEdit}
+            onDelete={handleDelete}
+            isLoading={isLoading}
+            onAdd={handleAdd}
+          />
+        </div>
+      )}
 
       <Modal
         isOpen={isModalOpen}

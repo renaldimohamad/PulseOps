@@ -47,38 +47,57 @@
   "docs": {
     "title": "Dokumentasi",
     "hero": {
-      "title": "Rekayasa PulseOps",
-      "subtitle": "Observabilitas infrastruktur real-time yang didukung oleh arsitektur event-driven dan sinkronisasi WebSocket.",
-      "badge": "Panduan Arsitektur"
+      "title": "Rekayasa Observabilitas",
+      "subtitle": "PulseOps adalah platform pemantauan fidelitas tinggi yang dirancang untuk observabilitas infrastruktur realtime. Didukung oleh mesin event-driven dan aliran telemetri presisi tinggi.",
+      "badge": "Panduan PulseOps"
     },
     "intro": {
       "title": "Observabilitas Enterprise",
-      "description": "PulseOps dirancang untuk pemantauan ketersediaan tinggi. Arsitektur sistem kami memastikan bahwa setiap pemeriksaan kesehatan diproses dengan presisi milidetik dan disiarkan ke semua klien yang terhubung secara instan.",
-      "goal_title": "Tujuan Desain",
-      "goal_desc": "Memberikan pengalaman pemantauan tingkat produksi yang menghilangkan titik buta dalam sistem terdistribusi modern."
+      "description": "Sistem terdistribusi modern membutuhkan lebih dari sekadar pemantauan uptime. PulseOps memberikan intelijen operasional yang mendalam melalui sinkronisasi status waktu nyata dan klasifikasi kesehatan heuristik.",
+      "goal_title": "Misi Platform",
+      "goal_desc": "Menghilangkan titik buta pemantauan dengan menyediakan sumber kebenaran waktu nyata yang terpadu untuk kesehatan infrastruktur dan metrik performa."
+    },
+    "capabilities": {
+      "title": "Kapabilitas Platform",
+      "subtitle": "Fitur canggih yang dirancang untuk tim rekayasa modern.",
+      "realtime_title": "Pemantauan Realtime",
+      "realtime_desc": "Probing titik akhir aktif dengan siklus hidup status kesehatan presisi tinggi. Lacak ketersediaan armada dan agregasi latensi di seluruh klaster global.",
+      "engine_title": "Mesin Observabilitas",
+      "engine_desc": "Dibangun di atas arsitektur snapshot dan sinkronisasi WebSocket. Memastikan hidrasi status waktu nyata dan siaran telemetri instan.",
+      "incident_title": "Intelijen Insiden",
+      "incident_desc": "Deteksi pemadaman canggih dan logika status terdegradasi. Alur kerja pemulihan terintegrasi dan pelacakan peristiwa historis.",
+      "fleet_title": "Intelijen Armada",
+      "fleet_desc": "Pengindeksan stabilitas otomatis dan pemberian skor performa. Menghasilkan wawasan operasional dan analisis kesehatan infrastruktur."
     },
     "architecture": {
-      "title": "Tinjauan Arsitektur",
-      "description": "Ekosistem pemantauan fidelitas tinggi yang dibangun di atas primitif asinkron modern dan sinkronisasi status waktu nyata.",
+      "title": "Arsitektur Sistem",
+      "description": "Ekosistem observabilitas fidelitas tinggi yang dibangun di atas primitif asinkron modern.",
       "frontend": "Klien Pulse",
+      "frontend_title": "Frontend (Klien)",
+      "frontend_desc": "Next.js 15+ App Router. Optimasi batasan Klien/Server dengan sinkronisasi React Query dan Socket.io.",
       "backend": "Inti Observabilitas",
+      "backend_title": "Backend (Inti)",
+      "backend_desc": "Arsitektur modular NestJS. Worker pemantauan khusus, logika penjadwal, dan gateway WebSocket berperforma tinggi.",
       "sync": "Sinkronisasi Status",
-      "flow_desc": "Siaran telemetri dua arah waktu nyata melalui lapisan WebSocket v2."
+      "telemetry_title": "Sistem Telemetri",
+      "telemetry_desc": "Aliran telemetri terpadu yang didukung oleh mesin probe aktif dan pemantauan detak jantung waktu nyata.",
+      "flow_desc": "Siklus hidup sinkronisasi status: Probe → Klasifikasi → Siaran → Hidrasi."
     },
     "flow": {
       "title": "Siklus Pemantauan",
-      "step1": "Inisialisasi Titik Akhir",
-      "step1_desc": "Sistem mendaftarkan target pemantauan baru",
-      "step2": "Probe Asinkron",
-      "step2_desc": "Probe presisi tinggi non-blocking",
-      "step3": "Ingesti",
-      "step3_desc": "Inti memproses data telemetri",
-      "step4": "Validasi",
-      "step4_desc": "Logika klasifikasi status",
-      "step5": "Persistensi",
-      "step5_desc": "Data diarsipkan untuk log audit",
-      "step6": "Siaran",
-      "step6_desc": "Siaran peristiwa WebSocket"
+      "subtitle": "Bagaimana PulseOps memproses setiap pemeriksaan kesehatan.",
+      "step1": "Permintaan Probe",
+      "step1_desc": "Worker memulai probe kesehatan non-blocking.",
+      "step2": "Validasi",
+      "step2_desc": "Analisis respons presisi tinggi.",
+      "step3": "Klasifikasi",
+      "step3_desc": "Logika klasifikasi status heuristik.",
+      "step4": "Agregasi",
+      "step4_desc": "Mesin analitik memperbarui metrik armada.",
+      "step5": "Event Sinkronisasi",
+      "step5_desc": "Siaran WebSocket ke semua klien.",
+      "step6": "Hidrasi",
+      "step6_desc": "Pembaruan UI realtime tanpa penyegaran."
     },
     "logic": {
       "title": "Logika Cerdas",
@@ -92,27 +111,54 @@
       "off": "Kritis",
       "off_desc": "Waktu habis koneksi atau kegagalan soket"
     },
+    "intelligence": {
+      "title": "Intelijen Operasional",
+      "stability_title": "Indeks Stabilitas",
+      "stability_desc": "Dihitung berdasarkan konsistensi uptime dan jitter latensi dalam jendela waktu yang bergerak.",
+      "risk_title": "Tingkat Risiko",
+      "risk_desc": "Mengidentifikasi potensi titik kegagalan melalui deteksi kegagalan berturut-turut dan tren performa.",
+      "insight_title": "Wawasan Cerdas",
+      "insight_desc": "Pembuatan skor performa otomatis dan narasi kesehatan infrastruktur."
+    },
     "stack": {
       "title": "Tumpukan Teknologi",
-      "nextjs": "Kerangka Kerja Frontend",
-      "nestjs": "Mesin Backend",
-      "prisma": "Lapisan ORM",
-      "websocket": "Protokol Sinkronisasi",
       "core_stack": "Tumpukan Inti",
-      "engine": "Mesin"
+      "engine": "Mesin",
+      "nextjs": "Frontend Framework",
+      "nestjs": "Mesin Backend",
+      "prisma": "ORM Layer",
+      "websocket": "Protokol Sinkronisasi",
+      "next_desc": "Next.js 14+ App Router",
+      "tailwind_desc": "Arsitektur Tailwind CSS",
+      "framer_desc": "Animasi Framer Motion",
+      "socket_desc": "Socket.io Realtime",
+      "postgres_desc": "Database PostgreSQL"
     },
     "principles": {
-      "title": "Prinsip Rekayasa",
-      "p1": "Realtime Utama",
-      "p1_desc": "Pemantauan hanya sebaik kesegarannya. Polling dihindari untuk telemetri instan.",
-      "p2": "Presisi Tinggi",
-      "p2_desc": "Pengukuran dilakukan pada tingkat timer perangkat keras untuk akurasi maksimal.",
-      "p3": "Desain Resilien",
-      "p3_desc": "Armada pemantauan dapat memulihkan diri sendiri dan mentoleransi masalah jaringan sementara."
+      "title": "Filosofi Pemantauan",
+      "subtitle": "Prinsip rekayasa yang menggerakkan PulseOps.",
+      "p1": "Observabilitas Tenang",
+      "p1_desc": "Mengurangi kebisingan dengan fokus pada sinyal bermakna daripada banjir data mentah.",
+      "p2": "Kejelasan Operasional",
+      "p2_desc": "Desain untuk pemahaman manusia. Kepadatan informasi tanpa kekacauan.",
+      "p3": "Pengalaman Premium",
+      "p3_desc": "Observabilitas tidak harus buruk rupa. UI yang indah menghasilkan fokus rekayasa yang lebih baik."
+    },
+    "roadmap": {
+      "title": "Roadmap Platform",
+      "v1": "Fase 1: Inti Realtime (Saat Ini)",
+      "v1_desc": "Probing aktif, sinkronisasi WebSocket, dan dashboard observabilitas dasar.",
+      "v2": "Fase 2: Analitik Mendalam",
+      "v2_desc": "Analisis tren historis, aturan peringatan kustom, dan kolaborasi tim.",
+      "v3": "Fase 3: Intelijen AI",
+      "v3_desc": "Deteksi pemadaman prediktif dan panduan resolusi insiden otomatis."
     },
     "badges": {
       "introduction": "Pendahuluan",
       "engineering": "Rekayasa",
+      "realtime": "Realtime",
+      "intelligence": "Intelijen",
+      "roadmap": "Masa Depan",
       "realtime_engine": "Mesin Realtime",
       "intelligent_agent": "Agen Cerdas",
       "infrastructure": "Infrastruktur"

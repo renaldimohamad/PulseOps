@@ -105,9 +105,9 @@ export default function Dashboard() {
   }));
 
   return (
-    <div className="space-y-10 animate-in fade-in duration-700 max-w-full overflow-x-hidden">
+    <div className="flex flex-col gap-6 animate-in fade-in duration-700 max-w-full overflow-x-hidden">
 
-      {/* 1. COMPREHENSIVE OBSERVABILITY OVERVIEW */}
+      {/* 1. TOP TIER: FLEET STATUS & PRIMARY TELEMETRY */}
       <ObservabilityOverview
         data={snapshot}
         isLoading={isLoading}
@@ -115,15 +115,10 @@ export default function Dashboard() {
         isFetching={isFetching}
       />
 
-      {/* 2. CORE INTELLIGENCE ENGINE (ANALYTICS & ACTIVITY) */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-        {/* <div className="lg:col-span-4 sticky top-40"> */}
-        <div className="lg:col-span-12">
-
-          <ActivityFeed events={activityEvents} />
-
-        </div>
-        <div className="lg:col-span-12">
+      {/* 2. SECOND TIER: INTELLIGENCE & ACTIVITY FEED */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        {/* Main Analytics Hub */}
+        <div className="lg:col-span-8 xl:col-span-9 flex flex-col gap-6 min-w-0">
           <SecurityOverview
             stats={stats}
             reachableCount={reachableCount}
@@ -131,43 +126,33 @@ export default function Dashboard() {
             globalTrend={trendValues}
             perfSummary={performanceSummary}
           />
-        </div>
-      </div>
 
-
-      {/* 3. SERVICE BREAKDOWN (GRANULAR TELEMETRY) */}
-      {/* <div className="pt-10 border-t border-border/10">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-8 gap-4">
-          <div className="space-y-1">
-            <h3 className="text-xl font-bold tracking-tight">{t('dashboard.breakdown.title')}</h3>
-            <p className="text-[10px] text-muted-foreground uppercase tracking-[0.2em] font-bold opacity-40">{t('dashboard.breakdown.subtitle')}</p>
-          </div>
-          <div className="flex items-center gap-3">
-            <div className="px-4 py-2 rounded-2xl bg-muted/20 border border-border/40 backdrop-blur-md">
-              <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest flex items-center gap-2">
-                <div className="h-1.5 w-1.5 rounded-full bg-brand-500 animate-pulse" />
-                {t('dashboard.breakdown.live_monitoring', { count: services.length })}
-              </span>
-            </div>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-6">
-          {services.map((service, i) => (
-            <ServiceNodeCard key={service.id} service={service} index={i} />
-          ))}
-
-          {services.length === 0 && (
-            <div className="col-span-full py-20 text-center border-2 border-dashed border-border/20 rounded-[3rem] opacity-40">
-              <div className="flex flex-col items-center gap-3">
-                <Activity className="h-10 w-10 text-muted-foreground animate-pulse" />
-                <p className="text-sm font-bold uppercase tracking-widest">{t('dashboard.breakdown.no_services')}</p>
+          {/* 3. SERVICE BREAKDOWN - INTEGRATED & COMPACT */}
+          {services.length > 0 && (
+            <div className="pt-8 border-t border-border/10 animate-in fade-in slide-in-from-bottom-4 duration-1000">
+              <div className="flex items-center gap-3 mb-6 px-1">
+                <div className="h-1.5 w-1.5 rounded-full bg-brand-500 shadow-[0_0_10px_rgba(59,130,246,0.5)]" />
+                <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground/40">
+                  Infrastructure Node Breakdown
+                </h3>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+                {services.slice(0, 9).map((service, i) => (
+                  <ServiceNodeCard key={service.id} service={service} index={i} />
+                ))}
               </div>
             </div>
           )}
         </div>
-      </div> */}
-    </div >
+
+        {/* Real-time Activity Feed */}
+        <div className="lg:col-span-4 xl:col-span-3 lg:sticky lg:top-24 w-full">
+          <ActivityFeed events={activityEvents} />
+        </div>
+      </div>
+
+    </div>
   );
 }
+
 

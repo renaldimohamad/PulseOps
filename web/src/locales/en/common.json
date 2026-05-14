@@ -47,38 +47,57 @@
   "docs": {
     "title": "Documentation",
     "hero": {
-      "title": "PulseOps Engineering",
-      "subtitle": "Real-time infrastructure observability powered by event-driven architecture and WebSocket synchronization.",
-      "badge": "Architecture Guide"
+      "title": "Observability Engineering",
+      "subtitle": "PulseOps is a high-fidelity monitoring platform designed for real-time infrastructure observability. Powered by an event-driven engine and high-precision telemetry streams.",
+      "badge": "PulseOps Handbook"
     },
     "intro": {
       "title": "Enterprise Observability",
-      "description": "PulseOps is designed for high-availability monitoring. Our system architecture ensures that every health check is processed with millisecond precision and broadcasted to all connected clients instantly.",
-      "goal_title": "Design Objective",
-      "goal_desc": "Provide a production-grade monitoring experience that eliminates the blind spots in modern distributed systems."
+      "description": "Modern distributed systems require more than just uptime monitoring. PulseOps provides deep operational intelligence through real-time state synchronization and heuristic health classification.",
+      "goal_title": "Platform Mission",
+      "goal_desc": "Eliminating monitoring blind spots by providing a unified, real-time source of truth for infrastructure health and performance metrics."
+    },
+    "capabilities": {
+      "title": "Platform Capabilities",
+      "subtitle": "Advanced features designed for modern engineering teams.",
+      "realtime_title": "Realtime Monitoring",
+      "realtime_desc": "Active endpoint probing with high-precision health status lifecycles. Track fleet availability and latency aggregation across global clusters.",
+      "engine_title": "Observability Engine",
+      "engine_desc": "Built on snapshot architecture and WebSocket synchronization. Ensures real-time state hydration and instant telemetry broadcast.",
+      "incident_title": "Incident Intelligence",
+      "incident_desc": "Sophisticated outage detection and degraded state logic. Integrated recovery workflows and historical event tracking.",
+      "fleet_title": "Fleet Intelligence",
+      "fleet_desc": "Automated stability indexing and performance scoring. Generates operational insights and infrastructure health analysis."
     },
     "architecture": {
-      "title": "Architecture Overview",
-      "description": "A high-fidelity monitoring ecosystem built on modern asynchronous primitives and real-time state synchronization.",
+      "title": "System Architecture",
+      "description": "A high-fidelity observability ecosystem built on modern asynchronous primitives.",
       "frontend": "Pulse Client",
+      "frontend_title": "Frontend (Client)",
+      "frontend_desc": "Next.js 15+ App Router. Client/Server boundary optimization with React Query and Socket.io synchronization.",
       "backend": "Observability Core",
+      "backend_title": "Backend (Core)",
+      "backend_desc": "NestJS modular architecture. Specialized monitoring workers, scheduler logic, and high-performance WebSocket gateways.",
       "sync": "State Sync",
-      "flow_desc": "Real-time bi-directional telemetry broadcast via WebSocket v2 layer."
+      "telemetry_title": "Telemetry System",
+      "telemetry_desc": "Unified telemetry stream powered by an active probe engine and real-time heartbeat monitoring.",
+      "flow_desc": "State synchronization lifecycle: Probe → Classification → Broadcast → Hydration."
     },
     "flow": {
       "title": "Monitoring Lifecycle",
-      "step1": "Endpoint Init",
-      "step1_desc": "System registers new monitoring target",
-      "step2": "Async Probe",
-      "step2_desc": "Non-blocking high precision probe",
-      "step3": "Ingestion",
-      "step3_desc": "Core processes telemetry data",
-      "step4": "Validation",
-      "step4_desc": "Status classification logic",
-      "step5": "Persistence",
-      "step5_desc": "Data archived for audit logs",
-      "step6": "Broadcast",
-      "step6_desc": "WebSocket event broadcast"
+      "subtitle": "How PulseOps processes every single health check.",
+      "step1": "Probe Request",
+      "step1_desc": "Worker initiates non-blocking health probe.",
+      "step2": "Validation",
+      "step2_desc": "High-precision response analysis.",
+      "step3": "Classification",
+      "step3_desc": "Heuristic status classification logic.",
+      "step4": "Aggregation",
+      "step4_desc": "Analytics engine updates fleet metrics.",
+      "step5": "Sync Event",
+      "step5_desc": "WebSocket broadcast to all clients.",
+      "step6": "Hydration",
+      "step6_desc": "Realtime UI updates without refresh."
     },
     "logic": {
       "title": "Intelligent Logic",
@@ -92,32 +111,59 @@
       "off": "Critical",
       "off_desc": "Connection timeout or socket failure"
     },
+    "intelligence": {
+      "title": "Operational Intelligence",
+      "stability_title": "Stability Index",
+      "stability_desc": "Calculated based on uptime consistency and latency jitter over a moving window.",
+      "risk_title": "Risk Level",
+      "risk_desc": "Identifies potential failure points through consecutive failure detection and performance trends.",
+      "insight_title": "Intelligent Insights",
+      "insight_desc": "Automated generation of performance scores and infrastructure health narratives."
+    },
     "stack": {
       "title": "Technology Stack",
+      "core_stack": "Core Stack",
+      "engine": "Engine",
       "nextjs": "Frontend Framework",
       "nestjs": "Backend Engine",
       "prisma": "ORM Layer",
       "websocket": "Sync Protocol",
-      "core_stack": "Core Stack",
-      "engine": "Engine"
+      "next_desc": "Next.js 14+ App Router",
+      "tailwind_desc": "Tailwind CSS Architecture",
+      "framer_desc": "Framer Motion Animations",
+      "socket_desc": "Realtime Socket.io",
+      "postgres_desc": "PostgreSQL Database"
     },
     "principles": {
-      "title": "Engineering Principles",
-      "p1": "Realtime First",
-      "p1_desc": "Monitoring is only as good as its freshness. Polling is avoided for instant telemetry.",
-      "p2": "High Precision",
-      "p2_desc": "Measurements are taken at the hardware timer level for maximum accuracy.",
-      "p3": "Resilient Design",
-      "p3_desc": "The monitoring fleet is self-healing and tolerates transient network issues."
+      "title": "Monitoring Philosophy",
+      "subtitle": "Engineering principles that drive PulseOps.",
+      "p1": "Calm Observability",
+      "p1_desc": "Reducing noise by focusing on meaningful signals rather than raw data floods.",
+      "p2": "Operational Clarity",
+      "p2_desc": "Design for human understanding. Information density without chaos.",
+      "p3": "Premium Experience",
+      "p3_desc": "Observability shouldn't be ugly. A beautiful UI leads to better engineering focus."
+    },
+    "roadmap": {
+      "title": "Platform Roadmap",
+      "v1": "Phase 1: Realtime Core (Current)",
+      "v1_desc": "Active probing, WebSocket sync, and basic observability dashboard.",
+      "v2": "Phase 2: Deep Analytics",
+      "v2_desc": "Historical trend analysis, custom alert rules, and team collaboration.",
+      "v3": "Phase 3: AI Intelligence",
+      "v3_desc": "Predictive outage detection and automated incident resolution guidance."
     },
     "badges": {
-      "introduction": "Introduction",
+      "introduction": "Intro",
       "engineering": "Engineering",
+      "realtime": "Realtime",
+      "intelligence": "Intelligence",
+      "roadmap": "Future",
       "realtime_engine": "Realtime Engine",
       "intelligent_agent": "Intelligent Agent",
       "infrastructure": "Infrastructure"
     },
-    "manifesto": "Manifesto"
+    "manifesto": "The Manifesto"
   },
   "dashboard": {
     "title": "Operations Command",

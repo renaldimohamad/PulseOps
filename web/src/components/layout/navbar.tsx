@@ -30,7 +30,7 @@ export const Navbar = () => {
   const navItems = [
     { label: t('common.dashboard'), href: '/' },
     { label: t('common.services'), href: '/services' },
-    { label: t('common.docs'), href: '/docs' },
+    // { label: t('common.docs'), href: '/docs' },
   ];
 
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
@@ -209,7 +209,7 @@ export const Navbar = () => {
                     </div>
 
                     <div className="p-1.5">
-                      <a
+                      {/* <a
                         href="https://github.com/renaldimohamad/PulseOps"
                         target="_blank"
                         rel="noopener noreferrer"
@@ -220,7 +220,7 @@ export const Navbar = () => {
                           <span>{t('common.view_repository')}</span>
                         </div>
                         <ExternalLink size={10} className="opacity-0 group-hover/item:opacity-100 transition-opacity" />
-                      </a>
+                      </a> */}
                       <a
                         href="/docs"
                         className="flex items-center justify-between px-3 py-2 rounded-xl text-[11px] font-semibold uppercase tracking-wider text-muted-foreground/70 hover:bg-muted/40 hover:text-foreground transition-colors group/item"
@@ -327,7 +327,7 @@ export const Navbar = () => {
                 </div>
 
                 <div className="grid grid-cols-1 gap-1.5 mt-2">
-                  <a
+                  {/* <a
                     href="https://github.com/renaldimohamad/PulseOps"
                     target="_blank"
                     rel="noopener noreferrer"
@@ -335,14 +335,14 @@ export const Navbar = () => {
                   >
                     <GithubIcon className='w-3 h-3 md:w-4 md:h-4' />
                     {t('common.view_repository')}
-                  </a>
-                  {/* <a
+                  </a> */}
+                  <a
                     href="#"
                     className="flex h-11 px-5 items-center gap-3 rounded-2xl text-[10px] font-bold uppercase tracking-widest text-muted-foreground/60 bg-muted/20 hover:bg-muted/40 active:scale-95 transition-all border border-transparent"
                   >
                     <FileText size={14} />
                     {t('common.docs')}
-                  </a> */}
+                  </a>
                 </div>
               </div>
             </motion.div>
